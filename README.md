@@ -2,11 +2,11 @@
 Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium potraktować bardziej jako (obszerny) artykuł. Zebrane tutaj informacje są podsumowaniem całej zdobytej mojej wiedzy na temat tworzenia bibliotek dynamicznych (i nie tylko). Przykłady omawiane są w języku C i C++ oraz oczywiście w języku polskim ;). Możliwe, że artykuł nie pokrył wszystkich tematów związanych z bibliotekami jednak na pewno pokrywa ich zdecydowaną większość. Artykuł będzie co jakiś czas ulepszany, dodam, iż chętnie przyjmę jakiekolwiek sugestie.<br>
 
 ## Spis treści
-0. Przebieg życia programu
-- 0.0. Tworzenie kodu źrodłowego
-- 0.1. Kompilacja
-  - 0.1.0. Preprocessing
-  - 0.1.1. Analiza leksykalna
+0. [Przebieg życia programu](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#przebieg-%C5%BCycia-programu)
+- 0.0. [Tworzenie kodu źrodłowego](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#tworzenie-kodu-%C5%BAr%C3%B3d%C5%82owego)
+- 0.1. [Kompilacja](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#kompilacja)
+  - 0.1.0. [Preprocessing](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#preprocessing)
+  - 0.1.1. [Analiza leksykalna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-leksykalna)
   - 0.1.2. Analiza składniowa
   - 0.1.3. Analiza semantyczna
   - 0.1.4. Parser & Lexer
