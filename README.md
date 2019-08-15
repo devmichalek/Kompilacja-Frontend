@@ -7,6 +7,11 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
 - 0.1. [Kompilacja](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#kompilacja)
   - 0.1.0. [Preprocessing](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#preprocessing)
   - 0.1.1. [Analiza leksykalna - skanowanie](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-leksykalna)
+    - 0.1.1.0 [Jak działa lekser?]()
+    - 0.1.1.1 [Wyrażenia regularne]()
+    - 0.1.1.2 [NFA - Niedeterministyczny Automat Skończony]()
+    - 0.1.1.3 [Maximal Munch]()
+    - 0.1.1.4 [DFA - Deterministyczny automat skończony]()
   - 0.1.2. [Analiza składniowa - parsowanie](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-sk%C5%82adniowa)
   - 0.1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
   - 0.1.4. [Generacja IR]()
@@ -27,13 +32,13 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
 - 1.5. Współpraca z binarkami
 
 ## Przebieg życia programu
-W pierwszym rozdziale postaram się krótko i zwięźle omówić proces powstawania programu oraz proces jego uruchamiania.
+W pierwszym rozdziale szczegółowo omawiam proces kompilacji oraz proces uruchamiania programu.
 
 ### Tworzenie kodu źródłowego
 Pierwszym etapem w drodze do utworzenia programu jest napisanie kodu źródłowego. Na tym etapie nie dzieje się zbytnio dużo. Otwieramy ulubiony edytor tekstu lub dedykowane IDE. Warto wspomnieć, że podczas pracy nad danym projektem staramy trzymać się pewnej hierarchi. Każdą inną różniącą się funcjonalność staramy się trzymać w osobnych plikach, te zaś pliki o podobnej charakterystyce trzymamy w jednym projekcie, ogół projektów trzymamy w solucji (typowa hierarchia plików w Visual Studio), natomiast produkt końcowy składać się będzie zwykle z różnych solucji przykładem może być firma, która zatrudnia dwie grupy programistów, w której jedna zajmuje się rozwiązaniami nad GUI, a druga rozwiązaniami po stronie backendu, obie grupy pracują nad inną specyfikacją aplikacji (w różnych solucjach).
 
 ### Kompilacja
-Kompilacja to nic innego jak zamiana kodu źródłowego na plik obiektowy. Na wstępie warto zaznaczyć, że kompilację przeprowadza kompilator, który najpierw kompiluje nasz kod do kodu pośredniego w tym przypadku asemblera, a później tworzy z niego pliki binarne w tym przypadku pliki obiektowe, kompilowany jest każdy *translation unit* czyli każdy kod źródłowy. Popularnymi kompilatorami są GCC, MinGW (port GCC na windowsa), CLang C++, Microsoft Visual C++, IBM C++ i wiele [innych](http://www.stroustrup.com/compilers.html)... Oprócz kompilacji wyróżniamy: *cross-compilation* gdy kompilacja jest przeprowadzana na jednej platformie (CPU/OS) by wyprodukować kod na inną platformę, *decompilation* czyli odwrotnie do kompilacji proces zamiany kodu źródłowego języka niższego poziomu do języka wyższego poziomu.
+Zacznijmy od tego, że kod który napisaliśmy w danym języku kompilujemy nie tylko po to aby otrzymać plik obiektowy ale również po to sprawdzić czy jest on poprawny gramatycznie (np. czy brak w nim polskich znaków?), czy pomimo braków błędów językowych struktura naszego kodu jest dopuszczalna (np. czy funkcja zamyka się w klamrach?), czy pomimo poprawnej struktury kodu nie popełniliśmy błędu związanego z semantyką (np. czy nie próbujemy przypisać std::string do int?) oraz szereg innych rzeczy, które będą szczegółowo omawiane później. Raczej większość z czytających ten artykuł wie, że kompilację przeprowadza kompilator, zazwyczaj tutaj kończy się wiedza na temat kompilacji, niestety sama znajomość języka bez wiedzy jak nasz kod jest budowany nie wystarcza, dlatego postaram się szczegółowo omówić jak wygląda proces kompilacji krok po kroku.
 
 ### Preprocessing
 W pierwszym etapie kompilacji specjalny program nazywany preprocessorem (w tym przypadku C Preprocessor) parsuje pliki źrodłowe w celu:
@@ -47,15 +52,17 @@ Warto dodać, że jest możliwość stworzenia makro funkcji z nieznaną liczbą
 gcc -E <input>.c -o <output>.i
 ```
 
-### Analiza leksykalna
-W następnym etapie specjalnie do tego stworzony lekser tnie kod źródłowy na leksemy (leksem to najmniejszy unit, leksemami są litery, cyfry, znaki specjalne itd.). Jak później można się przekonać, leksery ściśle współpracują z parserami. W zależności od języka i dla wygody tokeny są grupowane, przykładowo int, float i char będą należały do tej samej grupy tokenów skojarzonych z typami zmiennych. Niektóre tokeny posiadają atrybuty, dla przykładu:
+### Analiza leksykalna - skanowanie
+W następnym etapie omówiona zostania analiza leksykalna, nazwa ta pochodzi od programu, który ją wykonuje czyli leksera inaczej nazywanego skanerem.
+#### Jak działa lekser?
+Cała przygoda rozpoczyna się wtedy gdy lekser na wejście dostaje gotowy plik podczas, którego tnie kod źródłowy na leksemy, leksemami nazywamy najmniejszą cząstke czyli po prostu znaki, w których skład wchodzą litery, cyfry, znaki specjalne itd. Jak później można się przekonać, leksery ściśle współpracują z parserami. Mając daną grupę leksemów, skaner stara się dopasować ją do istniejącej listy tokenów. W zależności od języka i dla wygody tokeny są grupowane, przykładowo int, float i char będą należały do tej samej grupy tokenów skojarzonych z typami zmiennych. Żeby zobaczyć czym są tokeny oraz, że niektóre z nich posiadają atrybuty warto spojrzeć na poniższy kod:
 ```C
 while (137 < i)
 	++i;
 ```
-Słowo kluczowe ```while``` będzie reprezentowane przez token *T_While*, natomiast liczba ```137``` będzie reprezentowana przez token *T_IntConst* oraz będzie posiadała atrybut , w której przechowana zostanie wspomniana wcześniej liczba. Poniższa animacja obrazuje to jeszcze lepiej. Animacja stworzyłem na bazie jednej z [prezentacji](https://web.stanford.edu/class/archive/cs/cs143/cs143.1128/lectures/01/Slides01.pdf) o analizie leksykalnej wykładanej na Stanfordzie.
+Słowo kluczowe ```while``` będzie reprezentowane przez token *T_While*, natomiast liczba ```137``` będzie reprezentowana przez token *T_IntConst* oraz będzie posiadała atrybut , w której przechowana zostanie wspomniana wcześniej liczba. Poniższa animacja obrazuje to jeszcze lepiej. Animacje stworzyłem na bazie jednej z [prezentacji](https://web.stanford.edu/class/archive/cs/cs143/cs143.1128/lectures/01/Slides01.pdf) o analizie leksykalnej wykładanej na Stanfordzie.
 ![skanowanie](https://user-images.githubusercontent.com/19840443/63093185-428b1200-bf75-11e9-9364-1d51211e3768.gif)
-Zazwyczaj słowa kluczowe danego języka posiadają swoje własne tokeny, również i znaki specjalne ```{}();,[]``` z reguły posiadają swój własny token, dodatkowo tokeny należace do tej samej grupy są po prostu grupowane, natomiast nic nie znaczące spacje, tabulacje lub komentarze są pomijane. Inny przykład tym razem z [wikipedii](https://pl.wikipedia.org/wiki/Analiza_leksykalna) świetnie obrazuję jak lekser przeanalizował kod źródłowy:<br>
+Zazwyczaj słowa kluczowe danego języka posiadają swoje własne tokeny, również i znaki specjalne ```{}();,[]``` z reguły posiadają swój własny token, dodatkowo tokeny należace do tej samej grupy są po prostu grupowane (tak jak wcześniej wspomniane tokeny typów zmiennych), natomiast nic nie znaczące spacje, tabulacje lub komentarze są pomijane. Inny przykład tym razem z [wikipedii](https://pl.wikipedia.org/wiki/Analiza_leksykalna) świetnie obrazuję jak lekser przeanalizował kod źródłowy:<br>
 ```C
 int suma = 3 + 2;
 ```
@@ -69,7 +76,7 @@ int suma = 3 + 2;
 | 2              | Literał całkowitoliczbowy |
 | ;              | Znacznik końca wyrażenia |
 
-Omawiane wcześniej przykłady to jedne z najprostszych do rozwiązania dla skanera (leksera). Weźmy pod uwagę fakt, że w C++ jest możliwość tworzenia szablonów, dla poniższego przykładu patrząc z perspektywy leksera wyodrębnienie zagnieżdżonego std::vector nie jest prostym zadaniem:
+Omawiane wcześniej przykłady to jedne z najprostszych do rozwiązania dla skanera. Weźmy pod uwagę fakt, że w C++ jest możliwość tworzenia szablonów, dla poniższego przykładu patrząc z perspektywy leksera wyodrębnienie zagnieżdżonego std::vector nie jest prostym zadaniem:
 ```C++
 std::vector<std::vector<int>> vec
 ```
@@ -77,7 +84,15 @@ Również gdy ktoś użył słów kluczowych jako nazwy zmiennej:
 ```pascal
 if then then then = else; else else = if
 ```
-Cała więc trudność tkwi w napisaniu odpowiednich reguł czyli wyrażen regularnych przez, które lekser będzie w stanie dopasować ciąg znaków do danego tokenu. Przykładem może być token liczby całkowitej, pisząc wyrażenie regularne zakładamy, że będzię to ciąg znaków 0-9, cytując *"...specyfikacja języka programowania obejmuje szereg reguł które definiują składnię leksykalną. Składnia leksykalna jest zazwyczaj opisana za pomocą wyrażeń regularnych. Definiują one zbiór możliwych sekwencji znakowych które tworzą pojedyncze tokeny. Lekser przetwarza oddzielone znakami białymi ciągi znaków i dla każdego ciągu znaków podejmuje akcję zazwyczaj produkując token, bądź ogłasza błąd analizy leksykalnej...."*. Dobrze więc jak napisać swój własny skaner? Zacznijmy od tego, że nikt nie piszę własnych lekserów od zera, są ku temu trzy główne powody, czyli ogromna ilość czasu jaką trzeba by było poświęcić na napisanie kodu od zera w związku z tym duża strata pieniędzy, ale przedewszystkich błędy, które mogą się pojawić podczas pisania na piechotę... Obecnie do pisania lekserów używa się generetarów. Żeby stworzyć skaner można się posłuży programem Flex, który wygeneruje nam nasz własny kod skanera (kod skanera, ponieważ jeszcze brakuje nam kodu parsera gdzie całość zostanie skompilowana). [Flex](https://en.wikipedia.org/wiki/Flex_(lexical_analyser_generator)) to następca oraz "świeższa" alternatywa dla generatora [Lex](https://en.wikipedia.org/wiki/Lex_(software)). Jednak zanim napiszemy swój własny kod rozumiany przez generatora Flex, zacznijmy od tego jak wyrażenia regularne zostały zaimplementowane.
+Cała więc trudność tkwi w napisaniu odpowiednich reguł czyli wyrażen regularnych przez, które lekser będzie w stanie dopasować ciąg znaków do danego tokenu. Przykładem może być token liczby całkowitej, pisząc wyrażenie regularne zakładamy, że będzię to ciąg znaków 0-9, cytując *"...specyfikacja języka programowania obejmuje szereg reguł które definiują składnię leksykalną. Składnia leksykalna jest zazwyczaj opisana za pomocą wyrażeń regularnych. Definiują one zbiór możliwych sekwencji znakowych które tworzą pojedyncze tokeny. Lekser przetwarza oddzielone znakami białymi ciągi znaków i dla każdego ciągu znaków podejmuje akcję zazwyczaj produkując token, bądź ogłasza błąd analizy leksykalnej...."*. Wiedząc to wszystko jak możemy napisać swój własny skaner? Zacznijmy od tego, że nikt nie piszę własnych lekserów od zera, są ku temu trzy powody: ilość czasu jaką trzeba by było poświęcić na napisanie kodu od zera w związku z tym strata pieniędzy, ale przedewszystkim błędy, które mogą się pojawić podczas pisania na piechotę... Obecnie do pisania lekserów używa się generetarów. Żeby stworzyć skaner można posłużyć się programem Flex, który wygeneruje nam nasz własny kod skanera (kod skanera, ponieważ brakuje nam jeszcze kodu parsera gdzie całość zostanie skompilowana). [Flex](https://en.wikipedia.org/wiki/Flex_(lexical_analyser_generator)) to następca oraz "świeższa" alternatywa dla generatora [Lex](https://en.wikipedia.org/wiki/Lex_(software)). Jednak zanim napiszemy swój własny kod rozumiany przez generatora Flex, zacznijmy od tego jak [wyrażenia regularne](https://en.wikipedia.org/wiki/Regular_expression) zostały zaimplementowane.
+
+#### Wyrażenia regularne
+
+#### NFA - Niedeterministyczny Automat Skończony
+
+#### Maximal Munch
+
+#### DFA - Deterministyczny Automat Skończony
 
 ### Analiza składniowa
 Podczas analizy składniowej parser z wcześniej przygotowanych przez leksera grup leksemów (tokenów) tworzy wyrażenia (jeśli znajdzie istniejącą regułę) i dodaje je do drzewa. Dla powyższego przykładu parser znajdzie regułe, w której są dwie liczby całkowite między, którymi jest znak dodawania i zamieni wyrażenie ``` 3 + 2``` na ``` 5```, następnie na przykład wracając się po wyrażeniu (parser działa rekurencyjnie) znajdzie regułę, w której przypisywana jest liczba do identyfikatora zmiennej ```suma = 5;```. Na tym etapie dopuszczalnym jest np. przypisanie nieprawidłowego typu do identyfikatora zmiennej (np. do zmiennej typu int przypisujemy std::string), ponieważ głównym zadaniem parsera jest stworzenie struktury, a nie dogłębne analizowanie i sprawdzanie typów (krótko mówiąc szkoda na to czasu). Wiemy już co robi *lekser* oraz czym zajmuję się *parser*. Dodam, że powód dla którego oba te mechanizmy współpracują razem to optymalizacja, *lekser* na bieżąco wypluwa gotowe tokeny, natomiast *parser* natychmiastowo próbuje dopasować do nich pasujące wyrażenie, oczywiście była by możliwość np. wrzucania *leksemów* do pliku, z którego czytałby *parser* (wtedy tak jakby dwa razy czytamy znaki, jednak znajduje to swoje zastosowanie). Warto również wiedzieć, że wymyślono różne sposoby parsowania tj. m. in. analizą zstępująca (top-down, rzadziej stosowana, czasami brakuje "abstrakcji" by coś można było nazwać "topem" danego wyrażenia) i analizą wstępująca (bottom-up, częściej stosowana, łatwiej zacząć znajdując mniejsze fragmenty), te zaś dzielą się na metody kierunkowe i niekierunkowe. Gdy parser analizuje wstępując (bottom-up) składa bezpośrednio grupy tokenów idąc w górę w całość, dla przykładu (struktura):
