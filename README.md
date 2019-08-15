@@ -6,13 +6,13 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
 - 0.0. [Tworzenie kodu źrodłowego](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#tworzenie-kodu-%C5%BAr%C3%B3d%C5%82owego)
 - 0.1. [Kompilacja](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#kompilacja)
   - 0.1.0. [Preprocessing](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#preprocessing)
-  - 0.1.1. [Analiza leksykalna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-leksykalna)
-  - 0.1.2. [Analiza składniowa](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-sk%C5%82adniowa)
-  - 0.1.3. Analiza semantyczna
-  - 0.1.4. Parser & Lexer
-  - 0.1.5. Assembling
-  - 0.1.6. Optymalizacja
-  - 0.1.7. Generacja obiektu
+  - 0.1.1. [Analiza leksykalna - skanowanie](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-leksykalna)
+  - 0.1.2. [Analiza składniowa - parsowanie](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-sk%C5%82adniowa)
+  - 0.1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
+  - 0.1.4. [Generacja IR]()
+  - 0.1.5. [Optymalizaja IR]()
+  - 0.1.6. [Generacja kodu]()
+  - 0.1.7. [Optymalizacja]()
 - 0.2. Linkowanie
 - 0.3. Ładowanie programu
 - 0.4. Uruchamianie programu
@@ -48,8 +48,14 @@ gcc -E <input>.c -o <output>.i
 ```
 
 ### Analiza leksykalna
-W następnym etapie specjalnie do tego stworzony *lekser* tnie kod źródłowy na leksemy (leksem to najmniejszy unit, leksemami są np. litery, cyfry, znaki specjalne itd.). Warto dodać, że *leksery* ściśle współpracują z *parserami*. Każdy token posiada własne cechy (np. int, std::string, char to tokeny reprezentujące typ). Idea analizy leksykalnej nie jest niczym skomplikowanym, cała trudność tkwi bowiem w napisaniu odpowiednich wyrażen regularnych przez, które *lekser* będzie w stanie dopasować ciąg znaków do danego *tokenu*. Przykładem może być token liczby całkowitej, pisząc wyrażenie regularne zakładamy, że będzię to ciąg znaków 0-9 o maksymalnej długości n, cytując *"...specyfikacja języka programowania obejmuje szereg reguł które definiują składnię leksykalną. Składnia leksykalna jest zazwyczaj opisana za pomocą wyrażeń regularnych. Definiują one zbiór możliwych sekwencji znakowych które tworzą pojedyncze tokeny. Lekser przetwarza oddzielone znakami białymi ciągi znaków i dla każdego ciągu znaków podejmuje akcję zazwyczaj produkując token, bądź ogłasza błąd analizy leksykalnej...."*. Jednakże warto zapamiętać, że *token* to nie *leksem*, *leksemami* są po prostu znaki natomiast tokeny to odpowiednio ułożone leksemy. Żeby za bardzo nie mieszać, dla przykładu ```123``` to zwykły tekst, każdy z tych znaków to *leksem* **cyfra**, natomiast ułożone obok siebie dają token **liczba całkowita**.<br>
-Przykład z [wikipedii](https://pl.wikipedia.org/wiki/Analiza_leksykalna) świetnie obrazuję jak *lekser* przeanalizował kod źródłowy:<br>
+W następnym etapie specjalnie do tego stworzony lekser tnie kod źródłowy na leksemy (leksem to najmniejszy unit, leksemami są litery, cyfry, znaki specjalne itd.). Jak później można się przekonać, leksery ściśle współpracują z parserami. W zależności od języka i dla wygody tokeny są grupowane, przykładowo int, float i char będą należały do tej samej grupy tokenów skojarzonych z typami zmiennych. Niektóre tokeny posiadają atrybuty, dla przykładu:
+```C
+while (137 < i)
+	++i;
+```
+Słowo kluczowe ```while``` będzie reprezentowane przez token *T_While*, natomiast liczba ```137``` będzie reprezentowana przez token *T_IntConst* oraz będzie posiadała atrybut , w której przechowana zostanie wspomniana wcześniej liczba. Poniższa animacja obrazuje to jeszcze lepiej. Animacja stworzyłem na bazie jednej z [prezentacji](https://web.stanford.edu/class/archive/cs/cs143/cs143.1128/lectures/01/Slides01.pdf) o analizie lekykalnej wykładanych na Stanfordzie.
+![skanowanie](https://user-images.githubusercontent.com/19840443/63093185-428b1200-bf75-11e9-9364-1d51211e3768.gif)
+Zazwyczaj słowa kluczowe danego języka posiadają swoje własne tokeny, również i znaki specjalne ```{}();,[]``` z reguły posiadają swój własny token, dodatkowo tokeny należace do tej samej grupy są po prostu grupowane, natomiast nic nie znaczące spacje, tabulacje lub komentarze są pomijane. Inny przykład tym razem z [wikipedii](https://pl.wikipedia.org/wiki/Analiza_leksykalna) świetnie obrazuję jak lekser przeanalizował kod źródłowy:<br>
 ```C
 int suma = 3 + 2;
 ```
@@ -62,6 +68,16 @@ int suma = 3 + 2;
 | +              | Operator dodawania |
 | 2              | Literał całkowitoliczbowy |
 | ;              | Znacznik końca wyrażenia |
+
+Omawiane wcześniej przykłady to jedne z najprostszych do rozwiązania dla skanera (leksera). Weźmy pod uwagę fakt, że w C++ jest możliwość tworzenia szablonów, dla poniższego przykładu patrząc z perspektywy leksera wyodrębnienie zagnieżdżonego std::vector nie jest prostym zadaniem:
+```C++
+std::vector<std::vector<int>> vec
+```
+Również gdy ktoś użył słów kluczowych jako nazwy zmiennej:
+```pascal
+if then then then = else; else else = if
+```
+Cała więc trudność w analizie leksykalnej tkwi w napisaniu odpowiednich reguł czyli wyrażen regularnych przez, które lekser będzie w stanie dopasować ciąg znaków do danego tokenu (istnieją również inne sposoby jak np. opis gramatyczny). Przykładem może być token liczby całkowitej, pisząc wyrażenie regularne zakładamy, że będzię to ciąg znaków 0-9, cytując *"...specyfikacja języka programowania obejmuje szereg reguł które definiują składnię leksykalną. Składnia leksykalna jest zazwyczaj opisana za pomocą wyrażeń regularnych. Definiują one zbiór możliwych sekwencji znakowych które tworzą pojedyncze tokeny. Lekser przetwarza oddzielone znakami białymi ciągi znaków i dla każdego ciągu znaków podejmuje akcję zazwyczaj produkując token, bądź ogłasza błąd analizy leksykalnej...."*. 
 
 ### Analiza składniowa
 Podczas analizy składniowej parser z wcześniej przygotowanych przez leksera grup leksemów (tokenów) tworzy wyrażenia (jeśli znajdzie istniejącą regułę) i dodaje je do drzewa. Dla powyższego przykładu parser znajdzie regułe, w której są dwie liczby całkowite między, którymi jest znak dodawania i zamieni wyrażenie ``` 3 + 2``` na ``` 5```, następnie na przykład wracając się po wyrażeniu (parser działa rekurencyjnie) znajdzie regułę, w której przypisywana jest liczba do identyfikatora zmiennej ```suma = 5;```. Na tym etapie dopuszczalnym jest np. przypisanie nieprawidłowego typu do identyfikatora zmiennej (np. do zmiennej typu int przypisujemy std::string), ponieważ głównym zadaniem parsera jest stworzenie struktury, a nie dogłębne analizowanie i sprawdzanie typów (krótko mówiąc szkoda na to czasu). Wiemy już co robi *lekser* oraz czym zajmuję się *parser*. Dodam, że powód dla którego oba te mechanizmy współpracują razem to optymalizacja, *lekser* na bieżąco wypluwa gotowe tokeny, natomiast *parser* natychmiastowo próbuje dopasować do nich pasujące wyrażenie, oczywiście była by możliwość np. wrzucania *leksemów* do pliku, z którego czytałby *parser* (wtedy tak jakby dwa razy czytamy znaki, jednak znajduje to swoje zastosowanie). Warto również wiedzieć, że wymyślono różne sposoby parsowania tj. m. in. analizą zstępująca (top-down, rzadziej stosowana, czasami brakuje "abstrakcji" by coś można było nazwać "topem" danego wyrażenia) i analizą wstępująca (bottom-up, częściej stosowana, łatwiej zacząć znajdując mniejsze fragmenty), te zaś dzielą się na metody kierunkowe i niekierunkowe. Gdy parser analizuje wstępując (bottom-up) składa bezpośrednio grupy tokenów idąc w górę w całość, dla przykładu (struktura):
@@ -77,7 +93,7 @@ wyrazenie : liczba			{$$ = $1;}
 Z powyższej struktury rozumiemy kolejno, że wyrazenie to liczba (wtedy przypisz wartość liczby $1 do wyrazenia $$), *wyrazenie* to również *wyrazenie* + *wyrazenie* (przypisz wartość wyrażen $1 + $2 do wyrażenia po lewej) itd. Jak widać struktura jest rekurencyjna. Teraz działając wg. zasady *bottom-up* dla ```1 + 2``` parser najpierw znajdzie ```1``` będzie to token *liczba*, liczbę te przypisze do wyrażenia, później parser znajdzie token ```+``` (pozostawi bez zmian bo nie znalazł jeszcze pasującej reguły), następnie znajdzie ```2``` czyli kolejny token *liczba*, później mając te trzy tokeny dopiero wtedy znajduję *wyrazenie '+' wyrazenie* i zamienia je na *wyrazenie*. Działanie analizy zstępującej pozostawiam ciekawskim.
 
 ### Analiza semantyczna
-Podczas analizy semantycznej na podstawie wcześniej sprawdzonej i utworzonej struktury drzewa następuję sprawdzanie poprawności typów, instrukcji i programu jako całości (analiza ta sprawdza czy program ma jakikolwiek sens).
+Podczas analizy semantycznej na podstawie wcześniej sprawdzonej i utworzonej struktury drzewa następuję sprawdzanie poprawności typów, instrukcji i programu jako całości (analiza ta sprawdza czy program ma jakikolwiek sens). Ilość zadań i poziom skomplikowania podczas tej analizy zależy w głównej mierze od specyfikacji języka. W wielu źródłach podawane są przykłady 
 
 ## Źródła
 [Avanced C and C++ Compiling](https://doc.lagout.org/programmation/C/Advanced%20C%20and%20C%20%20%20Compiling%20%5BStevanovic%202014-04-28%5D.pdf)<br>
@@ -92,3 +108,4 @@ Podczas analizy semantycznej na podstawie wcześniej sprawdzonej i utworzonej st
 [The History of Calling Conventions](https://devblogs.microsoft.com/oldnewthing/20040102-00/?p=41213)<br>
 [Name Mangling](https://en.wikipedia.org/wiki/Name_mangling)<br>
 [Binary File Descriptor](https://en.wikipedia.org/wiki/Binary_File_Descriptor_library)
+[Stanford CS143 About Compilation](https://web.stanford.edu/class/archive/cs/cs143/cs143.1128/lectures/)
