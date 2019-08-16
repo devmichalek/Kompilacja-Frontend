@@ -12,8 +12,9 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
     - 0.1.1.2 [NFA - Niedeterministyczny Automat Skończony](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#nfa---niedeterministyczny-automat-sko%C5%84czony)
     - 0.1.1.3 [Maximal Munch](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#maximal-munch)
     - 0.1.1.4 [DFA - Deterministyczny Automat Skończony](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#dfa---deterministyczny-automat-sko%C5%84czony)
-    - 0.1.1.5 [Flex]()
+    - 0.1.1.5 [Flex](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#flex)
   - 0.1.2. [Analiza składniowa - parsowanie](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-sk%C5%82adniowa)
+    - 0.1.2.0 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
   - 0.1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
   - 0.1.4. [Generacja IR]()
   - 0.1.5. [Optymalizaja IR]()
@@ -121,7 +122,7 @@ Główna różnica między NFA to taka, że w tym przypadku posiadamy jeden stan
 Dodatkowo warto sprawdzić jak działają automaty [Mealy’ego](https://pl.wikipedia.org/wiki/Automat_Mealy%E2%80%99ego), [Moore’a](https://pl.wikipedia.org/wiki/Automat_Moore%E2%80%99a) oraz legendarną [maszyne Turinga](https://pl.wikipedia.org/wiki/Maszyna_Turinga).
 
 #### Flex
-Wreszcie doszliśmy do momentu, w którym sami możemy się sprawdzić jako projektanci leksera. Teraz w zależności od tego co chcielibyśmy osiągnąć skaner dla każdego przypadku będzie się drametralnie różnił. Wszędzie tam gdzie same wyrażenia regularne nie wystarczają jesteśmy w stanie zaimplementować lekser. Tak jak wspomniałem na początku nagłówka o analizie leksykalnej, lekser ściśle współpracuje z parserem, dlatego też Flex współpracuje z generatorem parserów tj. Bison'em. Czym są parsery? Jak działają? Dlaczego sam lekser nie wystarcza? To wszystko znajdziecie poniżej ;). [Tutaj]() umieściłem nagłówek o Bison'ie oraz naprawdę porządnie zrobione tutoriale dla zaczynających przygodę z Flex & Bison, których nie ma sensu duplikować.
+Wreszcie doszliśmy do momentu, w którym sami możemy się sprawdzić jako projektanci leksera. Teraz w zależności od tego co chcielibyśmy osiągnąć skaner dla każdego przypadku będzie się drametralnie różnił. Wszędzie tam gdzie same wyrażenia regularne nie wystarczają jesteśmy w stanie zaimplementować lekser. Tak jak wspomniałem na początku nagłówka o analizie leksykalnej, lekser ściśle współpracuje z parserem, dlatego też Flex współpracuje z generatorem parserów tj. Bison'em. Czym są parsery? Jak działają? Dlaczego sam lekser nie wystarcza? To wszystko znajdziecie poniżej ;). [Tutaj](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison) umieściłem nagłówek o Bison'ie oraz naprawdę porządnie zrobione tutoriale dla zaczynających przygodę z Flex & Bison, których nie ma sensu duplikować.
 
 ### Analiza składniowa
 Podczas analizy składniowej parser z wcześniej przygotowanych przez leksera grup leksemów (tokenów) tworzy wyrażenia (jeśli znajdzie istniejącą regułę) i dodaje je do drzewa. Dla powyższego przykładu parser znajdzie regułe, w której są dwie liczby całkowite między, którymi jest znak dodawania i zamieni wyrażenie ``` 3 + 2``` na ``` 5```, następnie na przykład wracając się po wyrażeniu (parser działa rekurencyjnie) znajdzie regułę, w której przypisywana jest liczba do identyfikatora zmiennej ```suma = 5;```. Na tym etapie dopuszczalnym jest np. przypisanie nieprawidłowego typu do identyfikatora zmiennej (np. do zmiennej typu int przypisujemy std::string), ponieważ głównym zadaniem parsera jest stworzenie struktury, a nie dogłębne analizowanie i sprawdzanie typów (krótko mówiąc szkoda na to czasu). Wiemy już co robi *lekser* oraz czym zajmuję się *parser*. Dodam, że powód dla którego oba te mechanizmy współpracują razem to optymalizacja, *lekser* na bieżąco wypluwa gotowe tokeny, natomiast *parser* natychmiastowo próbuje dopasować do nich pasujące wyrażenie, oczywiście była by możliwość np. wrzucania *leksemów* do pliku, z którego czytałby *parser* (wtedy tak jakby dwa razy czytamy znaki, jednak znajduje to swoje zastosowanie). Warto również wiedzieć, że wymyślono różne sposoby parsowania tj. m. in. analizą zstępująca (top-down, rzadziej stosowana, czasami brakuje "abstrakcji" by coś można było nazwać "topem" danego wyrażenia) i analizą wstępująca (bottom-up, częściej stosowana, łatwiej zacząć znajdując mniejsze fragmenty), te zaś dzielą się na metody kierunkowe i niekierunkowe. Gdy parser analizuje wstępując (bottom-up) składa bezpośrednio grupy tokenów idąc w górę w całość, dla przykładu (struktura):
@@ -135,6 +136,12 @@ wyrazenie : liczba			{$$ = $1;}
 	;
 ```
 Z powyższej struktury rozumiemy kolejno, że wyrazenie to liczba (wtedy przypisz wartość liczby $1 do wyrazenia $$), *wyrazenie* to również *wyrazenie* + *wyrazenie* (przypisz wartość wyrażen $1 + $2 do wyrażenia po lewej) itd. Jak widać struktura jest rekurencyjna. Teraz działając wg. zasady *bottom-up* dla ```1 + 2``` parser najpierw znajdzie ```1``` będzie to token *liczba*, liczbę te przypisze do wyrażenia, później parser znajdzie token ```+``` (pozostawi bez zmian bo nie znalazł jeszcze pasującej reguły), następnie znajdzie ```2``` czyli kolejny token *liczba*, później mając te trzy tokeny dopiero wtedy znajduję *wyrazenie '+' wyrazenie* i zamienia je na *wyrazenie*. Działanie analizy zstępującej pozostawiam ciekawskim.
+
+#### Bison
+Poniżej znajduje się lista świetnych tutoriali odnośnie generatorów Flex i Bison:
+[Flex and Bison - Aquamentus](https://aquamentus.com/flex_bison.html)<br>
+[Flex and Bison in C++ - Jonathan Beard](http://www.jonathanbeard.io/tutorials/FlexBisonC++)<br>
+[Using Flex and Bison - Mactech](http://preserve.mactech.com/articles/mactech/Vol.16/16.07/UsingFlexandBison/index.html)
 
 ### Analiza semantyczna
 Podczas analizy semantycznej na podstawie wcześniej sprawdzonej i utworzonej struktury drzewa następuję sprawdzanie poprawności typów, instrukcji i programu jako całości (analiza ta sprawdza czy program ma jakikolwiek sens). Ilość zadań i poziom skomplikowania podczas tej analizy zależy w głównej mierze od specyfikacji języka. W wielu źródłach podawane są przykłady 
