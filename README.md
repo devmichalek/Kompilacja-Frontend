@@ -66,7 +66,7 @@ Zazwyczaj słowa kluczowe danego języka posiadają swoje własne tokeny, równi
 ```C
 int suma = 3 + 2;
 ```
-| Leksem (token) | Kategoria |
+| Leksemy        | Kategoria |
 | -------------- | --------- |
 | int            | Identyfikator typ zmiennej całkowitej |
 | suma           | Identyfikator zmiennej |
@@ -97,7 +97,7 @@ Celem automatu jest rozstrzygnięcie w skończonej ilości kroków, czy dowolne 
 #### NFA - Niedeterministyczny Automat Skończony
 Na początku kilka suchych faktów:
 - każde wyrażenie regularne jesteśmy w stanie zamienić na NFA
-- mając stringa o długości **m** jesteśmy w stanie za pomocą wyrażenia regularnego znależć klucz w czasie **O(mn^2)**
+- mając stringa o długości **m** jesteśmy w stanie znależć klucz w czasie **O(mn^2)**
 
 Dlaczego NFA i DFA są tak mocno związane z wyrażeniami regularnymi? W automacie niedeterministycznym, dla danego znaku, nie musi z każdego stanu wychodzić dokładnie jedno przejście odpowiadające wczytaniu tego znaku. Takich przejść może nie być, może być jedno, lub może być wiele. Podobnie, automat niedeterministyczny może mieć wiele stanów początkowych. Ta koncepcja wydaje się idealnie pasować w nature wyrażen regularnych. Warto wiedzieć, że wyrażenia regularne zaimplementowane w sposob NFA wykonują się wolniej od tych zaimplementowanych w sposób DFA, jednakże plusem jest mała ilość pamięci, której potrzebują.
 Dodatkowo warto sprawdzić czym jest [Automat Büchiego](https://pl.wikipedia.org/wiki/Automat_B%C3%BCchiego)
@@ -108,13 +108,13 @@ Ten nagłówek musiał się pojawić, wyrażenia regularne to nie tylko szukanie
 - uruchomienie wszystkich NFA równocześnie, zachowując *last match*
 - gdy wszystkie automaty są w stanie, w którym nie ma przejść to zwróć *last match* i zacznij szukać ponownie w miejscu, w którym skończyłeś
 
-Ponownie, animacja przedstawi nasz problem:
-
+Ponownie, animacja najlepiej przedstawi nasz problem:
+![Maximal Munch](https://user-images.githubusercontent.com/19840443/63158357-19788900-c02a-11e9-881e-5dc1c562b861.gif)
 
 #### DFA - Deterministyczny Automat Skończony
 Kilka faktów:
 - każde wyrażenie regularne jesteśmy w stanie zamienić na DFA (najpierw na NFA a później na DFA)
-- mając stringa o długości **m** jesteśmy w stanie za pomocą wyrażenia regularnego znależć klucz w czasie **O(m)**
+- mając stringa o długości **m** jesteśmy w stanie znależć klucz w czasie **O(m)**
 
 Główna różnica między NFA to taka, że w tym przypadku posiadamy jeden stan początkowy, jedno przejście z każdego stanu oraz jeden stan akceptacji. Siła automatów niedeterministycznych jest dokładnie taka sama, jak deterministycznych, dla każdego niedeterministycznego automatu skończonego istnieje równoważny mu automat deterministyczny. Wyrażenia regularne zaimplementowane na wzór DFA są szybkie jednak mocno obciążają pamięć (często używana jest hybryda).
 Dodatkowo warto sprawdzić jak działają automaty [Mealy’ego](https://pl.wikipedia.org/wiki/Automat_Mealy%E2%80%99ego), [Moore’a](https://pl.wikipedia.org/wiki/Automat_Moore%E2%80%99a) oraz legendarnej [maszynie Turinga](https://pl.wikipedia.org/wiki/Maszyna_Turinga).
