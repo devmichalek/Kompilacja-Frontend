@@ -115,7 +115,7 @@ Ten nagłówek musiał się pojawić, wyrażenia regularne to nie tylko szukanie
 - uruchomienie wszystkich NFA równocześnie, zachowując *last match*
 - gdy wszystkie automaty są w stanie, w którym nie ma przejść to zwróć *last match* i zacznij szukać ponownie w miejscu, w którym skończyłeś
 
-Przypuśćmy, że mamy sytuacje, w której analizujemy ciąg znaków ```DOUBDOUBLE``` oraz, że mamy do dyspozycji trzy tokeny ```T_Do```, ```T_Double```, ```T_Mystery```, które reprezentują kolejno: słowo kluczowe ```do```, słowo kluczowe ```double```, jakiekolwiek string, który zawiera litery małe i duże. Token o najwyższym priorytecie umieszczony jest najwyżej. Ponownie, animacja najlepiej przedstawi nasz problem:
+Przypuśćmy, że mamy sytuacje, w której analizujemy ciąg znaków ```DOUBDOUBLE``` oraz, że mamy do dyspozycji trzy tokeny ```T_Do```, ```T_Double```, ```T_Mystery```, które reprezentują kolejno: słowo kluczowe ```do```, słowo kluczowe ```double```, string zawierający jedną literę małą lub dużą. Token o najwyższym priorytecie umieszczony jest najwyżej. Ponownie, animacja najlepiej przedstawi nasz problem:
 ![Maximal Munch](https://user-images.githubusercontent.com/19840443/63158357-19788900-c02a-11e9-881e-5dc1c562b861.gif)
 
 #### DFA - Deterministyczny Automat Skończony
