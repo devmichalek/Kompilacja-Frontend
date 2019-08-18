@@ -16,9 +16,10 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
   - 0.1.2. [Analiza składniowa - parsowanie](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-sk%C5%82adniowa)
     - 0.1.2.0 [Jak działa parser?](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#jak-dzia%C5%82a-parser)
     - 0.1.2.1 [Gramatyka bezkontekstowa](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#gramatyka-bezkontekstowa)
-    - 0.1.2.0 [Analiza zstępująca]()
-    - 0.1.2.1 [Analiza wstępująca]()
-    - 0.1.2.2 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
+    - 0.1.2.2 [Drzewo składniowe]()
+    - 0.1.2.3 [Analiza zstępująca]()
+    - 0.1.2.4 [Analiza wstępująca]()
+    - 0.1.2.5 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
   - 0.1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
   - 0.1.4. [Generacja IR]()
   - 0.1.5. [Optymalizaja IR]()
@@ -152,12 +153,24 @@ Podczas analizy składniowej parser z wcześniej przygotowanych przez leksera to
 #### Gramatyka bezkontekstowa
 Context-Free Grammar lub po prostu CFG to zestaw zasad za pomocą, których opisywane są struktury rozumiane przez parsera. Przypuśćmy, że chcemy opisać operacje arytmetyczne takie jak dodawanie, odejmowanie, mnożenie i dzielenie. Po lewej przedstawiono zasady dla operacji arytmetycznych, natomiast po prawej utworzona struktura z działania ```10 * (1 + 2)```
 ![CFG](https://user-images.githubusercontent.com/19840443/63223999-081cb180-c1cf-11e9-9de2-ad634f7ca6c7.png)
-- ![#ff0000](https://placehold.it/15/ff0000/000000?text=+) - ```E``` i ```Op```, symbole nieterminalne, oznaczane dużymi literami np. A, B, C, D
-- ![#0000ff](https://placehold.it/15/0000ff/000000?text=+) - ```int```, ```()```, ```+```, ```-```, ```*```, ```/```, symbole terminalne, oznaczane małymi literami np. e, f, g, h
+- ![#ff0000](https://placehold.it/15/ff0000/000000?text=+) - ```E``` i ```Op```, symbole nieterminalne, rozpoczynajace się dużymi literami np. A, Bb, CcC
+- ![#0000ff](https://placehold.it/15/0000ff/000000?text=+) - ```int```, ```()```, ```+```, ```-```, ```*```, ```/```, symbole terminalne, rozpoczynajace się małymi literami np. e, ff, gG
+- ![#737373](https://placehold.it/15/737373/000000?text=+) - symbol dowolny (symbol terminalny i/lub symbol nieterminalny), zwykle oznaczany małymi literami greckimi np. α, γ
 
 Ważne, aby zrozumieć, że sładnia wyrażeń regularnych nie może być użyta do opisu CFG.<br>
 ![CFG](https://user-images.githubusercontent.com/19840443/63224323-782d3680-c1d3-11e9-8b85-d66e84ef8567.png)<br>
-Przykładowo ```*``` w wyrażeniach regularnych oznacza 0 lub więcej wystąpień, dla ```a*b```, dopasowane zostałyby słowa ```ab```, ```b```, ```aaaaab```, taka funkcjonalność nie jest jednak wspierana przez CFG.
+Przykładowo ```*``` w wyrażeniach regularnych oznacza 0 lub więcej wystąpień, dla ```a*b```, dopasowane zostałyby słowa ```ab```, ```b```, ```aaaaab```, taka funkcjonalność nie jest jednak wspierana przez CFG.<br>
+Warto wiedzieć, że istnieją dwa sposoby rozwijania symboli przez drzewo parsujące *(parse tree)* nazywane derywacją *(derivation)*. Poniżej przedstawiono: *Leftmost Derivation* tj. w każdym kolejnym kroku rozwija się pierwszy z lewej symbol nieterminalny, *Rightmost derivation*  tj. w każdym kolejnym kroku rozwija się pierwszy z prawej symbol nieterminalny.
+![Derivation](https://user-images.githubusercontent.com/19840443/63224936-5d12f480-c1dc-11e9-8baf-d2f630df6d96.png)
+Podczas rozwijania struktur CFG natrafić możemy na niejednoznaczność *(ambiguity)* "priorytetu". Dla przykładu, w prostym działaniu matematycznym ```2 * 3 + 4```, zauważmy, że dla tego przykładu rozwijając strukturę z prawej strony otrzymamy zły wynik, najpierw wykona się operacja dodawania a dopiero później mnożenia. Nie musimy się jednak zbytnio skupiać na tego typu problemach, ponieważ zwykłe użycie nawiasów podczas projektowania CFG wystarczy. Innym sposobem na pozbycie się problemu jest zadeklarowanie najpierw operacji mnożenia i dzielenia, a później dodawania i odejmowania.
+
+#### Drzewo składniowe
+Podczas parsowania utworzone zostaje  drzewo składniowe, tzw. Concrete Syntax Tree *(CST)* to drzewo odzwierciedlające nasz kod źródłowy w postaci tokenów, natomiast bardziej przydatnym drzewem jest Abstract Syntax Tree *(AST)*, które zachowuje najbardziej przydatne informacje w celu dalszej obróbki również w postaci tokenów, różnica pomiędzy CST i AST jest taka, że AST będzie starał się na bieżąco wyliczać wartości.
+```
+CST: ((5 * 10) + (5 - 10)) / a * 1 -> drzewo dokładnie odzwierciedlające nasz kod źródłowy
+AST: 45 / a -> drzewo z wyliczonymi wartościami oraz pominiętymi nic nie znaczącymi akcjami (np. mnożenie razy 1)
+```
+
 
 #### Bison
 Poniżej znajduje się lista świetnych tutoriali odnośnie generatorów Flex i Bison:<br>
