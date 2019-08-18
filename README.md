@@ -18,6 +18,9 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
     - 0.1.2.1 [Gramatyka bezkontekstowa](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#gramatyka-bezkontekstowa)
     - 0.1.2.2 [Drzewo składniowe](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#drzewo-sk%C5%82adniowe)
     - 0.1.2.3 [Analiza zstępująca]()
+      - 0.1.2.3.0 [Przeszukiwanie wszerz]()
+      - 0.1.2.3.1 [Przeszukiwanie wgłąb]()
+      - 0.1.2.3.2 [LL(1)]()
     - 0.1.2.4 [Analiza wstępująca]()
     - 0.1.2.5 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
   - 0.1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
@@ -54,7 +57,7 @@ W pierwszym etapie kompilacji specjalny program nazywany preprocessorem (w tym p
 - Zamiany makro definicji na kod,
 - Włączenia lub wyłączenia danej części kodu wskazanej dyrektywą *#if*, *#elif* i *#endif*.<br>
 
-Warto dodać, że jest możliwość stworzenia makro funkcji z nieznaną liczbą argumentów oraz [makra generyczne](https://mort.coffee/home/obscure-c-features/), warto poczytać również o tym jak działają inne preprocessory jak na przykład [m4](https://en.wikipedia.org/wiki/M4_(computer_language)). GCC umożliwia spojrzenie na to jak nasz kod został sprasowany przez preprocessor:
+Warto dodać, że jest możliwość stworzenia makro funkcji z nieznaną liczbą argumentów oraz [makra generyczne](https://mort.coffee/home/obscure-c-features/), warto poczytać również o tym jak działają inne preprocessory jak na przykład [m4](https://en.wikipedia.org/wiki/M4_(computer_language)). GCC umożliwia spojrzenie na to jak nasz kod został sparsowany przez preprocessor:
 ```bash
 gcc -E <input>.c -o <output>.i
 ```
@@ -171,7 +174,13 @@ Kod źrodłowy: int b = ((5 * 10) + (5 - 10)) / a * 1;
 CST: b = ((5 * 10) + (5 - 10)) / a * 1 -> drzewo dokładnie odzwierciedlające nasz kod źródłowy
 AST: b = 45 / a -> drzewo z wyliczonymi wartościami oraz pominiętymi nic nie znaczącymi akcjami (np. mnożenie razy 1)
 ```
+#### Analiza zstępująca
 
+#### Przeszukiwanie wszerz
+
+#### Przeszukiwanie wgłąb
+
+#### LL(0)
 
 #### Bison
 Poniżej znajduje się lista świetnych tutoriali odnośnie generatorów Flex i Bison:<br>
