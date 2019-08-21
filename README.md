@@ -17,10 +17,10 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
     - 0.1.2.0 [Jak działa parser?](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#jak-dzia%C5%82a-parser)
     - 0.1.2.1 [Gramatyka bezkontekstowa](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#gramatyka-bezkontekstowa)
     - 0.1.2.2 [Drzewo składniowe](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#drzewo-sk%C5%82adniowe)
-    - 0.1.2.3 [Analiza zstępująca]()
-      - 0.1.2.3.0 [Przeszukiwanie wszerz]()
-      - 0.1.2.3.1 [Przeszukiwanie wgłąb]()
-      - 0.1.2.3.2 [LL(1)]()
+    - 0.1.2.3 [Analiza zstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-zst%C4%99puj%C4%85ca)
+      - 0.1.2.3.0 [Przeszukiwanie wszerz](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wszerz)
+      - 0.1.2.3.1 [Przeszukiwanie wgłąb](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wg%C5%82%C4%85b)
+      - 0.1.2.3.2 [LL(1)](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1)
     - 0.1.2.4 [Analiza wstępująca]()
     - 0.1.2.5 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
   - 0.1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
@@ -168,19 +168,25 @@ Warto wiedzieć, że istnieją dwa sposoby rozwijania symboli przez drzewo parsu
 Podczas rozwijania struktur CFG natrafić możemy na niejednoznaczność *(ambiguity)* "priorytetu". Dla przykładu, w prostym działaniu matematycznym ```2 * 3 + 4```, zauważmy, że dla tego przykładu rozwijając strukturę z prawej strony otrzymamy zły wynik, najpierw wykona się operacja dodawania a dopiero później mnożenia. Nie musimy się jednak zbytnio skupiać na tego typu problemach, ponieważ zwykłe użycie nawiasów podczas projektowania CFG wystarczy. Innym sposobem na pozbycie się problemu jest zadeklarowanie najpierw operacji mnożenia i dzielenia, a później dodawania i odejmowania.
 
 #### Drzewo składniowe
-Podczas parsowania utworzone zostaje  drzewo składniowe, tzw. Concrete Syntax Tree *(CST)* to drzewo odzwierciedlające nasz kod źródłowy w postaci tokenów, natomiast bardziej przydatnym drzewem jest Abstract Syntax Tree *(AST)*, które zachowuje najbardziej przydatne informacje w celu dalszej obróbki również w postaci tokenów, różnica pomiędzy CST i AST jest taka, że AST będzie starał się na bieżąco wyliczać wartości.
+Podczas parsowania utworzone zostaje drzewo składniowe, tzw. Concrete Syntax Tree *(CST)* to drzewo odzwierciedlające nasz kod źródłowy w postaci tokenów, natomiast bardziej przydatnym drzewem jest Abstract Syntax Tree *(AST)*, które zachowuje najbardziej przydatne informacje w celu dalszej obróbki również w postaci tokenów, różnica pomiędzy CST i AST jest taka, że AST będzie starał się na bieżąco wyliczać wartości.
 ```
 Kod źrodłowy: int b = ((5 * 10) + (5 - 10)) / a * 1;
 CST: b = ((5 * 10) + (5 - 10)) / a * 1 -> drzewo dokładnie odzwierciedlające nasz kod źródłowy
 AST: b = 45 / a -> drzewo z wyliczonymi wartościami oraz pominiętymi nic nie znaczącymi akcjami (np. mnożenie razy 1)
 ```
 #### Analiza zstępująca
+Analiza zstępująca zaczyna się niemalże bez informacji tj. pierwszy symbol od którego zaczynamy, pasuje do każdego "programu". Skąd zatem wiemy, który zestaw symboli to ten którego szukamy? Nie wiemy... Jedynie co możemy zrobić to zgadywać, jeśli natomiast się pomylimy to wracamy po węzłach. Skoro musimy zgadywać to w jaki sposób? Spróbuję teraz omówić dwa podstawowe algorytmy z "nawrotami" *(backtracking)* (nie śmiejcie się, tak podaje [wikipedia](https://pl.wikipedia.org/wiki/Algorytm_z_nawrotami)). Zacznijmy od tego żeby potraktować nasze wejście składające się z tokenów jako zdanie składające z symboli terminalnych i nieterminalnych oraz proces parsowania jako przeszukiwanie po węzłach. Węzłem będzie **każdy dowolny zestaw symboli**, natomiast przejście z węzła na węzeł będzie możliwe wtedy gdy napotkamy symbol, wchodzący w skład obecnego zestawu symboli, uhh... a tak po ludzku, chodzi o taką sytuację:
+![](https://user-images.githubusercontent.com/19840443/63461080-29dc9980-c458-11e9-9cab-310533588d9b.png)
 
 #### Przeszukiwanie wszerz
+Zacznijmy od pierwszego, raczej mało używanego algorytmu *Breadth-First Search* lub *BFS*. Algorytm polega na przeszukiwaniu wszerz zaczynając od symbolu najbardziej na lewo lub prawo. Od razu wspomnę, że próba szukania od symbolu najbardziej na prawo jest raczej **głupotą**. Dlaczego? Zaczynając od symbolu najbardziej na prawo rozwijamy niepotrzebnie symbol terminalny, animacja poniżej:
+
 
 #### Przeszukiwanie wgłąb
+Drugim algorytmem jest *Deep-First Search* lub *DFS*
 
-#### LL(0)
+#### LL(1)
+
 
 #### Bison
 Poniżej znajduje się lista świetnych tutoriali odnośnie generatorów Flex i Bison:<br>
