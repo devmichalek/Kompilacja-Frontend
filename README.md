@@ -179,11 +179,12 @@ Analiza zstępująca zaczyna się niemalże bez informacji tj. pierwszy symbol o
 ![example](https://user-images.githubusercontent.com/19840443/63461080-29dc9980-c458-11e9-9cab-310533588d9b.png)
 
 #### Przeszukiwanie wszerz
-Zacznijmy od pierwszego, raczej rzadziej używanego algorytmu *Breadth-First Search* lub *BFS*. Algorytm polega na przeszukiwaniu wszerz zaczynając od symbolu najbardziej na lewo lub prawo. Standardowe przejście po grafie wygląda następująco:
+Zacznijmy od pierwszego, raczej rzadziej używanego algorytmu *Breadth-First Search* lub *BFS*. Algorytm polega na przeszukiwaniu wszerz zaczynając od symbolu najbardziej na lewo lub prawo. Standardowe przejście po grafie wygląda następująco:<br>
 ![bfs](https://user-images.githubusercontent.com/19840443/63718211-57f01e00-c84a-11e9-9ddf-100efc4d344f.png)<br>
-Od razu wspomnę, że próba szukania od symbolu najbardziej na prawo jest raczej **błędem**. Dlaczego? Zaczynając od symbolu najbardziej na prawo rozwijamy niepotrzebnie symbol terminalny. Również błędem jest rozwijanie każdego napotkanego symbolu przy rozwijaniu zaczynając od symbolu najbardziej na lewo (poniższa animacja ilustruje powyższy obrazek):
+Od razu wspomnę, że próba szukania od symbolu najbardziej na prawo jest raczej **błędem**. Dlaczego? Zaczynając od symbolu najbardziej na prawo często niepotrzebnie rozwijamy symbol terminalny. Poniższa animacja ilustruje powyższy schemat przejść po drzewie tj. pierwszy rozwijany jest symbol najbardziej na lewo:
 ![bfs](https://user-images.githubusercontent.com/19840443/63718697-6b4fb900-c84b-11e9-9633-e47b93ee23ed.gif)<br>
-Jak można łatwo zauważyć szukanie klucza może potrwać naprawdę długo, dodatkowo zajmujme to mnóstwo pamięci. Najbardziej nieprzydatną rzeczą okazuję się być rozwijanie symbolu terminalnego, który potencjalnie zawiera inne symbole terminalne z niepasującym kluczem. Co można by było ulepszyć?
+Jak można łatwo zauważyć szukanie klucza może potrwać naprawdę długo, dodatkowo zajmujme to mnóstwo pamięci. Najbardziej nieprzydatną rzeczą okazuję się być rozwijanie symbolu terminalnego, który potencjalnie zawiera inne symbole terminalne z niepasującym kluczem. Co można by było ulepszyć? Wyobraźmy sobie, że szukamy rozwiązania dla stringa λ, załóżmy, że λ to ```int + int```. Zakładamy również, że posiadamy zasadę mówiącą, że κ = aB (κ - symbol dowolny, a - symbol terminalny, B - symbol nieterminalny), w przypadku gdy a nie jest tokenem ```int``` nie ma sensu dalej rozwijać symbolu nieterminalnego. Unikając niepotrzebnego rozwijania (fachowo nazywane *branching factor*) symboli nieterminalnych znacznie zyskujemy na czasie. Oczywiście gdy nasz zestaw symboli składa się z wielu symboli nieterminalnych to rozwijanie wciąż może zając sporo czasu. Zobaczcie poniższą animację:<br>
+![bfs]()<br>
 
 
 #### Przeszukiwanie wgłąb
