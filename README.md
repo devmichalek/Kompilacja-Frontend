@@ -183,9 +183,14 @@ Zacznijmy od pierwszego, raczej rzadziej używanego algorytmu *Breadth-First Sea
 ![bfs](https://user-images.githubusercontent.com/19840443/63718211-57f01e00-c84a-11e9-9ddf-100efc4d344f.png)<br>
 Od razu wspomnę, że próba szukania od symbolu najbardziej na prawo jest raczej **błędem**. Dlaczego? Zaczynając od symbolu najbardziej na prawo często niepotrzebnie rozwijamy symbol terminalny. Poniższa animacja ilustruje powyższy schemat przejść po drzewie tj. pierwszy rozwijany jest symbol najbardziej na lewo:
 ![bfs](https://user-images.githubusercontent.com/19840443/63718697-6b4fb900-c84b-11e9-9633-e47b93ee23ed.gif)<br>
-Jak można łatwo zauważyć szukanie klucza może potrwać naprawdę długo, dodatkowo zajmujme to mnóstwo pamięci. Najbardziej nieprzydatną rzeczą okazuję się być rozwijanie symbolu terminalnego, który potencjalnie zawiera inne symbole terminalne z niepasującym kluczem. Co można by było ulepszyć? Wyobraźmy sobie, że szukamy rozwiązania dla stringa λ, załóżmy, że λ to ```int + int```. Zakładamy również, że posiadamy zasadę mówiącą, że κ = aB (κ - symbol dowolny, a - symbol terminalny, B - symbol nieterminalny), w przypadku gdy a nie jest tokenem ```int``` nie ma sensu dalej rozwijać symbolu nieterminalnego. Unikając niepotrzebnego rozwijania (fachowo nazywane *branching factor*) symboli nieterminalnych znacznie zyskujemy na czasie. Oczywiście gdy nasz zestaw symboli składa się z wielu symboli nieterminalnych to rozwijanie wciąż może zając sporo czasu. Zobaczcie poniższą animację:<br>
-![bfs]()<br>
-
+Jak można łatwo zauważyć szukanie klucza może potrwać naprawdę długo, dodatkowo szukanie zajmuje mnóstwo pamięci. Najbardziej nieprzydatną rzeczą okazuję się być **rozwijanie symbolu terminalnego, który potencjalnie zawiera inne symbole terminalne z niepasującym kluczem**. Co można by było ulepszyć? Wyobraźmy sobie, że szukamy rozwiązania dla stringa λ, załóżmy, że λ to ```int + int```. Zakładamy również, że posiadamy zasadę mówiącą, że κ = **a**B (κ - symbol dowolny, **a** - symbol terminalny, B - symbol nieterminalny), w przypadku gdy **a** nie jest tokenem ```int``` nie ma sensu dalej rozwijać symbolu nieterminalnego. Unikając niepotrzebnego rozwijania (fachowo nazywane *branching factor*) symboli nieterminalnych znacznie zyskujemy na czasie. Oczywiście gdy nasz zestaw symboli składa się z wielu symboli nieterminalnych to rozwijanie wciąż może zając sporo czasu. Poniżej przedstawiam zestawy symboli po których będziemy się poruszać (zasady):<br>
+![rules](https://user-images.githubusercontent.com/19840443/63891205-f617eb80-c9e4-11e9-8d4e-f27349eac4b5.png)<br>
+Animacja przedstawiająca poprawiony algorytm (przeszukujemy zaczynając od symbolu po lewej), szukane zdanie to ```int + int```:<br>
+![bfs](https://user-images.githubusercontent.com/19840443/63891504-9ff77800-c9e5-11e9-806c-021f87024223.gif)<br>
+Teraz wspomniany problem gdy pierwszym symbolem z lewej jest symbol nieterminalny (szukanie klucza rośnie wykładniczo), najpierw nasze zasady:<br>
+![rules](https://user-images.githubusercontent.com/19840443/63891209-f912dc00-c9e4-11e9-8c07-5a8dbade4a41.png)<br>
+Szukane zdanie to ```caaaaaaaaaa```, animacja przedstawiająca problem:<br>
+![bfs](https://user-images.githubusercontent.com/19840443/63891862-7559ef00-c9e6-11e9-8c76-8a0b55bfa5fc.gif)
 
 #### Przeszukiwanie wgłąb
 Drugim algorytmem jest *Deep-First Search* lub *DFS*
