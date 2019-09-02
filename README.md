@@ -141,7 +141,7 @@ Jeśli kompilator znalazł się na etapie analizy składniowej oznacza to, że n
 while (ip < z)
 	++ip;
 ```
-Teraz obrazek ilustrujący na jakim etapie się znajdujemy, nasz kod został pocięty na leksemy, a z grup leksemów zostały utworzone następujące tokeny:
+Teraz obrazek ilustrujący na jakim etapie się znajdujemy, nasz kod został pocięty na leksemy z których utworzone został następujące tokeny:
 ![Poprawne tokeny](https://user-images.githubusercontent.com/19840443/63163268-0b306a00-c036-11e9-9a2d-1fec7bcac47b.png)
 Kolejny przykład kodu poprawnego leksykalnie:
 ```C
@@ -193,7 +193,12 @@ Szukane zdanie to ```caaaaaaaaaa```, animacja przedstawiająca problem:<br>
 ![bfs](https://user-images.githubusercontent.com/19840443/63891862-7559ef00-c9e6-11e9-8c76-8a0b55bfa5fc.gif)
 
 #### Przeszukiwanie wgłąb
-Drugim algorytmem jest *Deep-First Search* lub *DFS*
+Drugim algorytmem, który postaram się omówić jest *Deep-First Search* lub *DFS*. Przeszukiwanie wgłąb polega na rozpatrywaniu jednej gałęzi i przechodzenia na kolejny węzęł *w jednej linii* w przypadku pasujących symboli, w przypadku niepasujących symboli wracamy się *do góry* po grafie. Schemat przejść po drzewie wygląda następująco:<br>
+![DFS](https://user-images.githubusercontent.com/19840443/64126364-b9197380-cdad-11e9-918f-087cdcc4fef2.png)<br>
+Kilka zalet w stosunku do *BFS*:
+- mniejsze zużycie pamięci (rozpatrywana jest jedna gałąź w danym momencie, nie trzymamy wskaźników na węzły znajdujące się w innych gałęziach a jedynie wskaźnik na dzieci)
+- wysoka wydajność w stosunku do *BFS* (dla dobrze napisanej gramatyki)
+- łatwy w implementacji
 
 #### LL(1)
 
