@@ -179,7 +179,7 @@ Analiza zstępująca zaczyna się niemalże bez informacji tj. pierwszy symbol o
 ![Example](https://user-images.githubusercontent.com/19840443/63461080-29dc9980-c458-11e9-9cab-310533588d9b.png)
 
 #### Przeszukiwanie wszerz
-Zacznijmy od pierwszego, rzadziej używanego algorytmu *Breadth-First Search* lub *BFS*. Algorytm polega na przeszukiwaniu wszerz zaczynając od symbolu najbardziej na lewo lub prawo. Standardowe przejście po grafie wygląda następująco:<br>
+Zacznijmy od pierwszego, rzadziej używanego algorytmu *Breadth-First Search* lub *BFS*. Algorytm polega na przeszukiwaniu wszerz zaczynając od symbolu najbardziej na lewo lub prawo. Algorytm wymaga zapamiętywania wszystkich węzłów w danej odległości od korzenia, co zwykle rośnie wykładniczo w funkcji długości ścieżki Standardowe [przejście po grafie](https://pl.wikipedia.org/wiki/Przeszukiwanie_wszerz) wygląda następująco:<br>
 ![BFS](https://user-images.githubusercontent.com/19840443/63718211-57f01e00-c84a-11e9-9ddf-100efc4d344f.png)<br>
 Od razu wspomnę, że próba szukania od symbolu najbardziej na prawo jest raczej **błędem**. Dlaczego? Zaczynając od symbolu najbardziej na prawo często niepotrzebnie rozwijamy symbol nieterminalny. Poniższa animacja ilustruje powyższy schemat przejść po drzewie tj. pierwszy rozwijany jest symbol najbardziej na lewo:
 ![BFS](https://user-images.githubusercontent.com/19840443/63718697-6b4fb900-c84b-11e9-9633-e47b93ee23ed.gif)<br>
@@ -193,12 +193,22 @@ Szukane zdanie to ```caaaaaaaaaa```, animacja przedstawiająca problem:<br>
 ![bfs](https://user-images.githubusercontent.com/19840443/63891862-7559ef00-c9e6-11e9-8c76-8a0b55bfa5fc.gif)
 
 #### Przeszukiwanie wgłąb
-Drugim algorytmem, który postaram się omówić jest *Deep-First Search* lub *DFS*. Przeszukiwanie wgłąb polega na rozpatrywaniu jednej gałęzi i przechodzenia na kolejny węzęł *w jednej linii* w przypadku pasujących symboli, w przypadku niepasujących symboli wracamy się *do góry* po grafie. Schemat przejść po drzewie wygląda następująco:<br>
+Drugim algorytmem, który postaram się omówić jest *Deep-First Search* lub *DFS*. Przeszukiwanie wgłąb polega na rozpatrywaniu jednej gałęzi i przechodzenia na kolejny węzęł *w jednej linii* w przypadku pasujących symboli, w przypadku niepasujących symboli wracamy się *do góry* po grafie. Algorytm w każdym momencie wymaga zapamiętania ścieżki od korzenia do bieżącego węzła. [Schemat przejść](https://pl.wikipedia.org/wiki/Przeszukiwanie_w_g%C5%82%C4%85b) po drzewie wygląda następująco (zaczynając od symbolu najbardziej na lewo):<br>
 ![DFS](https://user-images.githubusercontent.com/19840443/64126364-b9197380-cdad-11e9-918f-087cdcc4fef2.png)<br>
 Kilka zalet w stosunku do *BFS*:
 - mniejsze zużycie pamięci (rozpatrywana jest jedna gałąź w danym momencie, nie trzymamy wskaźników na węzły znajdujące się w innych gałęziach a jedynie wskaźnik na dzieci)
 - wysoka wydajność w stosunku do *BFS* (dla dobrze napisanej gramatyki)
 - łatwy w implementacji
+Animacja przedstawiająca szukanie rozwiązania dla ```int + int``` zaczynając od symbolu najbardziej na lewo:<br>
+![DFS](https://user-images.githubusercontent.com/19840443/64126818-91c3a600-cdaf-11e9-80d7-b82ebe01ab3f.gif)<br>
+Problemy z przeszukiwaniem wgłąb podczas szukania rozwiązania dla ```c``` zaczynając od symbolu najbardziej na lewo:<br>
+![DFS](https://user-images.githubusercontent.com/19840443/64126820-925c3c80-cdaf-11e9-822a-0ffba1ecfa15.png)<br>
+
+Przeszukiwanie wszerz | Przeszukiwanie wgłąb
+--- | --- 
+Działa dla każdej gramatyki | Działa dla gramatyki pozbawionej rekurencji (graf musi być skończony)
+Złożoność pamięciowa w najgorszym przypadku - wykładnicza | Złożoność pamięciowa w najgorszym przypadku - liniowa
+Czas wyszukiwania w najgorszym przypadku wykładniczy | Czas wyszukiwania w najgorszym przypadku wykładniczy
 
 #### LL(1)
 
