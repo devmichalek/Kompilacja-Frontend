@@ -21,8 +21,8 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
       - 0.1.2.3.0 [Przeszukiwanie wszerz](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wszerz)
       - 0.1.2.3.1 [Przeszukiwanie wgłąb](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wg%C5%82%C4%85b)
       - 0.1.2.3.2 [LL(1)](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1)
-    - 0.1.2.4 [Analiza wstępująca]()
-      - 0.1.2.4.0 [Redukcja oraz punkt zaczepienia]()
+    - 0.1.2.4 [Analiza wstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-wst%C4%99puj%C4%85ca)
+      - 0.1.2.4.0 [Redukcja i Punkt Zaczepienia]()
     - 0.1.2.5 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
   - 0.1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
   - 0.1.4. [Generacja IR]()
@@ -207,12 +207,12 @@ Problemy z przeszukiwaniem wgłąb podczas szukania rozwiązania dla ```c``` zac
 
 Przeszukiwanie wszerz | Przeszukiwanie wgłąb
 --- | --- 
-Działa dla każdej gramatyki | Działa dla gramatyki pozbawionej rekurencji (graf musi być skończony)
-Złożoność pamięciowa w najgorszym przypadku - wykładnicza | Złożoność pamięciowa w najgorszym przypadku - liniowa
-Czas wyszukiwania w najgorszym przypadku wykładniczy | Czas wyszukiwania w najgorszym przypadku wykładniczy
+Działa dla każdej gramatyki | Działa dla gramatyki pozbawionej lewostronnej rekurencji (graf musi być skończony)
+Złożoność pamięciowa w najgorszym wypadku - wykładnicza | Złożoność pamięciowa w najgorszym wypadku - liniowa
+Czas wyszukiwania w najgorszym wypadku wykładniczy | Czas wyszukiwania w najgorszym wypadku wykładniczy
 
 #### LL(1)
-Poprzednie algorytmy zajmowały się wyszukiwaniem zgadując czy dane wyrażenie pasuje do rozwiązania a w przypadku błędu wracały się po utworzonej ścieżce. Istnieje również inna kategoria algorytmów parsujących tzw. agorytmów przewidujących.
+Poprzednie algorytmy zajmowały się wyszukiwaniem zgadując czy dane wyrażenie pasuje do rozwiązania, a w przypadku błędu wracały się po uprzednio utworzonej ścieżce. Istnieje również inna kategoria algorytmów parsujących tzw. algorytmów przewidujących.
 
 #### Bison
 Poniżej znajduje się lista świetnych tutoriali odnośnie generatorów Flex i Bison:<br>
@@ -222,7 +222,7 @@ Poniżej znajduje się lista świetnych tutoriali odnośnie generatorów Flex i 
 
 #### Analiza wstępująca
 
-#### 
+#### Redukcja i Punkt Zaczepienia
 
 ### Analiza semantyczna
 Podczas analizy semantycznej na podstawie wcześniej sprawdzonej i utworzonej struktury drzewa następuję sprawdzanie poprawności typów, instrukcji i programu jako całości (analiza ta sprawdza czy program ma jakikolwiek sens). Ilość zadań i poziom skomplikowania podczas tej analizy zależy w głównej mierze od specyfikacji języka.
