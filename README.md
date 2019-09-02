@@ -22,6 +22,7 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
       - 0.1.2.3.1 [Przeszukiwanie wgłąb](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wg%C5%82%C4%85b)
       - 0.1.2.3.2 [LL(1)](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1)
     - 0.1.2.4 [Analiza wstępująca]()
+      - 0.1.2.4.0 [Redukcja oraz punkt zaczepienia]()
     - 0.1.2.5 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
   - 0.1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
   - 0.1.4. [Generacja IR]()
@@ -211,7 +212,7 @@ Złożoność pamięciowa w najgorszym przypadku - wykładnicza | Złożoność 
 Czas wyszukiwania w najgorszym przypadku wykładniczy | Czas wyszukiwania w najgorszym przypadku wykładniczy
 
 #### LL(1)
-
+Poprzednie algorytmy zajmowały się wyszukiwaniem zgadując czy dane wyrażenie pasuje do rozwiązania a w przypadku błędu wracały się po utworzonej ścieżce. Istnieje również inna kategoria algorytmów parsujących tzw. agorytmów przewidujących.
 
 #### Bison
 Poniżej znajduje się lista świetnych tutoriali odnośnie generatorów Flex i Bison:<br>
@@ -219,8 +220,12 @@ Poniżej znajduje się lista świetnych tutoriali odnośnie generatorów Flex i 
 [Flex and Bison in C++ - Jonathan Beard](http://www.jonathanbeard.io/tutorials/FlexBisonC++)<br>
 [Using Flex and Bison - Mactech](http://preserve.mactech.com/articles/mactech/Vol.16/16.07/UsingFlexandBison/index.html)
 
+#### Analiza wstępująca
+
+#### 
+
 ### Analiza semantyczna
-Podczas analizy semantycznej na podstawie wcześniej sprawdzonej i utworzonej struktury drzewa następuję sprawdzanie poprawności typów, instrukcji i programu jako całości (analiza ta sprawdza czy program ma jakikolwiek sens). Ilość zadań i poziom skomplikowania podczas tej analizy zależy w głównej mierze od specyfikacji języka. W wielu źródłach podawane są przykłady 
+Podczas analizy semantycznej na podstawie wcześniej sprawdzonej i utworzonej struktury drzewa następuję sprawdzanie poprawności typów, instrukcji i programu jako całości (analiza ta sprawdza czy program ma jakikolwiek sens). Ilość zadań i poziom skomplikowania podczas tej analizy zależy w głównej mierze od specyfikacji języka.
 
 ## Źródła
 [Avanced C and C++ Compiling](https://doc.lagout.org/programmation/C/Advanced%20C%20and%20C%20%20%20Compiling%20%5BStevanovic%202014-04-28%5D.pdf)<br>
