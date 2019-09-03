@@ -212,7 +212,8 @@ Złożoność pamięciowa w najgorszym wypadku - wykładnicza | Złożoność pa
 Czas wyszukiwania w najgorszym wypadku wykładniczy | Czas wyszukiwania w najgorszym wypadku wykładniczy
 
 #### LL(1)
-Poprzednie algorytmy zajmowały się wyszukiwaniem zgadując czy dane wyrażenie pasuje do rozwiązania, a w przypadku błędu wracały się po uprzednio utworzonej ścieżce. Istnieje również inna kategoria algorytmów parsujących tzw. algorytmów przewidujących.
+Poprzednie algorytmy zajmowały się wyszukiwaniem zgadując czy dane wyrażenie pasuje do rozwiązania, a w przypadku błędu wracały się po uprzednio utworzonej ścieżce. Istnieje również inna kategoria algorytmów parsujących tzw. algorytmów przewidujących. Zacznijmy od tego, że parsery, które przewidują swoje następne przejście po drzewie są po prostu szybsze. Dodatkowo, często wspierane są tablicą wypełnioną przejściami z poszczególnych węzłów na kolejny zyskując dzięki temu większą wydajność. Niestety ten rodzaj parsowania nie jest w stanie wyszukać rozwiązania dla każdej gramatyki. Zaczynając od pierwszego symbolu w jaki sposób jesteśmy w stanie stwierdzić, której produkcji użyć (do którego węzła przeskoczyć)? Podczas podejmowania decyzji parser sprawdza aktualny **oraz następny** token tzw. *lookahead token* (LL(n), L - skanujemy od lewej do prawej, L - derywacja lewostronna, n - liczba dodatkowo sprawdzanych tokenów *w przód*) w celu podjęcia decyzji. Warto zauważyć, że zwiększając liczbe dodatkowo sprawdzanych tokenów jesteśmy w stanie szukać rozwiązań dla bardziej złożonych gramatyk z drugiej strony im większa liczba sprawdzanych tokenów nasz parser staje się bardziej skompilowany. Poniżej przykład, w którym parser mając do dyspozycji jeden *lookahead token* wyszukuje rozwiązanie dla ```int + (int + int)```<br>
+![LT]()<br>
 
 #### Bison
 Poniżej znajduje się lista świetnych tutoriali odnośnie generatorów Flex i Bison:<br>
