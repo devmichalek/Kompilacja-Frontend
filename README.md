@@ -143,7 +143,7 @@ Jeśli kompilator znalazł się na etapie analizy składniowej oznacza to, że n
 while (ip < z)
 	++ip;
 ```
-Teraz obrazek ilustrujący na jakim etapie się znajdujemy, nasz kod został pocięty na leksemy z których utworzone został następujące tokeny:
+Teraz obrazek ilustrujący na jakim etapie się znajdujemy, nasz kod został pocięty na leksemy z których utworzone zostały następujące tokeny:
 ![Poprawne tokeny](https://user-images.githubusercontent.com/19840443/63163268-0b306a00-c036-11e9-9a2d-1fec7bcac47b.png)
 Kolejny przykład kodu poprawnego leksykalnie:
 ```C
