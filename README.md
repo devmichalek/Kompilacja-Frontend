@@ -21,7 +21,7 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
       - 0.1.2.3.0 [Przeszukiwanie wszerz](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wszerz)
       - 0.1.2.3.1 [Przeszukiwanie wgłąb](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wg%C5%82%C4%85b)
       - 0.1.2.3.2 [LL(1)](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1)
-      - 0.1.2.3.3 [LL(1) Parse Tables]()
+      - 0.1.2.3.3 [LL(1) Parse Tables](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1-parse-tables)
     - 0.1.2.4 [Analiza wstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-wst%C4%99puj%C4%85ca)
       - 0.1.2.4.0 [Redukcja i Punkt Zaczepienia]()
     - 0.1.2.5 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
@@ -217,9 +217,9 @@ Poprzednie algorytmy zajmowały się wyszukiwaniem zgadując czy dane wyrażenie
 ![LT](https://user-images.githubusercontent.com/19840443/64202689-0707a780-ce92-11e9-8d2c-856040fc7b7d.gif)<br>
 
 #### LL(1) Parse Tables
-Podczas parsowania LL(1) wszystkie nasze decyzje dotyczące rozwijania symboli nieterminalnych są niejako **wymuszone** poprzez rozpatrywanie następnego tokenu. W nastęnym nagłówku postaram się nieco przybliżyć zastosowanie tablic umożliwiających szybsze wyszukiwanie rozwiązanie oraz **detekcje błędów** gramatycznych. Na poniższej ilustracji przedstawiono tablicę przejść, pierwsza z lewej kolumna to wszystkie zdefiniowane przez nas symbole nieterminalne, natomiast w pierwszym wierszu znajdują się wszystkie symbole terminalne występujące w naszej gramatyce.<br>
+Podczas parsowania LL(1) wszystkie nasze decyzje dotyczące rozwijania symboli nieterminalnych są niejako **wymuszone** poprzez rozpatrywanie następnego tokenu. W nastęnym nagłówku postaram się nieco przybliżyć zastosowanie tablic umożliwiających szybsze wyszukiwanie rozwiązania oraz **detekcje błędów** gramatycznych. Na poniższej ilustracji przedstawiono tablicę przejść, pierwsza z lewej kolumna to wszystkie zdefiniowane przez nas symbole nieterminalne, natomiast w pierwszym wierszu znajdują się wszystkie symbole terminalne występujące w naszej gramatyce.<br>
 ![PT](https://user-images.githubusercontent.com/19840443/64472281-4537ec00-d15c-11e9-841c-1773b2c48b85.png)<br>
-Jak to wszystko działa? Tym razem podczas parsowania zdania ```int + (int * int)``` zaznaczmy gdzie się ono kończy poprzez wstawienie dodatkowego symbolu, który nie występuje w naszym języku, symbolicznie będzie to znak dolara ```$```, od teraz nasze zdanie to ```int + (int * int)$```, takie dodatkowe wstawienie symbolu ułatwi nam w dużym stopniu detekcje błędów. Poniżej ilustracja procesu parsowania tablicą przejść.<br>
+Jak to wszystko działa? Tym razem podczas parsowania zdania ```(int + (int * int))``` zaznaczmy gdzie się ono kończy poprzez wstawienie dodatkowego symbolu, który nie występuje w naszym języku, symbolicznie będzie to znak dolara ```$```, od teraz nasze zdanie to ```(int + (int * int))$```, takie dodatkowe wstawienie symbolu ułatwi nam w dużym stopniu detekcje błędów. Poniżej ilustracja procesu parsowania tablicą przejść.<br>
 ![PT](https://user-images.githubusercontent.com/19840443/64472399-1884d400-d15e-11e9-93ad-78473f603ab4.png)<br>
 Wykrywanie błędów gdy posiadamy znak kończący zdanie oraz tablice przejść:<br>
 ![WB](https://user-images.githubusercontent.com/19840443/64472397-17ec3d80-d15e-11e9-9ba7-c42a032e32eb.png)
