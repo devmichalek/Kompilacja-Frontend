@@ -201,6 +201,7 @@ Kilka zalet w stosunku do *BFS*:
 - mniejsze zużycie pamięci (rozpatrywana jest jedna gałąź w danym momencie, nie trzymamy wskaźników na węzły znajdujące się w innych gałęziach a jedynie wskaźnik na dzieci)
 - wysoka wydajność w stosunku do *BFS* (dla dobrze napisanej gramatyki)
 - łatwy w implementacji
+
 Animacja przedstawiająca szukanie rozwiązania dla ```int + int``` zaczynając od symbolu najbardziej na lewo:<br>
 ![DFS](https://user-images.githubusercontent.com/19840443/64126818-91c3a600-cdaf-11e9-80d7-b82ebe01ab3f.gif)<br>
 Problemy z przeszukiwaniem wgłąb podczas szukania rozwiązania dla ```c``` zaczynając od symbolu najbardziej na lewo:<br>
