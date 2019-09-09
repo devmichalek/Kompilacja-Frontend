@@ -236,15 +236,15 @@ Spróbujmy podsumować algorytm działania parsera LL(1):
     - Jeśli ```T[A, t]``` jest niezdefiniowane, zwróć błąd
     - Zamień pierwszy element stosu na ```T[A, t]```
 
-#### Bison
-Poniżej znajduje się lista świetnych tutoriali odnośnie generatorów Flex i Bison:<br>
-[Flex and Bison - Aquamentus](https://aquamentus.com/flex_bison.html)<br>
-[Flex and Bison in C++ - Jonathan Beard](http://www.jonathanbeard.io/tutorials/FlexBisonC++)<br>
-[Using Flex and Bison - Mactech](http://preserve.mactech.com/articles/mactech/Vol.16/16.07/UsingFlexandBison/index.html)
-
 #### Analiza wstępująca
 
 #### Redukcja i Punkt Zaczepienia
+
+#### Bison
+Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej znajduje się lista świetnych tutoriali odnośnie tego generatora:<br>
+[Flex and Bison - Aquamentus](https://aquamentus.com/flex_bison.html)<br>
+[Flex and Bison in C++ - Jonathan Beard](http://www.jonathanbeard.io/tutorials/FlexBisonC++)<br>
+[Using Flex and Bison - Mactech](http://preserve.mactech.com/articles/mactech/Vol.16/16.07/UsingFlexandBison/index.html)
 
 ### Analiza semantyczna
 Podczas analizy semantycznej na podstawie wcześniej sprawdzonej i utworzonej struktury drzewa następuję sprawdzanie poprawności typów, instrukcji i programu jako całości (analiza ta sprawdza czy program ma jakikolwiek sens). Ilość zadań i poziom skomplikowania podczas tej analizy zależy w głównej mierze od specyfikacji języka.
