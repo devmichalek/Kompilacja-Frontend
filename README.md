@@ -223,8 +223,18 @@ Podczas parsowania LL(1) wszystkie nasze decyzje dotyczące rozwijania symboli n
 Jak to wszystko działa? Tym razem podczas parsowania zdania ```(int + (int * int))``` zaznaczmy gdzie się ono kończy poprzez wstawienie dodatkowego symbolu, który nie występuje w naszym języku, symbolicznie będzie to znak dolara ```$```, od teraz nasze zdanie to ```(int + (int * int))$```, takie dodatkowe wstawienie symbolu ułatwi nam w dużym stopniu detekcje błędów. Poniżej ilustracja procesu parsowania tablicą przejść.<br>
 ![PT](https://user-images.githubusercontent.com/19840443/64472399-1884d400-d15e-11e9-93ad-78473f603ab4.png)<br>
 Wykrywanie błędów gdy posiadamy znak kończący zdanie oraz tablice przejść:<br>
-![WB](https://user-images.githubusercontent.com/19840443/64472397-17ec3d80-d15e-11e9-9ba7-c42a032e32eb.png)
-![WB](https://user-images.githubusercontent.com/19840443/64472398-17ec3d80-d15e-11e9-81d5-ce28c4470ba0.png)
+![WB](https://user-images.githubusercontent.com/19840443/64472397-17ec3d80-d15e-11e9-9ba7-c42a032e32eb.png)<br>
+![WB](https://user-images.githubusercontent.com/19840443/64472398-17ec3d80-d15e-11e9-81d5-ce28c4470ba0.png)<br>
+Spróbujmy podsumować algorytm działania parsera LL(1):
+- Zaczynając od symbolu dowolnego **S** oraz tablicy przejść **T** inicjujemy stos **S$**
+- Powtarzamy dopóki stos nie jest pusty:
+  - Pobierz aktualnie rozpatrywany token ```t```
+  - Jeśli na samym wierzchu znajduję się symbol terminalny ```r```
+    - Gdy ```r != t``` zwróć błąd
+    - W przeciwnym wypadku pobierz token ```t``` oraz usuń ```r``` ze stosu
+  - Jeśli na samym wierzchu znajduje się symbol nieterminalny ```A```
+    - Jeśli ```T[A, t]``` jest niezdefiniowane, zwróć błąd
+    - Zamień pierwszy element stosu na ```T[A, t]```
 
 #### Bison
 Poniżej znajduje się lista świetnych tutoriali odnośnie generatorów Flex i Bison:<br>
