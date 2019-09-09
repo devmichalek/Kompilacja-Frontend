@@ -22,6 +22,7 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
       - 0.1.2.3.1 [Przeszukiwanie wgłąb](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wg%C5%82%C4%85b)
       - 0.1.2.3.2 [LL(1)](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1)
       - 0.1.2.3.3 [LL(1) Parse Tables](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1-parse-tables)
+      - 0.1.2.3.4 [FIRST, FOLLOW]()
     - 0.1.2.4 [Analiza wstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-wst%C4%99puj%C4%85ca)
       - 0.1.2.4.0 [Redukcja i Punkt Zaczepienia]()
     - 0.1.2.5 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
@@ -234,7 +235,10 @@ Spróbujmy podsumować algorytm działania parsera LL(1):
     - W przeciwnym wypadku pobierz token ```t``` oraz usuń ```r``` ze stosu
   - Jeśli na samym wierzchu znajduje się symbol nieterminalny ```A```
     - Jeśli ```T[A, t]``` jest niezdefiniowane, zwróć błąd
-    - Zamień pierwszy element stosu na ```T[A, t]```
+    - W przeciwnym wypadku zamień pierwszy element stosu na ```T[A, t]```
+
+#### FIRST, FOLLOW
+W ostatnim podpunkcie parsera LL(1) postaram się nieco przybliżyć temat w jaki sposób tworzone są tablice przejść
 
 #### Analiza wstępująca
 
