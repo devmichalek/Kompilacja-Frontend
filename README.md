@@ -22,7 +22,7 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
       - 0.1.2.3.1 [Przeszukiwanie wgłąb](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wg%C5%82%C4%85b)
       - 0.1.2.3.2 [LL(1)](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1)
       - 0.1.2.3.3 [LL(1) Parse Tables](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1-parse-tables)
-      - 0.1.2.3.4 [FIRST, FOLLOW]()
+      - 0.1.2.3.4 [FIRST, FOLLOW](https://github.com/devmichalek/Biblioteki-Dynamiczne#first-follow)
     - 0.1.2.4 [Analiza wstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-wst%C4%99puj%C4%85ca)
       - 0.1.2.4.0 [Redukcja i Punkt Zaczepienia]()
     - 0.1.2.5 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
@@ -238,7 +238,9 @@ Spróbujmy podsumować algorytm działania parsera LL(1):
     - W przeciwnym wypadku zamień pierwszy element stosu na ```T[A, t]```
 
 #### FIRST, FOLLOW
-W ostatnim podpunkcie parsera LL(1) postaram się nieco przybliżyć temat w jaki sposób tworzone są tablice przejść
+W ostatnim podpunkcie postaram się krótko przybliżyć w jaki sposób tworzone są tablice przejść dla parsera LL(1). Podczas parsowania chcielibyśmy wiedzieć czy dany symbol nieterminalny może zostać rozwinięty do symbolu terminalnego występującego na wejściu, aby to zrobić niezbędna jest tablica FIRST, która reprezentuje wszystkie **możliwe symbole terminalne, które mogą wystąpić przed symbolem nieterminalnym** przy jego rozwijaniu oraz tablica FOLLOW, która reprezentuje wszystkie **możliwe symbole terminalne, które mogą występowić po danym symbolu nieterminalnym**. Przykład poniżej przedstawia utworzone wspomniane wcześniej tablice, dla jasności symbol ```ε``` oznacza pusty symbol)<br>
+![FIRSTFOLLOW](https://user-images.githubusercontent.com/19840443/64558207-aec61f00-d343-11e9-8efc-61c2fb591e6f.png)<br>
+Omówiony wcześniej parser LL(1) jest parserem wspomaganym tablicą *(table-driven LL(1))*, jednak istnieje również inne równie szybkie podejście algorytmiczne tego parsera. Tak zwany *recursive-descent LL(1)* to parser, w którym każdy symbol nieterminalny zdefiniowany jest jako osobna funkcja, znając następny token wołana jest ta odpowiednia.
 
 #### Analiza wstępująca
 
