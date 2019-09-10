@@ -243,7 +243,9 @@ W ostatnim podpunkcie postaram się krótko przybliżyć w jaki sposób tworzone
 Omówiony wcześniej parser LL(1) jest parserem wspomaganym tablicą *(table-driven LL(1))*, jednak istnieje również inne równie szybkie podejście algorytmiczne tego parsera. Tak zwany *recursive-descent LL(1)* to parser, w którym każdy symbol nieterminalny zdefiniowany jest jako osobna funkcja, znając następny token wołana jest ta odpowiednia.
 
 #### Analiza wstępująca
-Długo zastanawiałem się nad podziałem materiału dotyczącej analizy wstępującej, jest to według mnie bardziej obszerny temat, dzieje się tak ponieważ ten typ analizy jest niejako częściej implementowany w współczesnych parserach. Pomimo możliwości użycia BFS i DFS w tworzeniu parsera, analiza zstępująca jest raczej **rzadko** spotykana. Podczas analizy zstępującej najpierw rozpatrywany był symbol dowolny, to od niego parser zaczynał rozwijać kolejne symbole nieterminalne, w przypadku analizy wstępującej sprawa wygląda nieco inaczej, w tym przypadku parser **redukuje** tokeny konwertując je na symbole nieterminalne tak aby z czasem dojść do symbolu dowolnego.
+Przez pewien czas zastanawiałem się nad podziałem materiału dotyczącej analizy wstępującej, jest to bowiem bardziej obszerny temat, dzieje się tak ponieważ ten typ analizy jest niejako częściej implementowany w współczesnych parserach. Pomimo możliwości użycia BFS i DFS w tworzeniu parsera, analiza zstępująca jest raczej **rzadko** spotykana. Podczas analizy zstępującej najpierw rozpatrywany był symbol dowolny, to od niego parser zaczynał **rozwijać** kolejne symbole nieterminalne, w przypadku analizy wstępującej sprawa wygląda nieco inaczej, w tym przypadku parser **redukuje** tokeny konwertując je na symbole nieterminalne tak aby z czasem dojść do symbolu dowolnego (osobiście uważam, że takie rozwiązanie jest bardziej logiczne). Oto jak analiza wstępująca wygląda:<br>
+![BOTTOM-UP](https://user-images.githubusercontent.com/19840443/64636955-11cabb00-d403-11e9-8e37-a98158ae3c23.png)<br>
+![BOTTOM-UP](https://user-images.githubusercontent.com/19840443/64636951-0e373400-d403-11e9-9ca9-f7ca8da631f4.gif)<br>
 
 #### Redukcja i Punkt Zaczepienia
 
