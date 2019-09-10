@@ -243,6 +243,7 @@ W ostatnim podpunkcie postaram się krótko przybliżyć w jaki sposób tworzone
 Omówiony wcześniej parser LL(1) jest parserem wspomaganym tablicą *(table-driven LL(1))*, jednak istnieje również inne równie szybkie podejście algorytmiczne tego parsera. Tak zwany *recursive-descent LL(1)* to parser, w którym każdy symbol nieterminalny zdefiniowany jest jako osobna funkcja, znając następny token wołana jest ta odpowiednia.
 
 #### Analiza wstępująca
+Długo zastanawiałem się nad podziałem materiału dotyczącej analizy wstępującej, jest to według mnie bardziej obszerny temat, dzieje się tak ponieważ ten typ analizy jest niejako częściej implementowany w współczesnych parserach. Pomimo możliwości użycia BFS i DFS w tworzeniu parsera, analiza zstępująca jest raczej **rzadko** spotykana. Podczas analizy zstępującej najpierw rozpatrywany był symbol dowolny, to od niego parser zaczynał rozwijać kolejne symbole nieterminalne, w przypadku analizy wstępującej sprawa wygląda nieco inaczej, w tym przypadku parser **redukuje** tokeny konwertując je na symbole nieterminalne tak aby z czasem dojść do symbolu dowolnego.
 
 #### Redukcja i Punkt Zaczepienia
 
