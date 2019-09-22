@@ -17,13 +17,13 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
   - 1.2.1 [Gramatyka bezkontekstowa](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#gramatyka-bezkontekstowa)
   - 1.2.2 [Drzewo składniowe](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#drzewo-sk%C5%82adniowe)
   - 1.2.3 [Analiza zstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-zst%C4%99puj%C4%85ca)
-    - 0.1.2.3.0 [Przeszukiwanie wszerz](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wszerz)
-    - 0.1.2.3.1 [Przeszukiwanie wgłąb](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wg%C5%82%C4%85b)
-    - 0.1.2.3.2 [LL(1)](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1)
-    - 0.1.2.3.3 [LL(1) Parse Tables](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1-parse-tables)
-    - 0.1.2.3.4 [FIRST, FOLLOW](https://github.com/devmichalek/Biblioteki-Dynamiczne#first-follow)
+    - 1.2.3.0 [Przeszukiwanie wszerz](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wszerz)
+    - 1.2.3.1 [Przeszukiwanie wgłąb](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wg%C5%82%C4%85b)
+    - 1.2.3.2 [LL(1)](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1)
+    - 1.2.3.3 [LL(1) Parse Tables](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1-parse-tables)
+    - 1.2.3.4 [FIRST, FOLLOW](https://github.com/devmichalek/Biblioteki-Dynamiczne#first-follow)
   - 1.2.4 [Analiza wstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-wst%C4%99puj%C4%85ca)
-    - 0.1.2.4.0 [Redukcja i Punkt Zaczepienia]()
+    - 1.2.4.0 [Redukcja, Przesunięcie, Uchwyty]()
   - 1.2.5 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
 - 1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
 - 1.4. [Generacja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#generacja-ir)
@@ -237,7 +237,8 @@ Przez jakiś czas zastanawiałem się nad podziałem materiału dotyczącej anal
 ![BOTTOM-UP](https://user-images.githubusercontent.com/19840443/64636955-11cabb00-d403-11e9-8e37-a98158ae3c23.png)<br>
 ![BOTTOM-UP](https://user-images.githubusercontent.com/19840443/64636951-0e373400-d403-11e9-9ca9-f7ca8da631f4.gif)<br>
 
-#### Redukcja i Punkt Zaczepienia
+#### Redukcja, Przesunięcie, Uchwyty
+Zacznijmy od uchwytów w angielskim nazywane *handle* oznacza uzupełnioną grupę symboli znajdujących się po lewej stronie gotową do redukcji. Podczas analizy wstępującej zajmować się będziemy wyszukiwaniem uchwytów w sposób kierunkowy (skanując od lewej do prawej) patrząc o jeden token do przodu. Istnieje również druga grupa parserów wstępujących tj. [bezkierunkowych](https://en.wikipedia.org/wiki/CYK_algorithm). 
 
 ### Bison
 Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej znajduje się lista świetnych tutoriali odnośnie tego generatora:<br>
