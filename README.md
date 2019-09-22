@@ -2,37 +2,37 @@
 Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium potraktować bardziej jako (bardzo obszerny) artykuł. Zebrane tutaj informacje są podsumowaniem całej zdobytej mojej wiedzy na temat procesu kompilacji. Przykłady omawiane są w języku C i C++ oraz oczywiście w języku polskim ;). Możliwe, że artykuł nie pokrył wszystkich tematów związanych z kompilacją, jednak chciabym zaznaczyć iż dopiąłem wszelkich starań by tak było. Artykuł będzie co jakiś czas ulepszany, dodam, iż chętnie przyjmę jakiekolwiek sugestie.<br>
 
 ## Spis treści
-- 0. [Tworzenie kodu źrodłowego](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#tworzenie-kodu-%C5%BAr%C3%B3d%C5%82owego)
-- 1. [Kompilacja](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#kompilacja)
-  - 1.0. [Preprocessing](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#preprocessing)
-  - 1.1. [Analiza leksykalna - skanowanie](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-leksykalna---skanowanie)
-    - 1.1.0 [Jak działa lekser?](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#jak-dzia%C5%82a-lekser)
-    - 1.1.1 [Wyrażenia regularne](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#wyra%C5%BCenia-regularne)
-    - 1.1.2 [NFA - Niedeterministyczny Automat Skończony](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#nfa---niedeterministyczny-automat-sko%C5%84czony)
-    - 1.1.3 [Maximal Munch](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#maximal-munch)
-    - 1.1.4 [DFA - Deterministyczny Automat Skończony](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#dfa---deterministyczny-automat-sko%C5%84czony)
-    - 1.1.5 [Flex](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#flex)
-  - 1.2. [Analiza składniowa - parsowanie](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-sk%C5%82adniowa)
-    - 1.2.0 [Jak działa parser?](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#jak-dzia%C5%82a-parser)
-    - 1.2.1 [Gramatyka bezkontekstowa](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#gramatyka-bezkontekstowa)
-    - 1.2.2 [Drzewo składniowe](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#drzewo-sk%C5%82adniowe)
-    - 1.2.3 [Analiza zstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-zst%C4%99puj%C4%85ca)
-      - 0.1.2.3.0 [Przeszukiwanie wszerz](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wszerz)
-      - 0.1.2.3.1 [Przeszukiwanie wgłąb](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wg%C5%82%C4%85b)
-      - 0.1.2.3.2 [LL(1)](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1)
-      - 0.1.2.3.3 [LL(1) Parse Tables](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1-parse-tables)
-      - 0.1.2.3.4 [FIRST, FOLLOW](https://github.com/devmichalek/Biblioteki-Dynamiczne#first-follow)
-    - 1.2.4 [Analiza wstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-wst%C4%99puj%C4%85ca)
-      - 0.1.2.4.0 [Redukcja i Punkt Zaczepienia]()
-    - 1.2.5 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
-  - 1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
-  - 1.4. [Generacja IR]()
-  - 1.5. [Optymalizaja IR]()
-  - 1.6. [Generacja kodu]()
-  - 1.7. [Optymalizacja]()
-- 2. Linkowanie
-- 3. Ładowanie programu
-- 4. Uruchamianie programu
+0. [Tworzenie kodu źrodłowego](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#tworzenie-kodu-%C5%BAr%C3%B3d%C5%82owego)
+1. [Kompilacja](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#kompilacja)
+- 1.0. [Preprocessing](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#preprocessing)
+- 1.1. [Analiza leksykalna - skanowanie](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-leksykalna---skanowanie)
+  - 1.1.0 [Jak działa lekser?](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#jak-dzia%C5%82a-lekser)
+  - 1.1.1 [Wyrażenia regularne](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#wyra%C5%BCenia-regularne)
+  - 1.1.2 [NFA - Niedeterministyczny Automat Skończony](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#nfa---niedeterministyczny-automat-sko%C5%84czony)
+  - 1.1.3 [Maximal Munch](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#maximal-munch)
+  - 1.1.4 [DFA - Deterministyczny Automat Skończony](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#dfa---deterministyczny-automat-sko%C5%84czony)
+  - 1.1.5 [Flex](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#flex)
+- 1.2. [Analiza składniowa - parsowanie](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-sk%C5%82adniowa)
+  - 1.2.0 [Jak działa parser?](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#jak-dzia%C5%82a-parser)
+  - 1.2.1 [Gramatyka bezkontekstowa](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#gramatyka-bezkontekstowa)
+  - 1.2.2 [Drzewo składniowe](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#drzewo-sk%C5%82adniowe)
+  - 1.2.3 [Analiza zstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-zst%C4%99puj%C4%85ca)
+    - 0.1.2.3.0 [Przeszukiwanie wszerz](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wszerz)
+    - 0.1.2.3.1 [Przeszukiwanie wgłąb](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wg%C5%82%C4%85b)
+    - 0.1.2.3.2 [LL(1)](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1)
+    - 0.1.2.3.3 [LL(1) Parse Tables](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1-parse-tables)
+    - 0.1.2.3.4 [FIRST, FOLLOW](https://github.com/devmichalek/Biblioteki-Dynamiczne#first-follow)
+  - 1.2.4 [Analiza wstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-wst%C4%99puj%C4%85ca)
+    - 0.1.2.4.0 [Redukcja i Punkt Zaczepienia]()
+  - 1.2.5 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
+- 1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
+- 1.4. [Generacja IR]()
+- 1.5. [Optymalizaja IR]()
+- 1.6. [Generacja kodu]()
+- 1.7. [Optymalizacja]()
+2. Linkowanie
+3. Ładowanie programu
+4. Uruchamianie programu
 
 ## Tworzenie kodu źródłowego
 Pierwszym etapem w drodze do utworzenia programu jest napisanie kodu źródłowego. Na tym etapie nie dzieje się zbytnio dużo. Otwieramy ulubiony edytor tekstu lub dedykowane IDE. Warto wspomnieć, że podczas pracy nad danym projektem staramy trzymać się pewnej hierarchi. Każdą inną różniącą się funcjonalność trzymiemy w osobnych plikach, pliki o podobnej charakterystyce trzymamy w jednym projekcie, a ogół projektów trzymamy w solucji (typowa hierarchia plików w Visual Studio), natomiast produkt końcowy składać się będzie zwykle z różnych solucji przykładem może być firma, która zatrudnia dwie grupy programistów, w której jedna zajmuje się rozwiązaniami nad GUI, a druga rozwiązaniami po stronie backendu, obie grupy pracują nad inną specyfikacją aplikacji (w różnych solucjach).
