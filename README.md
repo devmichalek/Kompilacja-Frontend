@@ -26,10 +26,10 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
     - 0.1.2.4.0 [Redukcja i Punkt Zaczepienia]()
   - 1.2.5 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
 - 1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
-- 1.4. [Generacja IR]()
-- 1.5. [Optymalizaja IR]()
-- 1.6. [Generacja kodu]()
-- 1.7. [Optymalizacja]()
+- 1.4. [Generacja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#generacja-ir)
+- 1.5. [Optymalizaja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#optymalizaja-ir)
+- 1.6. [Generacja kodu](https://github.com/devmichalek/Kompilacja/blob/master/README.md#generacja-kodu)
+- 1.7. [Optymalizacja](https://github.com/devmichalek/Kompilacja/blob/master/README.md#optymalizacja)
 2. Linkowanie
 3. Ładowanie programu
 4. Uruchamianie programu
