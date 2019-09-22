@@ -23,7 +23,7 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
     - 1.2.3.3 [LL(1) Parse Tables](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1-parse-tables)
     - 1.2.3.4 [FIRST, FOLLOW](https://github.com/devmichalek/Biblioteki-Dynamiczne#first-follow)
   - 1.2.4 [Analiza wstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-wst%C4%99puj%C4%85ca)
-    - 1.2.4.0 [Redukcja, Przesunięcie, Uchwyty]()
+    - 1.2.4.0 [Redukcja, Przesunięcie, Uchwyty](https://github.com/devmichalek/Kompilacja/blob/master/README.md#redukcja-przesuni%C4%99cie-uchwyty)
   - 1.2.5 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
 - 1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
 - 1.4. [Generacja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#generacja-ir)
@@ -238,7 +238,16 @@ Przez jakiś czas zastanawiałem się nad podziałem materiału dotyczącej anal
 ![BOTTOM-UP](https://user-images.githubusercontent.com/19840443/64636951-0e373400-d403-11e9-9ca9-f7ca8da631f4.gif)<br>
 
 #### Redukcja, Przesunięcie, Uchwyty
-Zacznijmy od uchwytów w angielskim nazywane *handle* oznacza uzupełnioną grupę symboli znajdujących się po lewej stronie gotową do redukcji. Podczas analizy wstępującej zajmować się będziemy wyszukiwaniem uchwytów w sposób kierunkowy (skanując od lewej do prawej) patrząc o jeden token do przodu. Istnieje również druga grupa parserów wstępujących tj. [bezkierunkowych](https://en.wikipedia.org/wiki/CYK_algorithm). 
+Zacznijmy od uchwytów w angielskim nazywane *handle* oznacza uzupełnioną grupę symboli znajdujących się po lewej stronie gotową do redukcji. Podczas analizy wstępującej zajmować się będziemy wyszukiwaniem uchwytów w sposób kierunkowy (skanując od lewej do prawej) patrząc o jeden token do przodu. Istnieje również druga grupa parserów wstępujących tj. [bezkierunkowych](https://en.wikipedia.org/wiki/CYK_algorithm). Spójrzcie proszę na poniższy przykład, jak znaleziony został uchwyt dla zdania
+```
+1 + 2 * 3 => int + int * int
+```
+![badhandle](https://user-images.githubusercontent.com/19840443/65391463-c18c1b00-dd69-11e9-9e14-e81265b36016.png)<br>
+Jak widać powyższy uchwyt jest błędny, dochodzimy do wniosku, że redukcja lewostronna **nie zawsze** da nam poprawny uchwyt. Liczba ```2``` została zinterpretowana jako **int => T => F** co jest błędem, oczekiwaliśmy interpretacji **int => T => F * T**. W tym momencie powinniśmy sobie zadać kilka pytań m. in. gdzie są uchwyty?, jak szukamy uchwytów?, jak rozpoznajemy, że uchwyt jest poprawny?
+
+#### Gdzie są uchwyty?
+#### Jak szukamy uchwytów?
+#### Jak rozpoznajemy poprawne uchwyty?
 
 ### Bison
 Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej znajduje się lista świetnych tutoriali odnośnie tego generatora:<br>
