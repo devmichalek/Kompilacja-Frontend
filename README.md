@@ -1,5 +1,5 @@
 ## Wstęp
-Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium potraktować bardziej jako (bardzo obszerny) artykuł. Zebrane tutaj informacje są podsumowaniem całej zdobytej mojej wiedzy na temat procesu kompilacji. Przykłady omawiane są w języku C i C++ oraz oczywiście w języku polskim ;). Możliwe, że artykuł nie pokrył wszystkich tematów związanych z kompilacją, jednak chciabym zaznaczyć iż dopiąłem wszelkich starań by tak było. Artykuł będzie co jakiś czas ulepszany, dodam, iż chętnie przyjmę jakiekolwiek sugestie.<br>
+Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium potraktować bardziej jako obszerny artykuł. Zebrane tutaj informacje są podsumowaniem zdobytej wiedzy na temat procesu kompilacji. Przykłady omawiane są w języku C i C++ oraz oczywiście w języku polskim ;). Możliwe, że artykuł nie pokrył wszystkich tematów związanych z kompilacją, jednak chciabym zaznaczyć iż dopiąłem wszelkich starań by tak było. Artykuł będzie co jakiś czas ulepszany, dodam, iż chętnie przyjmę jakiekolwiek sugestie drogą mailowa.<br>
 
 ## Spis treści
 0. [Tworzenie kodu źrodłowego](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#tworzenie-kodu-%C5%BAr%C3%B3d%C5%82owego)
