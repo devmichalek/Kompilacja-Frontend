@@ -246,6 +246,7 @@ Zacznijmy od uchwytów w angielskim nazywane *handle* oznacza uzupełnioną grup
 Jak widać powyższy uchwyt jest błędny, dochodzimy do wniosku, że redukcja lewostronna **nie zawsze** da nam poprawny uchwyt. Liczba ```2``` została zinterpretowana jako **int => T => F** co jest błędem, oczekiwaliśmy interpretacji **int => T => F * T**. W tym momencie powinniśmy sobie zadać kilka pytań m. in. gdzie są uchwyty?, jak szukamy uchwytów?, jak rozpoznajemy, że uchwyt jest poprawny?
 
 #### Gdzie są uchwyty?
+![shifting](https://user-images.githubusercontent.com/19840443/65622472-02806b80-dfc6-11e9-8c54-7eac2e296016.gif)<br>
 #### Jak szukamy uchwytów?
 #### Jak rozpoznajemy poprawne uchwyty?
 
