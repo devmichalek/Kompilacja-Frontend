@@ -238,12 +238,12 @@ Przez jakiś czas zastanawiałem się nad podziałem materiału dotyczącej anal
 ![BOTTOM-UP](https://user-images.githubusercontent.com/19840443/64636951-0e373400-d403-11e9-9ca9-f7ca8da631f4.gif)<br>
 
 #### Redukcja, Przesunięcie, Uchwyty
-Zacznijmy od uchwytów w angielskim nazywane *handle* oznacza uzupełnioną grupę symboli znajdujących się po lewej stronie gotową do redukcji. Podczas analizy wstępującej zajmować się będziemy wyszukiwaniem uchwytów w sposób kierunkowy (skanując od lewej do prawej) patrząc o jeden token do przodu. Istnieje również druga grupa parserów wstępujących tj. [bezkierunkowych](https://en.wikipedia.org/wiki/CYK_algorithm). Spójrzcie proszę na poniższy przykład, jak znaleziony został uchwyt dla zdania
+Zacznijmy od uchwytów w angielskim nazywane *handle* oznacza uzupełnioną grupę symboli znajdujących się po lewej stronie gotową do redukcji. Podczas analizy wstępującej zajmować się będziemy wyszukiwaniem uchwytów w sposób kierunkowy (skanując od lewej do prawej) patrząc o jeden token do przodu, taki typ parsowania nazywamy kierunkowym. Istnieje również druga grupa parserów wstępujących tj. [bezkierunkowych](https://en.wikipedia.org/wiki/CYK_algorithm). Spójrzcie proszę na poniższy przykład, jak znaleziony został uchwyt dla zdania:
 ```
 1 + 2 * 3 => int + int * int
 ```
 ![badhandle](https://user-images.githubusercontent.com/19840443/65391463-c18c1b00-dd69-11e9-9e14-e81265b36016.png)<br>
-Jak widać powyższy uchwyt jest błędny, dochodzimy do wniosku, że redukcja lewostronna **nie zawsze** da nam poprawny uchwyt. Liczba ```2``` została zinterpretowana jako **int => T => F** co jest błędem, oczekiwaliśmy interpretacji **int => T => F * T**. W tym momencie powinniśmy sobie zadać kilka pytań m. in. gdzie są uchwyty?, jak szukamy uchwytów?, jak rozpoznajemy, że uchwyt jest poprawny?
+Jak widać powyższy uchwyt jest błędny, dochodzimy do wniosku, że redukcja lewostronna **nie zawsze** da nam poprawny uchwyt. Liczba ```2``` została zinterpretowana jako **int => T => F** co jest błędem, oczekiwaliśmy interpretacji **int => T => F * T**. W tym momencie powinniśmy sobie zadać kilka pytań m. in. gdzie szukamy uchwytów?, jak szukamy uchwytów?, jak rozpoznajemy, że uchwyt jest poprawny?
 
 #### Gdzie są uchwyty?
 ![shifting](https://user-images.githubusercontent.com/19840443/65622472-02806b80-dfc6-11e9-8c54-7eac2e296016.gif)<br>
