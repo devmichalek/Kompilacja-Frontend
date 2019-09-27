@@ -246,8 +246,13 @@ Zacznijmy od uchwytów w angielskim nazywane *handle* oznacza uzupełnioną grup
 Jak widać powyższy uchwyt jest błędny, dochodzimy do wniosku, że redukcja lewostronna **nie zawsze** da nam poprawny uchwyt. Liczba ```2``` została zinterpretowana jako **int => T => F** co jest błędem, oczekiwaliśmy interpretacji **int => T => F * T**. W tym momencie powinniśmy sobie zadać kilka pytań m. in. gdzie szukamy uchwytów?, jak szukamy uchwytów?, jak rozpoznajemy, że uchwyt jest poprawny?
 
 #### Gdzie są uchwyty?
+Parser, który rozpatrzymy to LL(1) tj. parser rozpatrujący o jeden token wprzód. Pomysł polega na podzieleniu zdania na wejściu na dwie części. Lewa strona to nasza "strefa robocza", wszystkie uchwyty muszą się tam znajdować, prawa strona zawiera wejście, które nie zostało jeszcze przeczytane (składa się tylko i wyłącznie z symboli terminalnych). Stopniowo będziemy zajmować się przesuwaniem symboli teminalnych z prawej strony na strefę roboczą po lewej stronie.
 ![shifting](https://user-images.githubusercontent.com/19840443/65622472-02806b80-dfc6-11e9-8c54-7eac2e296016.gif)<br>
+Skoro redukcja przeprowadzana jest po prawej stronie strefy roboczej, nigdy nie przesuniemy symbolu z lewej do prawej. Ważne aby od tego momentu traktować lewą strone jako stos do którego wrzucamy symbole terminalne z prawej strony. Dochodzimy do wniosku, że uchwytem nazywamy element znajdujący się na górze stosu.
+
 #### Jak szukamy uchwytów?
+Podczas parsowania metodą przesuń/zredukuj za każdym razem jesteśmy zobowiązani zdecydować jaką ację chcemy podjąć, czy zredukować symbol? czy być może pobrać więcej symboli z prawej strony? Skąd wiemy co należy wykonać?
+
 #### Jak rozpoznajemy poprawne uchwyty?
 
 ### Bison
