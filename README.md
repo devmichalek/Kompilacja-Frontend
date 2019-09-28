@@ -60,7 +60,7 @@ Proces skanowania rozpoczyna się od momentu, w którym lekser na wejście dosta
 while (137 < i)
 	++i;
 ```
-Początkowo ```while``` będzie leksemem reprezentującym słowo kluczowe, jednak zostanie ono zamienione na token *T_While*, który informuje nas o tym, że nie jest to jedynie słowo kluczowe lecz deklaracja pętli. W powyższym kodzie liczba ```137``` jest jedynie leksemem składającym się z cyfr, natomiast skonwertowana, jest tokenem reprezentującym liczbę całkowitą *T_IntConst* posiadającym atrybut , w której przechowywaana zostanie wspomniana wcześniej liczba. Poniższa animacja obrazuje to jeszcze lepiej. Animacje stworzyłem na bazie jednej z [prezentacji](https://web.stanford.edu/class/archive/cs/cs143/cs143.1128/lectures/01/Slides01.pdf) o analizie leksykalnej wykładanej na Stanfordzie.
+Początkowo ```while``` będzie leksemem reprezentującym słowo kluczowe, jednak zostanie ono zamienione na token *T_While*, który informuje nas o tym, że nie jest to jedynie słowo kluczowe lecz deklaracja pętli. W powyższym kodzie liczba ```137``` jest jedynie leksemem składającym się z cyfr, natomiast skonwertowana, jest tokenem reprezentującym liczbę całkowitą *T_IntConst* posiadającym atrybut , w której przechowywaana zostanie wspomniana wcześniej liczba. Poniższa animacja obrazuje to jeszcze lepiej. Poniższą animacje (jak i 90% które tu zobaczysz) stworzyłem na bazie [prezentacji](https://web.stanford.edu/class/archive/cs/cs143/cs143.1128/lectures/01/Slides01.pdf) o analizie leksykalnej wykładanej na Stanfordzie.
 ![skanowanie](https://user-images.githubusercontent.com/19840443/63093185-428b1200-bf75-11e9-9364-1d51211e3768.gif)
 Zazwyczaj słowa kluczowe danego języka posiadają swoje własne tokeny, również i znaki specjalne ```{}();,[]``` z reguły posiadają swój własny token, dodatkowo tokeny należace do tej samej grupy są po prostu grupowane (tak jak wcześniej wspomniane tokeny typów zmiennych), natomiast nic nie znaczące spacje, tabulacje lub komentarze są pomijane. Inny przykład tym razem z [wikipedii](https://pl.wikipedia.org/wiki/Analiza_leksykalna) świetnie obrazuję jak lekser przeanalizował kod źródłowy:<br>
 ```C
@@ -246,12 +246,15 @@ Zacznijmy od uchwytów w angielskim nazywane *handle* oznacza uzupełnioną grup
 Jak widać powyższy uchwyt jest błędny, dochodzimy do wniosku, że redukcja lewostronna **nie zawsze** da nam poprawny uchwyt. Liczba ```2``` została zinterpretowana jako **int => T => F** co jest błędem, oczekiwaliśmy interpretacji **int => T => F * T**. W tym momencie powinniśmy sobie zadać kilka pytań m. in. gdzie szukamy uchwytów?, jak szukamy uchwytów?, jak rozpoznajemy, że uchwyt jest poprawny?
 
 #### Gdzie są uchwyty?
-Parser, który rozpatrzymy to LL(1) tj. parser rozpatrujący o jeden token wprzód. Pomysł polega na podzieleniu zdania na wejściu na dwie części. Lewa strona to nasza "strefa robocza", wszystkie uchwyty muszą się tam znajdować, prawa strona zawiera wejście, które nie zostało jeszcze przeczytane (składa się tylko i wyłącznie z symboli terminalnych). Stopniowo będziemy zajmować się przesuwaniem symboli teminalnych z prawej strony na strefę roboczą po lewej stronie.
+Parser, który rozpatrzymy to LL(1) tj. parser rozpatrujący o jeden token wprzód. Pomysł polega na podzieleniu zdania na wejściu na dwie części. Lewa strona to nasza "strefa robocza", wszystkie uchwyty muszą się tam znajdować, prawa strona zawiera wejście, które nie zostało jeszcze przeczytane (składa się tylko i wyłącznie z symboli terminalnych). Stopniowo będziemy zajmować się przesuwaniem symboli teminalnych z prawej strony na strefę roboczą po lewej stronie. Rozpatrzmy zdanie ```int + int * int + int```:<br>
 ![shifting](https://user-images.githubusercontent.com/19840443/65622472-02806b80-dfc6-11e9-8c54-7eac2e296016.gif)<br>
 Skoro redukcja przeprowadzana jest po prawej stronie strefy roboczej, nigdy nie przesuniemy symbolu z lewej do prawej. Ważne aby od tego momentu traktować lewą strone jako stos do którego wrzucamy symbole terminalne z prawej strony. Dochodzimy do wniosku, że uchwytem nazywamy element znajdujący się na górze stosu.
 
 #### Jak szukamy uchwytów?
-Podczas parsowania metodą przesuń/zredukuj za każdym razem jesteśmy zobowiązani zdecydować jaką ację chcemy podjąć, czy zredukować symbol? czy być może pobrać więcej symboli z prawej strony? Skąd wiemy co należy wykonać?
+Podczas parsowania metodą przesuń/zredukuj za każdym razem jesteśmy zobowiązani zdecydować jaką akcję chcemy podjąć. Czy zredukować symbol? Czy być może pobrać więcej symboli z prawej strony? Skąd wiemy co należy wykonać? Wiemy, że uchwyt pojawi się zawsze na końcu zdania po lewej stronie, gdybyśmy w jakiś sposób znaleźli wzór na rozpoznawanie uchwytów będziemy wiedzieć kiedy wykonać redukcję a kiedy przesunięcie. Ponownie rozpatrzmy zdanie ```int + int * int + int``` tym razem z innej perspektywy:<br>
+![reducing](https://user-images.githubusercontent.com/19840443/65818265-4d8dbf00-e210-11e9-98e6-b88acafbf89f.gif)<br><br>
+Śledząc naszą pozycję wyglądałoby to w następujący sposób:<br>
+![tracking](https://user-images.githubusercontent.com/19840443/65818579-094fee00-e213-11e9-97ad-818ac1e5d0d8.gif)<br>
 
 #### Jak rozpoznajemy poprawne uchwyty?
 
