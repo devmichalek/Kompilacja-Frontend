@@ -254,7 +254,12 @@ Skoro redukcja przeprowadzana jest po prawej stronie strefy roboczej, nigdy nie 
 Podczas parsowania metodą przesuń/zredukuj za każdym razem jesteśmy zobowiązani zdecydować jaką akcję chcemy podjąć. Czy zredukować symbol? Czy być może pobrać więcej symboli z prawej strony? Skąd wiemy co należy wykonać? Wiemy, że uchwyt pojawi się zawsze na końcu zdania po lewej stronie, gdybyśmy w jakiś sposób znaleźli wzór na rozpoznawanie uchwytów będziemy wiedzieć kiedy wykonać redukcję a kiedy przesunięcie. Ponownie rozpatrzmy zdanie ```int + int * int + int``` tym razem z innej perspektywy:<br>
 ![reducing](https://user-images.githubusercontent.com/19840443/65818265-4d8dbf00-e210-11e9-98e6-b88acafbf89f.gif)<br><br>
 Śledząc naszą pozycję wyglądałoby to w następujący sposób:<br>
-![tracking](https://user-images.githubusercontent.com/19840443/65818579-094fee00-e213-11e9-97ad-818ac1e5d0d8.gif)<br>
+![tracking](https://user-images.githubusercontent.com/19840443/65818579-094fee00-e213-11e9-97ad-818ac1e5d0d8.gif)<br><br>
+W dowolnym momencie generacja zawartości po lewej stronie może zostać opisana w następujący sposób:
+ - Zaczynając od symbolu startowego S śledź produkcje, które nie są jeszcze kompletne (produkcje, które nie zostały jeszcze zredukowane do końca) oraz to gdzie w danej produkcji się znajdujemy (na powyższej animacji zaznaczone jest to znakiem kropki **·**)
+ - Dla każdej produkcji, w kolejności, zredukuj kolejne symbolu do punktu, w którym się znajdujemy. Inaczej mówiąc redukuj na bieżąco to co znajduje się po naszej lewej stronie kropki **·**
+
+Posiadając algorytm do generacji lewej strony czy jesteśmy w stanie zbudować mechanizm do "rozpoznawania lewej strony"? W każdym momencie parsowania śledzimy, w której produkcji się znajdujemy oraz jak daleko jesteśmy w tej produkcji **·**. W każdym momencie spróbuj dopasować symbol po prawej stronie jako nowego kandydata na symbol po lewej stronie lub jeśli jest to symbol terminalny spróbuj zgadnąć, której produkcji użyć. Dochodzimy do wniosku, że istnieje skończona liczba produkcji, w której istnieje skonczona liczba pozycji w jakiej możemy się znaleźć. W każdym momencie jesteśmy zobowiązani śledzić gdzie się znajdujemy tylko w jednej produkcji. Dlaczego się nad tym zastanawiać? Do tego typu zadań świetnie nadają się automaty skończone. Naszym pierwszym celem było szukanie uchwytów. Podczas działania automatu gdy kiedykolwiek znajdziemy się w produkcji w takim miejscu gdzie **·** znajduję się na końcu ![dot](https://user-images.githubusercontent.com/19840443/65833419-855c3b80-e2d0-11e9-9285-d9075676928d.png)<br>, prawdopodobnie będzie to uchwyt.
 
 #### Jak rozpoznajemy poprawne uchwyty?
 
