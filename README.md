@@ -23,7 +23,10 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
     - 1.2.3.3 [LL(1) Parse Tables](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1-parse-tables)
     - 1.2.3.4 [FIRST, FOLLOW](https://github.com/devmichalek/Biblioteki-Dynamiczne#first-follow)
   - 1.2.4 [Analiza wstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-wst%C4%99puj%C4%85ca)
-    - 1.2.4.0 [Redukcja, Przesunięcie, Uchwyty](https://github.com/devmichalek/Kompilacja/blob/master/README.md#redukcja-przesuni%C4%99cie-uchwyty)
+    - 1.2.4.0 [Redukcje, Przesunięcia, Uchwyty](https://github.com/devmichalek/Kompilacja/blob/master/README.md#redukcje-przesuni%C4%99cia-uchwyty)
+    - 1.2.4.1 [Gdzie są uchwyty?]()
+    - 1.2.4.2 [Jak szukamy uchwytów?]()
+    - 1.2.4.2 [LR(0)]()
   - 1.2.5 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
 - 1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
 - 1.4. [Generacja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#generacja-ir)
@@ -237,18 +240,18 @@ Przez jakiś czas zastanawiałem się nad podziałem materiału dotyczącej anal
 ![BOTTOM-UP](https://user-images.githubusercontent.com/19840443/64636955-11cabb00-d403-11e9-8e37-a98158ae3c23.png)<br>
 ![BOTTOM-UP](https://user-images.githubusercontent.com/19840443/64636951-0e373400-d403-11e9-9ca9-f7ca8da631f4.gif)<br>
 
-#### Redukcja, Przesunięcie, Uchwyty
+#### Redukcje, Przesunięcia, Uchwyty
 Zacznijmy od uchwytów w angielskim nazywane *handle* oznacza uzupełnioną grupę symboli znajdujących się po lewej stronie gotową do redukcji. Podczas analizy wstępującej zajmować się będziemy wyszukiwaniem uchwytów w sposób kierunkowy (skanując od lewej do prawej) patrząc o jeden token do przodu, taki typ parsowania nazywamy kierunkowym. Istnieje również druga grupa parserów wstępujących tj. [bezkierunkowych](https://en.wikipedia.org/wiki/CYK_algorithm). Spójrzcie proszę na poniższy przykład, jak znaleziony został uchwyt dla zdania:
 ```
 1 + 2 * 3 => int + int * int
 ```
 ![badhandle](https://user-images.githubusercontent.com/19840443/65391463-c18c1b00-dd69-11e9-9e14-e81265b36016.png)<br>
-Jak widać powyższy uchwyt jest błędny, dochodzimy do wniosku, że redukcja lewostronna **nie zawsze** da nam poprawny uchwyt. Liczba ```2``` została zinterpretowana jako **int => T => F** co jest błędem, oczekiwaliśmy interpretacji **int => T => F * T**. W tym momencie powinniśmy sobie zadać kilka pytań m. in. gdzie szukamy uchwytów?, jak szukamy uchwytów?, jak rozpoznajemy, że uchwyt jest poprawny?
+Jak widać powyższy uchwyt jest błędny, dochodzimy do wniosku, że redukcja lewostronna **nie zawsze** da nam poprawny uchwyt. Liczba ```2``` została zinterpretowana jako **int => T => F** co jest błędem, oczekiwaliśmy interpretacji **int => T => F * T**. W tym momencie powinniśmy sobie zadać kilka pytań:.
 
 #### Gdzie są uchwyty?
 Parser, który rozpatrzymy to LL(1) tj. parser rozpatrujący o jeden token wprzód. Pomysł polega na podzieleniu zdania na wejściu na dwie części. Lewa strona to nasza "strefa robocza", wszystkie uchwyty muszą się tam znajdować, prawa strona zawiera wejście, które nie zostało jeszcze przeczytane (składa się tylko i wyłącznie z symboli terminalnych). Stopniowo będziemy zajmować się przesuwaniem symboli teminalnych z prawej strony na strefę roboczą po lewej stronie. Rozpatrzmy zdanie ```int + int * int + int```:<br>
 ![shifting](https://user-images.githubusercontent.com/19840443/65622472-02806b80-dfc6-11e9-8c54-7eac2e296016.gif)<br>
-Skoro redukcja przeprowadzana jest po prawej stronie strefy roboczej, nigdy nie przesuniemy symbolu z lewej do prawej. Ważne aby od tego momentu traktować lewą strone jako stos do którego wrzucamy symbole terminalne z prawej strony. Dochodzimy do wniosku, że uchwytem nazywamy element znajdujący się na górze stosu.
+Skoro redukcja przeprowadzana jest po prawej stronie strefy roboczej, nigdy nie przesuniemy symbolu z lewej do prawej. Ważne aby od tego momentu traktować lewą strone jako stos do którego wrzucamy symbole terminalne z prawej strony. Dochodzimy do wniosku, że uchwytem nazywamy element znajdujący się na górze stosu (uchwyty znajdują się na górze stosu).
 
 #### Jak szukamy uchwytów?
 Podczas parsowania metodą przesuń/zredukuj za każdym razem jesteśmy zobowiązani zdecydować jaką akcję chcemy podjąć. Czy zredukować symbol? Czy być może pobrać więcej symboli z prawej strony? Skąd wiemy co należy wykonać? Wiemy, że uchwyt pojawi się zawsze na końcu zdania po lewej stronie, gdybyśmy w jakiś sposób znaleźli wzór na rozpoznawanie uchwytów będziemy wiedzieć kiedy wykonać redukcję a kiedy przesunięcie. Ponownie rozpatrzmy zdanie ```int + int * int + int``` tym razem z innej perspektywy:<br>
@@ -259,9 +262,10 @@ W dowolnym momencie generacja zawartości po lewej stronie może zostać opisana
  - Zaczynając od symbolu startowego S śledź produkcje, które nie są jeszcze kompletne (produkcje, które nie zostały jeszcze zredukowane do końca) oraz to gdzie w danej produkcji się znajdujemy (na powyższej animacji zaznaczone jest to znakiem kropki **·**)
  - Dla każdej produkcji, w kolejności, zredukuj kolejne symbolu do punktu, w którym się znajdujemy. Inaczej mówiąc redukuj na bieżąco to co znajduje się po naszej lewej stronie kropki **·**
 
-Posiadając algorytm do generacji lewej strony czy jesteśmy w stanie zbudować mechanizm do "rozpoznawania lewej strony"? W każdym momencie parsowania śledzimy, w której produkcji się znajdujemy oraz jak daleko jesteśmy w tej produkcji **·**. W każdym momencie spróbuj dopasować symbol po prawej stronie jako nowego kandydata na symbol po lewej stronie lub jeśli jest to symbol terminalny spróbuj zgadnąć, której produkcji użyć. Dochodzimy do wniosku, że istnieje skończona liczba produkcji, w której istnieje skonczona liczba pozycji w jakiej możemy się znaleźć. W każdym momencie jesteśmy zobowiązani śledzić gdzie się znajdujemy tylko w jednej produkcji. Dlaczego się nad tym zastanawiać? Do tego typu zadań świetnie nadają się automaty skończone. Naszym pierwszym celem było szukanie uchwytów. Podczas działania automatu gdy kiedykolwiek znajdziemy się w produkcji w takim miejscu gdzie **·** znajduję się na końcu ![dot](https://user-images.githubusercontent.com/19840443/65833419-855c3b80-e2d0-11e9-9285-d9075676928d.png)<br>, prawdopodobnie będzie to uchwyt.
+Posiadając algorytm do generacji lewej strony czy jesteśmy w stanie zbudować mechanizm do "rozpoznawania lewej strony"? W każdym momencie parsowania śledzimy, w której produkcji się znajdujemy oraz jak daleko jesteśmy w tej produkcji. W każdym momencie próbujemy dopasować symbol po prawej stronie jako nowego kandydata na symbol po lewej stronie lub jeśli jest to symbol terminalny próbujemy zgadnąć, której produkcji użyć. Projektanci kompilatora doszli do wniosku, że istnieje skończona liczba produkcji, w której istnieje skończona liczba pozycji w jakiej możemy się znaleźć. W każdym momencie jesteśmy zobowiązani śledzić gdzie się znajdujemy tylko w jednej produkcji. Dlaczego się nad tym zastanawiać? Do tego typu zadań świetnie nadają się automaty skończone. Naszym pierwszym celem było szukanie uchwytów. Podczas działania automatu gdy kiedykolwiek znajdziemy się w produkcji w takim miejscu gdzie **·** znajduję się na końcu ![dot](https://user-images.githubusercontent.com/19840443/65833419-855c3b80-e2d0-11e9-9285-d9075676928d.png) to prawdopodobnie będzie to uchwyt. Póki co pozwolę sobie pominąć jak generowane są automaty skończone do szukania uchwytów (swoją drogą tego typu mechanizm wbudowany jest generatorze bison).
 
-#### Jak rozpoznajemy poprawne uchwyty?
+#### LR(0)
+
 
 ### Bison
 Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej znajduje się lista świetnych tutoriali odnośnie tego generatora:<br>
