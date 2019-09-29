@@ -24,9 +24,9 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
     - 1.2.3.4 [FIRST, FOLLOW](https://github.com/devmichalek/Biblioteki-Dynamiczne#first-follow)
   - 1.2.4 [Analiza wstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-wst%C4%99puj%C4%85ca)
     - 1.2.4.0 [Redukcje, Przesunięcia, Uchwyty](https://github.com/devmichalek/Kompilacja/blob/master/README.md#redukcje-przesuni%C4%99cia-uchwyty)
-    - 1.2.4.1 [Gdzie są uchwyty?]()
-    - 1.2.4.2 [Jak szukamy uchwytów?]()
-    - 1.2.4.2 [LR(0)]()
+    - 1.2.4.1 [Gdzie są uchwyty?](https://github.com/devmichalek/Kompilacja/blob/master/README.md#gdzie-s%C4%85-uchwyty)
+    - 1.2.4.2 [Jak szukamy uchwytów?](https://github.com/devmichalek/Kompilacja/blob/master/README.md#jak-szukamy-uchwyt%C3%B3w)
+    - 1.2.4.2 [LR(0)](https://github.com/devmichalek/Kompilacja/blob/master/README.md#lr0)
   - 1.2.5 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
 - 1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
 - 1.4. [Generacja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#generacja-ir)
@@ -265,7 +265,7 @@ W dowolnym momencie generacja zawartości po lewej stronie może zostać opisana
 Posiadając algorytm do generacji lewej strony czy jesteśmy w stanie zbudować mechanizm do "rozpoznawania lewej strony"? W każdym momencie parsowania śledzimy, w której produkcji się znajdujemy oraz jak daleko jesteśmy w tej produkcji. W każdym momencie próbujemy dopasować symbol po prawej stronie jako nowego kandydata na symbol po lewej stronie lub jeśli jest to symbol terminalny próbujemy zgadnąć, której produkcji użyć. Projektanci kompilatora doszli do wniosku, że istnieje skończona liczba produkcji, w której istnieje skończona liczba pozycji w jakiej możemy się znaleźć. W każdym momencie jesteśmy zobowiązani śledzić gdzie się znajdujemy tylko w jednej produkcji. Dlaczego się nad tym zastanawiać? Do tego typu zadań świetnie nadają się automaty skończone. Naszym pierwszym celem było szukanie uchwytów. Podczas działania automatu gdy kiedykolwiek znajdziemy się w produkcji w takim miejscu gdzie **·** znajduję się na końcu ![dot](https://user-images.githubusercontent.com/19840443/65833419-855c3b80-e2d0-11e9-9285-d9075676928d.png) to prawdopodobnie będzie to uchwyt. Póki co pozwolę sobie pominąć jak generowane są automaty skończone do szukania uchwytów (swoją drogą tego typu mechanizm wbudowany jest generatorze bison).
 
 #### LR(0)
-
+Nasz automat wskaże nam miejsca, w których potencjalnie znajduję się uchwyt, jednakże potrzebujemy jakiegoś sposobu na potwierdzenie tej informacji. Do tego celu użyjemy parsera rozpatrującego **(0)** tokenów w przód, skanującego wejście od **l**ewej do prawej z derywacją **p**rawostroną  *(**r**ightmost derivation)*.
 
 ### Bison
 Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej znajduje się lista świetnych tutoriali odnośnie tego generatora:<br>
