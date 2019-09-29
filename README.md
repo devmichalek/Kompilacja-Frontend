@@ -164,11 +164,11 @@ Warto wiedzieć, że istnieją dwa sposoby rozwijania symboli przez drzewo parsu
 Podczas rozwijania struktur CFG natrafić możemy na niejednoznaczność *(ambiguity)* "priorytetu". Dla przykładu, w prostym działaniu matematycznym ```2 * 3 + 4```, zauważmy, że rozwijając strukturę z prawej strony otrzymamy zły wynik, najpierw wykonana zostanie operacja dodawania a dopiero później mnożenia. Nie musimy się jednak zbytnio skupiać na tego typu problemach, ponieważ zwykłe użycie nawiasów podczas projektowania zasad gramatyki wystarczy. Innym sposobem na pozbycie się problemu jest zadeklarowanie najpierw operacji mnożenia i dzielenia (to one zostaną najpierw dopasowane), a później dodawania i odejmowania.
 
 ### Drzewo składniowe
-Podczas parsowania utworzone zostaje drzewo składniowe, tzw. Concrete Syntax Tree *(CST)* to drzewo odzwierciedlające nasz kod źródłowy w postaci tokenów, bardziej przydatnym typem drzewa okazuje się być Abstract Syntax Tree *(AST)*, które zachowuje najbardziej przydatne informacje w celu dalszej obróbki również w postaci tokenów, różnica pomiędzy CST i AST jest taka, że AST stara się na bieżąco wyliczać wartości.
+Podczas parsowania utworzone zostaje drzewo składniowe, tzw. Concrete Syntax Tree *(CST)* to drzewo odzwierciedlające nasz kod źródłowy w postaci tokenów, bardziej przydatnym typem drzewa okazuje się być Abstract Syntax Tree *(AST)*, które zachowuje najbardziej przydatne informacje w celu dalszej obróbki również w postaci tokenów, różnica pomiędzy CST i AST jest taka, że AST stara się na bieżąco wyliczać wartości oraz usuwać niepotrzebne tokeny.
 ```
-Kod źrodłowy: int b = ((5 * 10) + (5 - 10)) / a * 1;
-CST: b = ((5 * 10) + (5 - 10)) / a * 1 -> drzewo dokładnie odzwierciedlające nasz kod źródłowy
-AST: b = 45 / a -> drzewo z wyliczonymi wartościami oraz pominiętymi nic nie znaczącymi czynnościami (jak np. mnożenie razy 1)
+Kod źrodłowy: a[index] = 4 + 2;
+CST: a [ index ] = 4 + 2; -> drzewo dokładnie odzwierciedlające nasz kod źródłowy
+AST: a index = 6 -> drzewo z wyliczonymi wartościami, nawiasy zostaly pominiete ponieważ wiemy za co token T_Index odpowiada
 ```
 ### Analiza zstępująca
 Analiza zstępująca zaczyna się niemalże bez informacji tj. pierwszy symbol od którego zaczynamy, pasuje do każdego zestawu symboli. Skąd zatem wiemy, który zestaw symboli to ten którego szukamy? Nie wiemy... Jedynie co możemy zrobić to zgadywać, jeśli natomiast się pomylimy to wracamy po węzłach. Skoro musimy zgadywać to w jaki sposób? Spróbuję teraz omówić dwa podstawowe algorytmy z "nawrotami" *(backtracking)* (nie śmiejcie się, tak podaje [wikipedia](https://pl.wikipedia.org/wiki/Algorytm_z_nawrotami)). Zacznijmy od potraktowania naszego wejścia składającego się z tokenów jako zdanie składające z symboli terminalnych i nieterminalnych oraz proces parsowania jako przeszukiwanie po węzłach. Węzłem będzie **symbol dowolny**, natomiast przejście z węzła na węzeł możliwe będzie wtedy gdy napotkamy symbol, istnieje w zdaniu opisującym symbol dowolny, a tak po ludzku, chodzi o taką sytuację:
