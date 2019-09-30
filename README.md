@@ -91,10 +91,10 @@ Cała więc trudność tkwi w napisaniu odpowiednich reguł opisujących leksem 
 
 ### Wyrażenia regularne
 Wyrażenia regularne *(regular expression)* używane są wszędzie tam gdzie w ciągu znaków zależy nam na wyszukaniu słowa klucza. Nic więc dziwnego, że używane są w różnego typu programach skanujących tekst. Wyrażenia te mogą zostać zaimplementowane za pomocą automatów skończonych *(finite automata)*, w której wyróżniamy dwa główne NFA (Nondeterministic Finite Automata) i DFA (Deterministic Finite Automata). Automaty najlepiej wytłumaczyć obrazując ich działanie. Na poniższej animacji okrąg oznacza stan *(state*), w którym się znajdujemy, natomiast strzałka *(transition)* oznacza przejście w inny stan gdy zajdzie podany warunek, ostatni znów podwójny okrąg wskazuje na stan akceptacji *(accepting state)*, automat akceptuje stringa jesli znajduje się w stanie akceptacji (na poniższych trzech animacjach przedstawiony jest NFA).<br>
-![poprawny](https://user-images.githubusercontent.com/19840443/63118794-a6323100-bfaf-11e9-86c0-03e6b35938c0.gif)<br>
+![poprawny](https://raw.githubusercontent.com/devmichalek/Kompilacja/master/assets/1.1.1_0.gif)<br>
 Poniżej animacje przejść w automatach, które nie zaakceptowały wejścia, w pierwszej brakuje kolejnego przejścia na końcu stanu akceptacji, natomiast w drugiej brakuje przejścia dzięki któremu przeszlibyśmy do stanu akceptacji.<br>
-![niepoprawny](https://user-images.githubusercontent.com/19840443/63119391-168d8200-bfb1-11e9-9172-15d3e851518f.gif)<br>
-![niepoprawny](https://user-images.githubusercontent.com/19840443/63119904-412c0a80-bfb2-11e9-9f0b-d00114db4daa.gif)<br>
+![niepoprawny](https://raw.githubusercontent.com/devmichalek/Kompilacja/master/assets/1.1.1_1.gif)<br>
+![niepoprawny](https://raw.githubusercontent.com/devmichalek/Kompilacja/master/assets/1.1.1_2.gif)<br>
 Celem automatu jest rozstrzygnięcie w skończonej ilości kroków, czy dowolne słowo należy, czy też nie należy do języka badanego przez automat. Teoria automatów jest efektem badań zapoczątkowanych przez A. Turinga. Automat reaguje na określone sygnały, zmieniając swój stan. Jeśli ustalimy, że sygnały będą reprezentowane przez poszczególne litery alfabetu, zdefiniujemy stan początkowy automatu oraz dopuszczalne stany końcowe, to automat może testować dowolne słowo, startując ze stanu początkowego. Słowo zostanie rozpoznane przez automat i uznane za poprawne, jeżeli rezultatem działania będzie założony stan końcowy.
 
 ### NFA - Niedeterministyczny Automat Skończony
@@ -112,7 +112,7 @@ Ten nagłówek musiał się pojawić, wyrażenia regularne to nie tylko szukanie
 - gdy wszystkie automaty są w stanie, w którym nie ma przejść to zwróć *last match* i zacznij szukać ponownie w miejscu, w którym skończyłeś
 
 Przypuśćmy, że mamy sytuacje, w której analizujemy ciąg znaków ```DOUBDOUBLE``` oraz, że mamy do dyspozycji trzy tokeny ```T_Do```, ```T_Double```, ```T_Mystery```, które reprezentują kolejno: słowo kluczowe ```do```, słowo kluczowe ```double```, string zawierający jedną literę małą lub dużą. Token o najwyższym priorytecie umieszczony jest najwyżej. Ponownie, animacja najlepiej przedstawi nasz problem:
-![Maximal Munch](https://user-images.githubusercontent.com/19840443/63158357-19788900-c02a-11e9-881e-5dc1c562b861.gif)
+![Maximal Munch](https://raw.githubusercontent.com/devmichalek/Kompilacja/master/assets/1.1.3_0.gif)
 
 ### DFA - Deterministyczny Automat Skończony
 Kilka faktów:
@@ -135,13 +135,13 @@ while (ip < z)
 	++ip;
 ```
 Teraz obrazek ilustrujący na jakim etapie się znajdujemy, nasz kod został pocięty na leksemy z których utworzone zostały następujące tokeny:
-![Poprawne tokeny](https://user-images.githubusercontent.com/19840443/63163268-0b306a00-c036-11e9-9a2d-1fec7bcac47b.png)<br>
+![Poprawne tokeny](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.0_0.png?raw=true)<br>
 Kolejny przykład kodu poprawnego leksykalnie:
 ```C
 do[for] = new 0;
 ```
 Obrazek ilustrujący utworzone tokeny:
-![Niepoprawne tokeny](https://user-images.githubusercontent.com/19840443/63163269-0b306a00-c036-11e9-929d-b57cf502666c.png)
+![Niepoprawne tokeny](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.0_1.png?raw=true)
 Jak widać coś poszło nie tak, nasz kod faktycznie jest poprawny leksykalnie, ale niektóre z tych tokenów to słowa kluczowe, przykładem jest ```for```, które zostało użyte jako identyfikator (gdzieś wcześniej) prawdopodobnie jakiejś liczby całkowitej, lub ```do``` użyte prawdopodobnie jako nazwa tablicy.<br>
 
 Podczas analizy składniowej parser z wcześniej przygotowanych przez leksera tokenów stara się dopasować istniejącą strukturę *(pattern)*, w przypadku gdy jej nie znajdzie zwróci błąd analizy składniowej. Podczas skanowania naszym alfabetem były znaki ASCII lub Unicode czyli po prostu kod źródłowy, podczas parsowania naszym alfabetem jest zestaw utworzonych tokenów. Podczas skanowania użyliśmy wyrażeń regularnych do opisu leksemów, które później skonwertowane zostały na odpowiadający im token. Niestety, ale w przypadku parsowania wyrażenia regularne okazują się zbyt słabe do opisania struktury gramatycznej, w tym przypadku konieczne jest użycie innego narzędzia.
@@ -151,16 +151,16 @@ Podczas analizy składniowej parser z wcześniej przygotowanych przez leksera to
 ```
 10 * (1 + 2)
 ```
-![CFG](https://user-images.githubusercontent.com/19840443/63223999-081cb180-c1cf-11e9-9de2-ad634f7ca6c7.png)
+![CFG](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.1_0.png?raw=true)
 - ![#ff0000](https://placehold.it/15/ff0000/000000?text=+) - ```E``` i ```Op```, symbole nieterminalne, rozpoczynajace się dużymi literami np. A, B, C. Znak nieterminalny jest **symboliczny** tzn. za pomocą niego opisujemy inne symbole do, których może się on rozwinąć (na przykładach poniżej wszystko się wyjaśni)
 - ![#0000ff](https://placehold.it/15/0000ff/000000?text=+) - ```int```, ```()```, ```+```, ```-```, ```*```, ```/```, symbole terminalne, rozpoczynajace się małymi literami np. e, f, g. Znak terminalny jest **dosłowny** tzn. podczas parsowania nic nie rozwijamy i szukamy dokładnie tego znaku, który jest reprezentowany przez znak terminalny.
 - ![#737373](https://placehold.it/15/737373/000000?text=+) - symbol dowolny (symbol terminalny lub symbol nieterminalny), zwykle oznaczany małymi literami greckimi np. α, γ. Ktoś mógłby zapytać po co wprowadzać kolejną reprezentację skoro mamy już symbol nieterminalny, który potencjalnie może składać się z innych symboli? Jest to bowiem przydatne przy opisie gramatyki (o tym później).
 
-![CFG](https://user-images.githubusercontent.com/19840443/63224323-782d3680-c1d3-11e9-8b85-d66e84ef8567.png)<br>
+![CFG](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.1_1.png?raw=true)<br>
 Ważne, aby wiedzieć, że sładnia wyrażeń regularnych nie może zostać użyta do opisu gramatyki bezkontekstowej.
 Przykładowo ```*``` w wyrażeniach regularnych oznacza 0 lub więcej wystąpień, dla ```a*b```, dopasowane zostałyby słowa ```ab```, ```b```, ```aaaaab```, taka funkcjonalność nie jest jednak wspierana przez CFG.<br><br>
 Warto wiedzieć, że istnieją dwa sposoby rozwijania symboli przez drzewo parsujące *(parse tree)* nazywane derywacją *(derivation)*. Poniżej przedstawiono: *Leftmost Derivation* (derywacja lewostronna) tj. w każdym kolejnym kroku rozwijany jest pierwszy z lewej symbol nieterminalny, *Rightmost derivation*  (derywacja prawostronna) tj. w każdym kolejnym kroku rozwijany jest pierwszy z prawej symbol nieterminalny.
-![Derivation](https://user-images.githubusercontent.com/19840443/63224936-5d12f480-c1dc-11e9-8baf-d2f630df6d96.png)<br>
+![Derywacja](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.1_2.png?raw=true)<br>
 Podczas rozwijania struktur CFG natrafić możemy na niejednoznaczność *(ambiguity)* "priorytetu". Dla przykładu, w prostym działaniu matematycznym ```2 * 3 + 4```, zauważmy, że rozwijając strukturę z prawej strony otrzymamy zły wynik, najpierw wykonana zostanie operacja dodawania a dopiero później mnożenia. Nie musimy się jednak zbytnio skupiać na tego typu problemach, ponieważ zwykłe użycie nawiasów podczas projektowania zasad gramatyki wystarczy. Innym sposobem na pozbycie się problemu jest zadeklarowanie najpierw operacji mnożenia i dzielenia (to one zostaną najpierw dopasowane), a później dodawania i odejmowania.
 
 ### Drzewo składniowe
