@@ -172,34 +172,34 @@ AST: a index = 6 -> drzewo z wyliczonymi wartościami, nawiasy zostaly pominiete
 ```
 ### Analiza zstępująca
 Analiza zstępująca zaczyna się niemalże bez informacji tj. pierwszy symbol od którego zaczynamy, pasuje do każdego zestawu symboli. Skąd zatem wiemy, który zestaw symboli to ten którego szukamy? Nie wiemy... Jedynie co możemy zrobić to zgadywać, jeśli natomiast się pomylimy to wracamy po węzłach. Skoro musimy zgadywać to w jaki sposób? Spróbuję teraz omówić dwa podstawowe algorytmy z "nawrotami" *(backtracking)* (nie śmiejcie się, tak podaje [wikipedia](https://pl.wikipedia.org/wiki/Algorytm_z_nawrotami)). Zacznijmy od potraktowania naszego wejścia składającego się z tokenów jako zdanie składające z symboli terminalnych i nieterminalnych oraz proces parsowania jako przeszukiwanie po węzłach. Węzłem będzie **symbol dowolny**, natomiast przejście z węzła na węzeł możliwe będzie wtedy gdy napotkamy symbol, istnieje w zdaniu opisującym symbol dowolny, a tak po ludzku, chodzi o taką sytuację:
-![Example](https://user-images.githubusercontent.com/19840443/63461080-29dc9980-c458-11e9-9cab-310533588d9b.png)
+![Przyklad](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.3_0.png?raw=true)
 
 #### Przeszukiwanie wszerz
 Zacznijmy od pierwszego, rzadziej używanego algorytmu *Breadth-First Search* lub *BFS*. Algorytm polega na przeszukiwaniu wszerz zaczynając od symbolu najbardziej na lewo lub prawo. Algorytm wymaga zapamiętywania wszystkich węzłów w danej odległości od korzenia. Standardowe [przejście po grafie](https://pl.wikipedia.org/wiki/Przeszukiwanie_wszerz) wygląda następująco:<br>
-![BFS](https://user-images.githubusercontent.com/19840443/63718211-57f01e00-c84a-11e9-9ddf-100efc4d344f.png)<br>
+![BFS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.3.0_0.png?raw=true)<br>
 Od razu wspomnę, że próba szukania od symbolu najbardziej na prawo jest raczej **błędem**. Dlaczego? Zaczynając od symbolu najbardziej na prawo często niepotrzebnie rozwijamy symbol nieterminalny. Poniższa animacja ilustruje powyższy schemat przejść po drzewie tj. pierwszy rozwijany jest symbol najbardziej na lewo:
-![BFS](https://user-images.githubusercontent.com/19840443/63718697-6b4fb900-c84b-11e9-9633-e47b93ee23ed.gif)<br>
+![BFS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.3.0_1.gif?raw=true)<br>
 Jak można łatwo zauważyć szukanie klucza może potrwać naprawdę długo, dodatkowo szukanie zajmuje mnóstwo pamięci. Najbardziej nieprzydatną rzeczą okazuję się **rozwijanie symbolu nieterminalnego, który potencjalnie zawiera inne symbole nieterminalne z niepasującym kluczem**. Co można by było ulepszyć? Wyobraźmy sobie, że szukamy rozwiązania dla λ = ```int + int```. Zakładamy również, że posiadamy zasadę mówiącą, że κ = **a**B (κ - symbol dowolny, **a** - symbol terminalny, B - symbol nieterminalny), w przypadku gdy **a** nie jest tokenem ```int``` nie ma sensu dalej rozwijać symbolu nieterminalnego B. Unikając niepotrzebnego rozwijania (fachowo nazywane *branching factor*) symboli nieterminalnych znacznie zyskujemy na czasie. Oczywiście gdy nasz ciąg symboli składa się z wielu symboli nieterminalnych to rozwijanie wciąż może zając sporo czasu. Poniżej przedstawiam zestawy symboli po których będziemy się poruszać (opis gramatyki):<br>
-![rules](https://user-images.githubusercontent.com/19840443/63891205-f617eb80-c9e4-11e9-8d4e-f27349eac4b5.png)<br>
+![CFG](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.3.0_2.png?raw=true)<br>
 Animacja przedstawiająca poprawiony algorytm (przeszukujemy zaczynając od symbolu najbardziej na lewo), szukane zdanie to ```int + int```:<br>
-![BFS](https://user-images.githubusercontent.com/19840443/63891504-9ff77800-c9e5-11e9-806c-021f87024223.gif)<br>
+![BFS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.3.0_3.gif?raw=true)<br>
 Teraz wspomniany problem gdy pierwszym symbolem z lewej jest symbol nieterminalny (szukanie klucza rośnie wykładniczo), najpierw nasze zasady:<br>
-![rules](https://user-images.githubusercontent.com/19840443/63891209-f912dc00-c9e4-11e9-8c07-5a8dbade4a41.png)<br>
+![CFG](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.3.0_4.png?raw=true)<br>
 Szukane zdanie to ```caaaaaaaaaa```, animacja przedstawiająca problem:<br>
-![bfs](https://user-images.githubusercontent.com/19840443/63891862-7559ef00-c9e6-11e9-8c76-8a0b55bfa5fc.gif)
+![BFS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.3.0_5.gif?raw=true)
 
 #### Przeszukiwanie wgłąb
 Drugim algorytmem, który postaram się omówić jest *Deep-First Search* lub *DFS*. Przeszukiwanie wgłąb polega na rozpatrywaniu jednej gałęzi i przechodzenia na kolejny węzęł *w jednej linii* w przypadku pasujących symboli, w przypadku niepasujących symboli wracamy się *do góry* po grafie. Algorytm w każdym momencie wymaga zapamiętania ścieżki od korzenia do bieżącego węzła. [Schemat przejść](https://pl.wikipedia.org/wiki/Przeszukiwanie_w_g%C5%82%C4%85b) po drzewie wygląda następująco (zaczynając od symbolu najbardziej na lewo):<br>
-![DFS](https://user-images.githubusercontent.com/19840443/64126364-b9197380-cdad-11e9-918f-087cdcc4fef2.png)<br>
+![DFS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.3.1_0.png?raw=true)<br>
 Kilka zalet w stosunku do *BFS*:
 - mniejsze zużycie pamięci (rozpatrywana jest jedna gałąź w danym momencie, nie trzymamy wskaźników na węzły znajdujące się w innych gałęziach a jedynie wskaźnik na dzieci)
 - wysoka wydajność w stosunku do *BFS* (dla dobrze napisanej gramatyki)
 - łatwy w implementacji
 
 Animacja przedstawiająca szukanie rozwiązania dla ```int + int``` zaczynając od symbolu najbardziej na lewo:<br>
-![DFS](https://user-images.githubusercontent.com/19840443/64126818-91c3a600-cdaf-11e9-80d7-b82ebe01ab3f.gif)<br>
+![DFS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.3.1_1.gif?raw=true)<br>
 Problemy z przeszukiwaniem wgłąb podczas szukania rozwiązania dla ```c``` zaczynając od symbolu najbardziej na lewo wpadamy w nieskończoną rekurencję:<br>
-![DFS](https://user-images.githubusercontent.com/19840443/64126820-925c3c80-cdaf-11e9-822a-0ffba1ecfa15.png)<br>
+![DFS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.3.1_2.png?raw=true)<br>
 
 Przeszukiwanie wszerz | Przeszukiwanie wgłąb
 --- | --- 
@@ -209,16 +209,16 @@ Czas wyszukiwania w najgorszym wypadku wykładniczy | Czas wyszukiwania w najgor
 
 #### LL(1)
 Poprzednie algorytmy zajmowały się wyszukiwaniem zgadując czy dane wyrażenie pasuje do rozwiązania, a w przypadku błędu wracały się po uprzednio utworzonej ścieżce. Istnieje również inna kategoria algorytmów parsujących tzw. algorytmów przewidujących. Zacznijmy od tego, że parsery, które przewidują swoje następne przejście po drzewie są po prostu szybsze. Dodatkowo, często wspierane są tablicą wypełnioną przejściami (o których za chwilę wspomnę) z poszczególnych węzłów na kolejny zyskując dzięki temu większą wydajność. Niestety ten rodzaj parsowania nie jest w stanie wyszukać rozwiązania dla każdej gramatyki. Zaczynając od pierwszego symbolu w jaki sposób jesteśmy w stanie stwierdzić, której produkcji użyć (do którego węzła przeskoczyć)? Podczas podejmowania decyzji parser sprawdza aktualny **oraz następny** token tzw. *lookahead token* (LL(n), L - skanujemy od lewej do prawej, L - derywacja lewostronna, n - liczba dodatkowo sprawdzanych tokenów *w przód*) w celu podjęcia decyzji. Warto zauważyć, że zwiększając liczbe dodatkowo sprawdzanych tokenów jesteśmy w stanie szukać rozwiązań dla bardziej złożonych gramatyk z drugiej strony im większa liczba sprawdzanych tokenów nasz parser staje się bardziej skompilowany. Poniżej przykład, w którym parser mając do dyspozycji jeden *lookahead token* wyszukuje rozwiązanie dla ```int + (int + int)```<br>
-![LT](https://user-images.githubusercontent.com/19840443/64202689-0707a780-ce92-11e9-8d2c-856040fc7b7d.gif)<br>
+![LT](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.3.2_0.gif?raw=true)<br>
 
 #### LL(1) Parse Tables
 Podczas parsowania LL(1) wszystkie nasze decyzje dotyczące rozwijania symboli nieterminalnych są niejako **wymuszone** poprzez rozpatrywanie następnego tokenu. W nastęnym nagłówku postaram się nieco przybliżyć zastosowanie tablic umożliwiających szybsze wyszukiwanie rozwiązania oraz **detekcje błędów** gramatycznych. Na poniższych ilustracjach przedstawiono kolejno: opis naszej gramatyki oraz tablicę przejść, pierwsza z lewej kolumna to wszystkie zdefiniowane przez nas symbole nieterminalne, natomiast w pierwszym wierszu znajdują się wszystkie symbole terminalne występujące w naszej gramatyce.<br>
-![PT](https://user-images.githubusercontent.com/19840443/64472281-4537ec00-d15c-11e9-841c-1773b2c48b85.png)<br>
+![PT](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.3.3_0.png?raw=true)<br>
 Jak to wszystko działa? Tym razem podczas parsowania zdania ```(int + (int * int))``` zaznaczmy gdzie się ono kończy poprzez wstawienie dodatkowego symbolu, który nie występuje w naszym języku, symbolicznie będzie to znak dolara ```$``` (w wielu językach ułatwiono zadanie parserom poprzez wstawianie znaku średnika na końcu linii ```;```, w przypadku Pythona liczone są znaki białe), od teraz nasze zdanie to ```(int + (int * int))$```, takie dodatkowe wstawienie symbolu ułatwi nam w dużym stopniu detekcje błędów. Poniżej ilustracja procesu parsowania tablicą przejść.<br>
-![PT](https://user-images.githubusercontent.com/19840443/64472399-1884d400-d15e-11e9-93ad-78473f603ab4.png)<br>
+![PT](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.3.3_1.png?raw=true)<br>
 Wykrywanie błędów gdy posiadamy znak kończący zdanie oraz tablice przejść:<br>
-![WB](https://user-images.githubusercontent.com/19840443/64472397-17ec3d80-d15e-11e9-9ba7-c42a032e32eb.png)<br>
-![WB](https://user-images.githubusercontent.com/19840443/64472398-17ec3d80-d15e-11e9-81d5-ce28c4470ba0.png)<br>
+![WB](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.3.3_2.png?raw=true)<br>
+![WB](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.3.3_3.png?raw=true)<br>
 Spróbujmy podsumować algorytm działania parsera LL(1):
 - Zaczynając od symbolu dowolnego **S** oraz tablicy przejść **T** inicjujemy stos **S$**
 - Powtarzamy dopóki stos nie jest pusty:
@@ -232,7 +232,7 @@ Spróbujmy podsumować algorytm działania parsera LL(1):
 
 #### FIRST, FOLLOW
 W ostatnim podpunkcie postaram się krótko przybliżyć w jaki sposób tworzone są tablice przejść dla parsera LL(1). Podczas parsowania chcielibyśmy wiedzieć czy dany symbol nieterminalny może zostać rozwinięty do symbolu terminalnego występującego na wejściu, aby to zrobić niezbędna jest tablica FIRST, która reprezentuje wszystkie **możliwe symbole terminalne, które mogą wystąpić przed symbolem nieterminalnym** przy jego rozwijaniu oraz tablica FOLLOW, która reprezentuje wszystkie **możliwe symbole terminalne, które mogą wystąpić po danym symbolu nieterminalnym**. Przykład poniżej przedstawia utworzone wspomniane wcześniej tablice (dla jasności symbol ```ε``` oznacza pusty symbol):<br>
-![FIRSTFOLLOW](https://user-images.githubusercontent.com/19840443/64558207-aec61f00-d343-11e9-8efc-61c2fb591e6f.png)<br>
+![FIRSTFOLLOW](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.3.4_0.png?raw=true)<br>
 Omówiony wcześniej parser LL(1) jest parserem wspomaganym tablicą *(table-driven LL(1))*, jednak istnieje również inne równie szybkie podejście algorytmiczne tego parsera. Tak zwany *recursive-descent LL(1)* to parser, w którym każdy symbol nieterminalny zdefiniowany jest jako osobna funkcja, znając następny token wołana jest ta odpowiednia.
 
 ### Analiza wstępująca
