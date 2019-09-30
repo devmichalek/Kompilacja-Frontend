@@ -64,7 +64,7 @@ while (137 < i)
 	++i;
 ```
 Początkowo ```while``` będzie leksemem reprezentującym słowo kluczowe, jednak zostanie ono zamienione na token *T_While*, który informuje nas o tym, że nie jest to jedynie słowo kluczowe lecz deklaracja pętli. W powyższym kodzie liczba ```137``` jest jedynie leksemem składającym się z cyfr, natomiast skonwertowana, jest tokenem reprezentującym liczbę całkowitą *T_IntConst* posiadającym atrybut , w której przechowywaana zostanie wspomniana wcześniej liczba. Poniższa animacja obrazuje to jeszcze lepiej. Poniższą animacje (jak i 90% które tu zobaczysz) stworzyłem na bazie [prezentacji](https://web.stanford.edu/class/archive/cs/cs143/cs143.1128/lectures/01/Slides01.pdf) o analizie leksykalnej wykładanej na Stanfordzie.
-![skanowanie](https://user-images.githubusercontent.com/19840443/63093185-428b1200-bf75-11e9-9364-1d51211e3768.gif)
+![skanowanie](https://raw.githubusercontent.com/devmichalek/Kompilacja/master/assets/1.1.0_0.gif)
 Zazwyczaj słowa kluczowe danego języka posiadają swoje własne tokeny, również i znaki specjalne ```{}();,[]``` z reguły posiadają swój własny token, dodatkowo tokeny należace do tej samej grupy są po prostu grupowane (tak jak wcześniej wspomniane tokeny typów zmiennych), natomiast nic nie znaczące spacje, tabulacje lub komentarze są pomijane. Inny przykład tym razem z [wikipedii](https://pl.wikipedia.org/wiki/Analiza_leksykalna) świetnie obrazuję jak lekser przeanalizował kod źródłowy:<br>
 ```C
 int suma = 3 + 2;
