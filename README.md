@@ -272,10 +272,11 @@ Nasz automat wskaże nam miejsca, w których potencjalnie znajduję się uchwyt,
 Niestety tak jak poprzednie techniki parsowania również i LR(0) nie jest w stanie rozpatrzyć każdej gramatyki dlatego krótko postaram się przybliżyć konflikty, które występują pomiędzy przesunięciami a redukcjami.
  - Konflikt przesunięcie/redukcja - konflikt, w którym nie jesteśmy w stanie stwierdzić czy należy pobrać więcej symboli z wejścia czy zredukować aktualnie pobrane symbole. Występuje zwykle gdy dwie produkcje nakładają się na siebie.
  - Konflikt redukcja/redukcja - konflikt, w którym nie jesteśmy w stanie stwierdzić, którą redukcje przeprowadzić. Powodem może okazać się "niejednoznaczność" gramatyki.
+ 
 Na koniec warto zauważyć, że konflikt przesunięcie/przesunięcie nigdy nie wystąpi. Dlaczego LR(0) jest słaby? LR(0) akceptuje gramatyki, w której uchwyt pozbawiony jest prawego kontekstu tzn. nasz parser wyszukuje uchwytów jedynie po stronie lewej.
 
 #### LR(1)
-Znacznie potężniejszym parserem jest LR(1). Decyzja w szukaniu uchwytów bazuję na rozpatrywaniu jednyego tokena w przód.
+Znacznie potężniejszym parserem jest LR(1). Decyzja w szukaniu uchwytów bazuję na rozpatrywaniu jednego tokena w przód.
 
 ### Bison
 Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej znajduje się lista świetnych tutoriali odnośnie tego generatora:<br>
