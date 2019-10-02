@@ -27,6 +27,7 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
     - 1.2.4.1 [Gdzie są uchwyty?](https://github.com/devmichalek/Kompilacja/blob/master/README.md#gdzie-s%C4%85-uchwyty)
     - 1.2.4.2 [Jak szukamy uchwytów?](https://github.com/devmichalek/Kompilacja/blob/master/README.md#jak-szukamy-uchwyt%C3%B3w)
     - 1.2.4.2 [LR(0)](https://github.com/devmichalek/Kompilacja/blob/master/README.md#lr0)
+    - 1.2.4.3 [LR(1)]()
   - 1.2.5 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
 - 1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
 - 1.4. [Generacja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#generacja-ir)
@@ -267,7 +268,14 @@ Posiadając algorytm do generacji lewej strony czy jesteśmy w stanie zbudować 
 #### LR(0)
 Nasz automat wskaże nam miejsca, w których potencjalnie znajduję się uchwyt, jednakże potrzebujemy jakiegoś sposobu na potwierdzenie tej informacji. Do tego celu użyjemy parsera rozpatrującego **(0)** tokenów w przód, skanującego wejście od **l**ewej do prawej z derywacją **p**rawostroną  *(**r**ightmost derivation)*. Parsery LR(0) zwykle reprezentowane są za pomocą tabeli *action* i tabeli *goto*. Tabela akcji przypisuje każdemu stanowi określoną akcję tj. przesunięcie lub redukcję. Tabela goto mapuje następny stan każdemu z stanów (symboli). Dla chętnych poniżej zostawiam grafikę z wygenerowaną tablica i automatem skończonym.<br>
 ![Automat](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.4.3_0.png?raw=true)<br>
-![Tabela](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.4.3_1.png?raw=true)<br>
+![Tabela](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.4.3_1.png?raw=true)<br><br>
+Niestety tak jak poprzednie techniki parsowania również i LR(0) nie jest w stanie rozpatrzyć każdej gramatyki dlatego krótko postaram się przybliżyć konflikty, które występują pomiędzy przesunięciami a redukcjami.
+ - Konflikt przesunięcie/redukcja - konflikt, w którym nie jesteśmy w stanie stwierdzić czy należy pobrać więcej symboli z wejścia czy zredukować aktualnie pobrane symbole. Występuje zwykle gdy dwie produkcje nakładają się na siebie.
+ - Konflikt redukcja/redukcja - konflikt, w którym nie jesteśmy w stanie stwierdzić, którą redukcje przeprowadzić. Powodem może okazać się "niejednoznaczność" gramatyki.
+Na koniec warto zauważyć, że konflikt przesunięcie/przesunięcie nigdy nie wystąpi. Dlaczego LR(0) jest słaby? LR(0) akceptuje gramatyki, w której uchwyt pozbawiony jest prawego kontekstu tzn. nasz parser wyszukuje uchwytów jedynie po stronie lewej.
+
+#### LR(1)
+Znacznie potężniejszym parserem jest LR(1). Decyzja w szukaniu uchwytów bazuję na rozpatrywaniu jednyego tokena w przód.
 
 ### Bison
 Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej znajduje się lista świetnych tutoriali odnośnie tego generatora:<br>
