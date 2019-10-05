@@ -130,7 +130,7 @@ Wreszcie doszliśmy do momentu, w którym sami możemy się sprawdzić jako proj
 W następnym etapie omówiona zostanie analiza składniowa podczas, której parser manipuluje otrzymanymi przez leksera tokenami.
 
 ### Jak działa parser?
-Jeśli kompilator znalazł się na etapie analizy składniowej oznacza to, że nasz kod jest leksykalnie poprawny, tj. udało się stworzyć tokeny z każdego znaku (lub ciągu znaków) znalezionego w pliku. Właściwie analize składniową ciężko nazwać następnym etapem ponieważ lekser i parser pracują nieustannie rownocześnie obok siebie, jednak dla uproszczenia napisałem, że jest to kolejny etap. Przykładowy kod poprawny leksykalnie:
+Jeśli kompilator znalazł się na etapie analizy składniowej oznacza to, że nasz kod jest leksykalnie poprawny, tj. udało się stworzyć tokeny z każdego znaku (lub ciągu znaków) znalezionego w pliku. Właściwie analize składniową ciężko nazwać następnym etapem ponieważ lekser i parser pracują nieustannie rownocześnie obok siebie (przykładowo parser może chcieć pobrać kolejny token funkcją skanera o nazwie GetToken() gdy zajdzie taka potrzeba), jednak dla uproszczenia napisałem, że jest to kolejny etap. Przykładowy kod poprawny leksykalnie:
 ```C
 while (ip < z)
 	++ip;
