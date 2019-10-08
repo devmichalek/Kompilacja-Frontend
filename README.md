@@ -92,14 +92,15 @@ Cała więc trudność tkwi w napisaniu odpowiednich reguł opisujących leksem 
 
 ### Wyrażenia regularne
 Wyrażenia regularne *(regular expression)* używane są wszędzie tam gdzie w ciągu znaków zależy nam na wyszukaniu słowa klucza. Nic więc dziwnego, że używane są w różnego typu programach skanujących tekst. Składnią regexów są tzw. metaznaki w skład, którego wchodzi alfabet, cyfry lub znaki specjalne. Wyrażenia regularne najlepiej pokazać na przykładach:
+
 | Wyrażenie regularne | Opis                                                      | Pasujący ciąg znaków |
 | ------------------- | --------------------------------------------------------- | -------------------- |
 | while               | Brak znaków specjalnych                                   | while                |
 | [abc]               | Jakakolwiek litera z zbioru {a, b, c}                     | a, b, c              |
-| [a-z]               | Małe litery od a do z                                     | a, b, c, ... x, y, z |
+| [a-z]               | Jedna mała litera od a do z                               | a, b, c, ... x, y, z |
 | a\*b                | 0 lub więcej wystąpień a po lewej stronie oraz litera b   | b, ab, aab, aaab...  |
-| (a|c)b              | a lub c oraz b                                            | ab, ac               |
-| (+|-)?[0-9]+        | Liczba bez znaku lub z znakiem +/-                        | 4, -18, +389, 258963 |
+| (a\|c)b             | a lub c oraz b                                            | ab, ac               |
+| (+\|-)?[0-9]+       | Liczba bez znaku lub z znakiem +/-                        | 4, -18, +389, 258963 |
 
 Warto wspomnieć, że wyrażenia regularne posiadają swoje ograniczenia, jednym z głównym problemów jest tzw. *pumping lemma*. Przypuśćmy, że szukamy takiego słowa, które z lewej i prawej strony ma tyle samo wystąpień znaku **a**, natomiast pośrodku oczekujemy znaku **b**. Pasujące słowa to np. **aabaa**, **aba**, **aaaabaaaa**. Szybko jednak możemy się przekonać, że tego typu reguły nie jesteśmy w stanie uzyskać za pomocą regexów. Jedynie co moglibyśmy zrobić to wyszukać znaną nam liczbę wystąpień po lewej i prawej stronie lub nieznaną liczbę n wystąpięń po lewej i m po prawej . Wspomniany problem nie zalicza się do "składni gramatyki bezkontekstowej" (o tym już za chwilę). Wyrażenia regularne mogą zostać zaimplementowane za pomocą automatów skończonych *(finite automata)*, w której wyróżniamy dwa główne NFA (Nondeterministic Finite Automata) i DFA (Deterministic Finite Automata). Automaty najlepiej wytłumaczyć obrazując ich działanie. Na poniższej animacji okrąg oznacza stan *(state*), w którym się znajdujemy, natomiast strzałka *(transition)* oznacza przejście w inny stan gdy zajdzie podany warunek, ostatni znów podwójny okrąg wskazuje na stan akceptacji *(accepting state)*, automat akceptuje stringa jesli znajduje się w stanie akceptacji (na poniższych trzech animacjach przedstawiony jest NFA).<br>
 ![poprawny](https://raw.githubusercontent.com/devmichalek/Kompilacja/master/assets/1.1.1_0.gif)<br>
