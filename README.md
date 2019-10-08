@@ -124,7 +124,8 @@ Ten nagłówek musiał się pojawić, wyrażenia regularne to nie tylko szukanie
 - gdy wszystkie automaty są w stanie, w którym nie ma przejść to zwróć *last match* i zacznij szukać ponownie w miejscu, w którym skończyłeś
 
 Przypuśćmy, że mamy sytuacje, w której analizujemy ciąg znaków ```DOUBDOUBLE``` oraz, że mamy do dyspozycji trzy tokeny ```T_Do```, ```T_Double```, ```T_Mystery```, które reprezentują kolejno: słowo kluczowe ```do```, słowo kluczowe ```double```, string zawierający jedną literę małą lub dużą. Token o najwyższym priorytecie umieszczony jest najwyżej. Ponownie, animacja najlepiej przedstawi nasz problem:
-![Maximal Munch](https://raw.githubusercontent.com/devmichalek/Kompilacja/master/assets/1.1.3_0.gif)
+![Maximal Munch](https://raw.githubusercontent.com/devmichalek/Kompilacja/master/assets/1.1.3_0.gif)<br>
+Powyższa animacja być może i wygląda na trzy automaty deterministyczne uruchomione jednocześnie jednak w rzeczywistości ukazuje ona jak NFA działa "wewnątrz", starajmy się raczej wyobrazić, że nasz punkt początkowy jest jeden od którego wychodzą trzy przejścia do odpowiednich węzłów (jeden węzeł "start").
 
 ### DFA - Deterministyczny Automat Skończony
 Kilka faktów:
