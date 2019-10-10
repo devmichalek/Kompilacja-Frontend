@@ -1,5 +1,5 @@
 ## Wstęp
-Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium potraktować bardziej jako obszerny artykuł. Zebrane tutaj informacje są podsumowaniem zdobytej wiedzy na temat procesu kompilacji. Przykłady omawiane są w języku C i C++ oraz oczywiście w języku polskim ;). Możliwe, że artykuł nie pokrył wszystkich tematów związanych z kompilacją, jednak chciabym zaznaczyć iż dopiąłem wszelkich starań by tak było. Artykuł będzie co jakiś czas ulepszany, dodam, iż chętnie przyjmę jakiekolwiek sugestie drogą mailowa.<br>
+Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium potraktować bardziej jako obszerny artykuł. Zebrane tutaj informacje są krótkim podsumowaniem zdobytej wiedzy na temat procesu kompilacji. Przykłady omawiane są w języku C i C++ oraz oczywiście w języku polskim ;). Możliwe, że artykuł nie pokrył wszystkich tematów związanych z kompilacją, jednak chciabym zaznaczyć iż dopiąłem wszelkich starań by tak było. Artykuł będzie co jakiś czas ulepszany, dodam, iż chętnie przyjmę jakiekolwiek sugestie drogą mailowa.<br>
 
 ## Spis treści
 0. [Tworzenie kodu źrodłowego](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#tworzenie-kodu-%C5%BAr%C3%B3d%C5%82owego)
@@ -27,6 +27,7 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
     - 1.2.4.1 [Gdzie są uchwyty?](https://github.com/devmichalek/Kompilacja/blob/master/README.md#gdzie-s%C4%85-uchwyty)
     - 1.2.4.2 [Jak szukamy uchwytów?](https://github.com/devmichalek/Kompilacja/blob/master/README.md#jak-szukamy-uchwyt%C3%B3w)
     - 1.2.4.2 [LR(0)](https://github.com/devmichalek/Kompilacja/blob/master/README.md#lr0)
+    - 1.2.4.3 [LR(1)]()
   - 1.2.5 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
 - 1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
 - 1.4. [Generacja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#generacja-ir)
@@ -90,7 +91,18 @@ if then then then = else; else else = if
 Cała więc trudność tkwi w napisaniu odpowiednich reguł opisujących leksem tj. wyrażen regularnych przez, które lekser będzie w stanie dopasować ciąg znaków. Przykładem może być leksem reprezentujący liczbę, tworząc wyrażenie regularne zakładamy, że będzię to ciąg znaków 0-9, cytując *"...specyfikacja języka programowania obejmuje szereg reguł które definiują składnię leksykalną. Składnia leksykalna jest zazwyczaj opisana za pomocą wyrażeń regularnych. Definiują one zbiór możliwych sekwencji znakowych które tworzą pojedyncze tokeny. Lekser przetwarza oddzielone znakami białymi ciągi znaków i dla każdego ciągu znaków podejmuje akcję zazwyczaj produkując token, bądź ogłasza błąd analizy leksykalnej...."*. Wiedząc to wszystko nasuwa się pytanie: jak napisać swój własny skaner? Zacznijmy od tego, że nikt nie piszę własnych lekserów od zera, są ku temu dwa powody: ilość czasu jaką trzeba było by poświęcić na napisanie kodu od zera oraz błędy, które bardzo prawdopodobnie pojawią się podczas pisania na piechotę... Obecnie do pisania lekserów używa się generatarów. Do stworzenia skanera posłużyć się można programem Flex, który wygeneruje nam nasz własny kod skanera (kod skanera w języku C, ponieważ brakuje nam jeszcze kodu parsera gdzie całość zostanie skompilowana jako jeden program). [Flex](https://en.wikipedia.org/wiki/Flex_(lexical_analyser_generator)) to następca oraz "świeższa" alternatywa dla generatora [Lex](https://en.wikipedia.org/wiki/Lex_(software)). Jednak zanim napiszesz swój własny skaner, warto zobaczyć jak [wyrażenia regularne](https://en.wikipedia.org/wiki/Regular_expression) zostały zaimplementowane.
 
 ### Wyrażenia regularne
-Wyrażenia regularne *(regular expression)* używane są wszędzie tam gdzie w ciągu znaków zależy nam na wyszukaniu słowa klucza. Nic więc dziwnego, że używane są w różnego typu programach skanujących tekst. Wyrażenia te mogą zostać zaimplementowane za pomocą automatów skończonych *(finite automata)*, w której wyróżniamy dwa główne NFA (Nondeterministic Finite Automata) i DFA (Deterministic Finite Automata). Automaty najlepiej wytłumaczyć obrazując ich działanie. Na poniższej animacji okrąg oznacza stan *(state*), w którym się znajdujemy, natomiast strzałka *(transition)* oznacza przejście w inny stan gdy zajdzie podany warunek, ostatni znów podwójny okrąg wskazuje na stan akceptacji *(accepting state)*, automat akceptuje stringa jesli znajduje się w stanie akceptacji (na poniższych trzech animacjach przedstawiony jest NFA).<br>
+Wyrażenia regularne *(regular expression)* używane są wszędzie tam gdzie w ciągu znaków zależy nam na wyszukaniu słowa klucza. Nic więc dziwnego, że używane są w różnego typu programach skanujących tekst. Składnią regexów są tzw. metaznaki w skład, którego wchodzi alfabet, cyfry lub znaki specjalne. Wyrażenia regularne najlepiej pokazać na przykładach:
+
+| Wyrażenie regularne | Opis                                                      | Pasujący ciąg znaków |
+| ------------------- | --------------------------------------------------------- | -------------------- |
+| while               | Brak znaków specjalnych                                   | while                |
+| [abc]               | Jakakolwiek litera z zbioru {a, b, c}                     | a, b, c              |
+| [a-z]               | Jedna mała litera od a do z                               | a, b, c, ... x, y, z |
+| a\*b                | 0 lub więcej wystąpień a po lewej stronie oraz litera b   | b, ab, aab, aaab...  |
+| (a\|c)b             | a lub c oraz b                                            | ab, ac               |
+| (+\|-)?[0-9]+       | Liczba bez znaku lub z znakiem +/-                        | 4, -18, +389, 258963 |
+
+Warto wspomnieć, że wyrażenia regularne posiadają swoje ograniczenia, jednym z głównym problemów jest tzw. *pumping lemma*. Przypuśćmy, że szukamy takiego słowa, które z lewej i prawej strony ma tyle samo wystąpień znaku **a**, natomiast pośrodku oczekujemy znaku **b**. Pasujące słowa to np. **aabaa**, **aba**, **aaaabaaaa**. Szybko jednak możemy się przekonać, że tego typu reguły nie jesteśmy w stanie uzyskać za pomocą regexów. Jedynie co moglibyśmy zrobić to wyszukać znaną nam liczbę wystąpień po lewej i prawej stronie lub nieznaną liczbę n wystąpięń po lewej i m po prawej . Wspomniany problem nie zalicza się do "składni gramatyki bezkontekstowej" (o tym już za chwilę). Wyrażenia regularne mogą zostać zaimplementowane za pomocą automatów skończonych *(finite automata)*, w której wyróżniamy dwa główne NFA (Nondeterministic Finite Automata) i DFA (Deterministic Finite Automata). Automaty najlepiej wytłumaczyć obrazując ich działanie. Na poniższej animacji okrąg oznacza stan *(state*), w którym się znajdujemy, natomiast strzałka *(transition)* oznacza przejście w inny stan gdy zajdzie podany warunek, ostatni znów podwójny okrąg wskazuje na stan akceptacji *(accepting state)*, automat akceptuje stringa jesli znajduje się w stanie akceptacji (na poniższych trzech animacjach przedstawiony jest NFA).<br>
 ![poprawny](https://raw.githubusercontent.com/devmichalek/Kompilacja/master/assets/1.1.1_0.gif)<br>
 Poniżej animacje przejść w automatach, które nie zaakceptowały wejścia, w pierwszej brakuje kolejnego przejścia na końcu stanu akceptacji, natomiast w drugiej brakuje przejścia dzięki któremu przeszlibyśmy do stanu akceptacji.<br>
 ![niepoprawny](https://raw.githubusercontent.com/devmichalek/Kompilacja/master/assets/1.1.1_1.gif)<br>
@@ -112,7 +124,8 @@ Ten nagłówek musiał się pojawić, wyrażenia regularne to nie tylko szukanie
 - gdy wszystkie automaty są w stanie, w którym nie ma przejść to zwróć *last match* i zacznij szukać ponownie w miejscu, w którym skończyłeś
 
 Przypuśćmy, że mamy sytuacje, w której analizujemy ciąg znaków ```DOUBDOUBLE``` oraz, że mamy do dyspozycji trzy tokeny ```T_Do```, ```T_Double```, ```T_Mystery```, które reprezentują kolejno: słowo kluczowe ```do```, słowo kluczowe ```double```, string zawierający jedną literę małą lub dużą. Token o najwyższym priorytecie umieszczony jest najwyżej. Ponownie, animacja najlepiej przedstawi nasz problem:
-![Maximal Munch](https://raw.githubusercontent.com/devmichalek/Kompilacja/master/assets/1.1.3_0.gif)
+![Maximal Munch](https://raw.githubusercontent.com/devmichalek/Kompilacja/master/assets/1.1.3_0.gif)<br>
+Powyższa animacja być może i wygląda na trzy automaty deterministyczne uruchomione jednocześnie jednak w rzeczywistości ukazuje ona jak NFA działa "wewnątrz", starajmy się raczej wyobrazić, że nasz punkt początkowy jest jeden od którego wychodzą trzy przejścia do odpowiednich węzłów (jeden węzeł "start").
 
 ### DFA - Deterministyczny Automat Skończony
 Kilka faktów:
@@ -129,7 +142,7 @@ Wreszcie doszliśmy do momentu, w którym sami możemy się sprawdzić jako proj
 W następnym etapie omówiona zostanie analiza składniowa podczas, której parser manipuluje otrzymanymi przez leksera tokenami.
 
 ### Jak działa parser?
-Jeśli kompilator znalazł się na etapie analizy składniowej oznacza to, że nasz kod jest leksykalnie poprawny, tj. udało się stworzyć tokeny z każdego znaku (lub ciągu znaków) znalezionego w pliku. Właściwie analize składniową ciężko nazwać następnym etapem ponieważ lekser i parser pracują nieustannie rownocześnie obok siebie, jednak dla uproszczenia napisałem, że jest to kolejny etap. Przykładowy kod poprawny leksykalnie:
+Jeśli kompilator znalazł się na etapie analizy składniowej oznacza to, że nasz kod jest leksykalnie poprawny, tj. udało się stworzyć tokeny z każdego znaku (lub ciągu znaków) znalezionego w pliku. Właściwie analize składniową ciężko nazwać następnym etapem ponieważ lekser i parser pracują nieustannie rownocześnie obok siebie (przykładowo parser może chcieć pobrać kolejny token funkcją skanera o nazwie GetToken() gdy zajdzie taka potrzeba), jednak dla uproszczenia napisałem, że jest to kolejny etap. Przykładowy kod poprawny leksykalnie:
 ```C
 while (ip < z)
 	++ip;
@@ -267,7 +280,15 @@ Posiadając algorytm do generacji lewej strony czy jesteśmy w stanie zbudować 
 #### LR(0)
 Nasz automat wskaże nam miejsca, w których potencjalnie znajduję się uchwyt, jednakże potrzebujemy jakiegoś sposobu na potwierdzenie tej informacji. Do tego celu użyjemy parsera rozpatrującego **(0)** tokenów w przód, skanującego wejście od **l**ewej do prawej z derywacją **p**rawostroną  *(**r**ightmost derivation)*. Parsery LR(0) zwykle reprezentowane są za pomocą tabeli *action* i tabeli *goto*. Tabela akcji przypisuje każdemu stanowi określoną akcję tj. przesunięcie lub redukcję. Tabela goto mapuje następny stan każdemu z stanów (symboli). Dla chętnych poniżej zostawiam grafikę z wygenerowaną tablica i automatem skończonym.<br>
 ![Automat](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.4.3_0.png?raw=true)<br>
-![Tabela](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.4.3_1.png?raw=true)<br>
+![Tabela](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.4.3_1.png?raw=true)<br><br>
+Niestety tak jak poprzednie techniki parsowania również i LR(0) nie jest w stanie rozpatrzyć każdej gramatyki dlatego krótko postaram się przybliżyć konflikty, które występują pomiędzy przesunięciami a redukcjami.
+ - Konflikt przesunięcie/redukcja - konflikt, w którym nie jesteśmy w stanie stwierdzić czy należy pobrać więcej symboli z wejścia czy zredukować aktualnie pobrane symbole. Występuje zwykle gdy dwie produkcje nakładają się na siebie.
+ - Konflikt redukcja/redukcja - konflikt, w którym nie jesteśmy w stanie stwierdzić, którą redukcje przeprowadzić. Powodem może okazać się "niejednoznaczność" gramatyki.
+ 
+Na koniec warto zauważyć, że konflikt przesunięcie/przesunięcie nigdy nie wystąpi. Dlaczego LR(0) jest słaby? LR(0) akceptuje gramatyki, w której uchwyt pozbawiony jest prawego kontekstu tzn. nasz parser wyszukuje uchwytów jedynie po stronie lewej.
+
+#### LR(1)
+Znacznie potężniejszym parserem jest LR(1). Decyzja w szukaniu uchwytów bazuję na rozpatrywaniu jednego tokena w przód.
 
 ### Bison
 Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej znajduje się lista świetnych tutoriali odnośnie tego generatora:<br>
@@ -288,6 +309,7 @@ Podczas analizy semantycznej na podstawie wcześniej sprawdzonej i utworzonej st
 
 ## Źródła
 [Avanced C and C++ Compiling](https://doc.lagout.org/programmation/C/Advanced%20C%20and%20C%20%20%20Compiling%20%5BStevanovic%202014-04-28%5D.pdf)<br>
+[Compiler Construction Principles and Practice](https://csunplugged.files.wordpress.com/2012/12/compiler-construction-principles-and-practice-k-c-louden-pws-1997-cmp-2002-592s.pdf)<br>
 [Linkers and Loaders](http://www.becbapatla.ac.in/cse/naveenv/docs/LL1.pdf)<br>
 [Anatomy of Program in Memory](https://manybutfinite.com/post/anatomy-of-a-program-in-memory/)<br>
 [An Introduction to GCC](https://tfetimes.com/wp-content/uploads/2015/09/An_Introduction_to_GCC-Brian_Gough.pdf)<br>
