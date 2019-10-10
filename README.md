@@ -133,6 +133,13 @@ Kilka faktów:
 - mając stringa o długości **m** jesteśmy w stanie znależć klucz w czasie **O(m)**
 
 Główna różnica między NFA to taka, że w tym przypadku posiadamy jeden stan początkowy, jedno przejście z każdego stanu oraz jeden stan akceptacji. Siła automatów niedeterministycznych jest dokładnie taka sama, jak deterministycznych, dla każdego niedeterministycznego automatu skończonego istnieje równoważny mu automat deterministyczny. Wyrażenia regularne zaimplementowane na wzór DFA są szybkie jednak mocno obciążają pamięć (często używana jest hybryda).
+```C
+/* Poniżej przestawiam DFA
+   do rozróżniania komentarzy
+   wieloliniowych w C.
+*/
+```
+![DFA](https://raw.githubusercontent.com/devmichalek/Kompilacja/master/assets/1.1.4_0.png)<br>
 Dodatkowo polecam zobaczyć jak działają automaty [Mealy’ego](https://pl.wikipedia.org/wiki/Automat_Mealy%E2%80%99ego), [Moore’a](https://pl.wikipedia.org/wiki/Automat_Moore%E2%80%99a) oraz legendarną [maszyne Turinga](https://pl.wikipedia.org/wiki/Maszyna_Turinga).
 
 ### Flex
