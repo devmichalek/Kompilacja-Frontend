@@ -177,7 +177,7 @@ Podczas analizy składniowej parser z wcześniej przygotowanych przez leksera to
 ```
 ![CFG](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.1_0.png?raw=true)
 - ![#ff0000](https://placehold.it/15/ff0000/000000?text=+) - ```E``` i ```Op```, symbole nieterminalne, rozpoczynajace się dużymi literami np. A, B, C. Znak nieterminalny jest **symboliczny** tzn. za pomocą niego opisujemy inne symbole do, których może się on rozwinąć (na przykładach poniżej wszystko się wyjaśni)
-- ![#0000ff](https://placehold.it/15/0000ff/000000?text=+) - ```int```, ```()```, ```+```, ```-```, ```*```, ```/```, symbole terminalne, rozpoczynajace się małymi literami np. e, f, g. Znak terminalny jest **dosłowny** tzn. podczas parsowania nic nie rozwijamy i szukamy dokładnie tego znaku, który jest reprezentowany przez znak terminalny.
+- ![#0000ff](https://placehold.it/15/0000ff/000000?text=+) - ```int```, ```()```, ```+```, ```-```, ```*```, ```/```, symbole terminalne, rozpoczynajace się małymi literami np. e, f, g. Znak terminalny jest **dosłowny** tzn. podczas parsowania nic nie rozwijamy i szukamy dokładnie tego co jest reprezentowane przez ten znak (będą to uprzednio utworzone przez skanera tokeny).
 - ![#737373](https://placehold.it/15/737373/000000?text=+) - symbol dowolny (symbol terminalny lub symbol nieterminalny), zwykle oznaczany małymi literami greckimi np. α, γ. Ktoś mógłby zapytać po co wprowadzać kolejną reprezentację skoro mamy już symbol nieterminalny, który potencjalnie może składać się z innych symboli? Jest to bowiem przydatne przy opisie gramatyki (o tym później).
 
 ![CFG](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.1_1.png?raw=true)<br>
