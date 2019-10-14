@@ -1,5 +1,5 @@
 ## Wstęp
-Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium potraktować bardziej jako obszerny artykuł. Zebrane tutaj informacje są krótkim podsumowaniem zdobytej wiedzy na temat procesu kompilacji. Przykłady omawiane są w języku C i C++ oraz oczywiście w języku polskim ;). Możliwe, że artykuł nie pokrył wszystkich tematów związanych z kompilacją, jednak chciabym zaznaczyć iż dopiąłem wszelkich starań by tak było. Artykuł będzie co jakiś czas ulepszany, dodam, iż chętnie przyjmę jakiekolwiek sugestie drogą mailowa.<br>
+Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium potraktować bardziej jako obszerny artykuł. Zebrane tutaj informacje są krótkim podsumowaniem zdobytej wiedzy na temat procesu kompilacji. Przykłady omawiane są w języku C-podobnym  oraz oczywiście w języku polskim ;). Możliwe, że artykuł nie pokrył wszystkich tematów związanych z kompilacją, jednak chciabym zaznaczyć iż dopiąłem wszelkich starań by tak było. Artykuł będzie co jakiś czas ulepszany, dodam, iż chętnie przyjmę jakiekolwiek sugestie drogą mailowa.<br>
 
 ## Spis treści
 0. [Tworzenie kodu źrodłowego](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#tworzenie-kodu-%C5%BAr%C3%B3d%C5%82owego)
@@ -16,20 +16,25 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
 - 1.2. [Analiza składniowa - parsowanie](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-sk%C5%82adniowa)
   - 1.2.0 [Jak działa parser?](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#jak-dzia%C5%82a-parser)
   - 1.2.1 [Gramatyka bezkontekstowa](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#gramatyka-bezkontekstowa)
-  - 1.2.2 [Drzewo składniowe](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#drzewo-sk%C5%82adniowe)
-  - 1.2.3 [Analiza zstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-zst%C4%99puj%C4%85ca)
-    - 1.2.3.0 [Przeszukiwanie wszerz](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wszerz)
-    - 1.2.3.1 [Przeszukiwanie wgłąb](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wg%C5%82%C4%85b)
-    - 1.2.3.2 [LL(1)](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1)
-    - 1.2.3.3 [LL(1) Parse Tables](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1-parse-tables)
-    - 1.2.3.4 [FIRST, FOLLOW](https://github.com/devmichalek/Biblioteki-Dynamiczne#first-follow)
-  - 1.2.4 [Analiza wstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-wst%C4%99puj%C4%85ca)
-    - 1.2.4.0 [Redukcje, Przesunięcia, Uchwyty](https://github.com/devmichalek/Kompilacja/blob/master/README.md#redukcje-przesuni%C4%99cia-uchwyty)
-    - 1.2.4.1 [Gdzie są uchwyty?](https://github.com/devmichalek/Kompilacja/blob/master/README.md#gdzie-s%C4%85-uchwyty)
-    - 1.2.4.2 [Jak szukamy uchwytów?](https://github.com/devmichalek/Kompilacja/blob/master/README.md#jak-szukamy-uchwyt%C3%B3w)
-    - 1.2.4.2 [LR(0)](https://github.com/devmichalek/Kompilacja/blob/master/README.md#lr0)
-    - 1.2.4.3 [LR(1)]()
-  - 1.2.5 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
+  - 1.2.2 [Niejednoznaczność]()
+    - 1.2.2.0 [Niejednoznaczność Priorytetu]()
+    - 1.2.2.1 [Wiszący If-Else]()
+    - 1.2.2.2 [Gramatyka Niejednoznaczna]()
+  - 1.2.3 [Drzewo składniowe](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#drzewo-sk%C5%82adniowe)
+  - 1.2.4 [EBNF]()
+  - 1.2.5 [Analiza zstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-zst%C4%99puj%C4%85ca)
+    - 1.2.5.0 [Przeszukiwanie wszerz](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wszerz)
+    - 1.2.5.1 [Przeszukiwanie wgłąb](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wg%C5%82%C4%85b)
+    - 1.2.5.2 [LL(1)](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1)
+    - 1.2.5.3 [LL(1) Parse Tables](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1-parse-tables)
+    - 1.2.5.4 [FIRST, FOLLOW](https://github.com/devmichalek/Biblioteki-Dynamiczne#first-follow)
+  - 1.2.6 [Analiza wstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-wst%C4%99puj%C4%85ca)
+    - 1.2.6.0 [Redukcje, Przesunięcia, Uchwyty](https://github.com/devmichalek/Kompilacja/blob/master/README.md#redukcje-przesuni%C4%99cia-uchwyty)
+    - 1.2.6.1 [Gdzie są uchwyty?](https://github.com/devmichalek/Kompilacja/blob/master/README.md#gdzie-s%C4%85-uchwyty)
+    - 1.2.6.2 [Jak szukamy uchwytów?](https://github.com/devmichalek/Kompilacja/blob/master/README.md#jak-szukamy-uchwyt%C3%B3w)
+    - 1.2.6.2 [LR(0)](https://github.com/devmichalek/Kompilacja/blob/master/README.md#lr0)
+    - 1.2.6.3 [LR(1)]()
+  - 1.2.7 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
 - 1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
 - 1.4. [Generacja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#generacja-ir)
 - 1.5. [Optymalizaja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#optymalizaja-ir)
@@ -183,8 +188,18 @@ Podczas analizy składniowej parser z wcześniej przygotowanych przez leksera to
 Gramatykę bezkontekstową opisujemy za pomocą [notacji BNF](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form), w której istnieją dwa sposoby rozwijania symboli przez drzewo parsujące *(parse tree)* nazywane derywacją *(derivation)*. Poniżej przedstawiono: *Leftmost Derivation* (derywacja lewostronna) tj. w każdym kolejnym kroku rozwijany jest pierwszy z lewej symbol nieterminalny, *Rightmost derivation*  (derywacja prawostronna) tj. w każdym kolejnym kroku rozwijany jest pierwszy z prawej symbol nieterminalny. Proszę zwróćcie uwagę na różnice w jakiej opisywana jest zasada i derywacja. [Pierwsza ilustracja dotycząca CFG](https://github.com/devmichalek/Kompilacja/raw/master/assets/1.2.1_0.png?raw=true) tj. strzałka po lewej stronie jest zdecydowanie "chudsza" niż ta po prawej są to szczegóły jednak wciąż istotne. Na ich podstawie wiemy kiedy autor miał na myśli ukazanie derywacji (konstrukcji), a kiedy ukazanie opisu zasady (definicji). Poniżej ta "grubsza" strzałka - proces derywacji.
 ![Derywacja](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.1_2.png?raw=true)<br>
 
-Podczas rozwijania struktur CFG natrafić możemy na niejednoznaczność *(ambiguity)* priorytetu. Dla przykładu, w prostym działaniu matematycznym ```2 * 3 + 4```, zauważmy, że rozwijając strukturę z prawej strony otrzymamy zły wynik, najpierw wykonana zostanie operacja dodawania a dopiero później mnożenia. Nie musimy się jednak zbytnio skupiać na tego typu problemach (w przypadku użycia gotowego generatora), ponieważ zwykłe użycie nawiasów podczas projektowania zasad gramatyki wystarczy. Innym sposobem na pozbycie się problemu jest zadeklarowanie najpierw operacji mnożenia i dzielenia (to one zostaną najpierw dopasowane), a później dodawania i odejmowania. Dodam, że zasada gramatyczna często nazywana jest **produkcją** ponieważ produkuje ona stringa za pomocą derywacji.<br>
-Rozważmy produkcję ```A -> (A)``` gdzie ```A``` to symbol nieterminalny, ```(``` i ```)``` to symbole nieterminalne. Taki rodzaj produkcji jest **niepoprawny**, gramatyka ta nie generuje żadnego stringa. Dzieje się ponieważ zasada gramatyczna definiuje strukturę rekurencyjną składającą się wyłącznie z symbolu, który występuje rekurencyjnie tj. w produkcji brakuje innego symbolu nieterminalnego, który często nazywany jest jako *base case*. Produkcja ta nie posiada *base case* przez co każda derywacja narażona jest na nieskończoną pętlę.<br>
+### Niejednoznaczność
+Podczas rozwijania struktur CFG natrafić możemy na niejednoznaczność *(ambiguity)*. Tak jak w przypadku niedeterministycznego automatu skończonego nie wiemy, która czynność zostanie wykonana tutaj nie wiemy jak nasza struktura drzewiasta zostanie zbudowana lub może zostać zbudowana na kilka rożnych sposobów (w ten sposób mogą powstać dwa kompletnie różne drzewa). Sytuacja jest na tyle nieciekawa, że nie ma konkretnego algorytmu na rozwiązanie tego typu problemu. W tym przypadku mamy dwie opcję zmiana gramatyki języka lub określenie, która zasada gramatyczna ma pierwszeństwo.
+
+#### Niejednoznaczność Priorytetu
+Dla przykładu, w prostym działaniu matematycznym ```2 * 3 + 4```, rozwijając strukturę z prawej strony otrzymamy zły wynik, najpierw wykonana zostanie operacja dodawania a dopiero później mnożenia. Nie musimy się jednak zbytnio skupiać na tego typu problemach, ponieważ zwykłe użycie nawiasów podczas projektowania zasad gramatyki wystarczy. Innym sposobem na pozbycie się problemu jest zadeklarowanie najpierw operacji mnożenia i dzielenia (to one zostaną najpierw dopasowane), a później dodawania i odejmowania. Dodam, iż zasada gramatyczna często nazywana jest **produkcją** ponieważ produkuje ona stringa za pomocą derywacji.<br>
+Rozważmy produkcję ```A -> (A)``` gdzie ```A``` to symbol nieterminalny, ```(``` i ```)``` to symbole nieterminalne. Taki rodzaj produkcji jest **niepoprawny**, gramatyka ta nie generuje żadnego stringa. Dzieje się ponieważ zasada gramatyczna definiuje strukturę rekurencyjną składającą się wyłącznie z symbolu, który występuje rekurencyjnie tj. w produkcji brakuje innego symbolu nieterminalnego, który często nazywany jest jako *base case*. Produkcja ta nie posiada *base case* przez co każda derywacja narażona jest na nieskończoną pętlę.
+
+#### Wiszący If-Else
+Spójrzcie proszę na poniższą gramatykę:<br>
+
+
+#### Gramatyka Niejednoznaczna
 
 ![CFG](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.1_1.png?raw=true)<br>
 Ważne, aby wiedzieć, że sładnia wyrażeń regularnych nie może zostać użyta do opisu gramatyki bezkontekstowej.
@@ -197,6 +212,9 @@ Kod źrodłowy: a[index] = 4 + 2;
 CST: a [ index ] = 4 + 2; -> drzewo dokładnie odzwierciedlające nasz kod źródłowy
 AST: a index = 6 -> drzewo z wyliczonymi wartościami, nawiasy zostały pominięte ponieważ token T_Index sam w sobie reprezentuje komórkę w tablicy
 ```
+
+### EBNF
+
 ### Analiza zstępująca
 Analiza zstępująca zaczyna się niemalże bez informacji tj. pierwszy symbol od którego zaczynamy, pasuje do każdego zestawu symboli. Skąd zatem wiemy, który zestaw symboli to ten którego szukamy? Nie wiemy... Jedynie co możemy zrobić to zgadywać, jeśli natomiast się pomylimy to wracamy po węzłach. Skoro musimy zgadywać to w jaki sposób? Spróbuję teraz omówić dwa podstawowe algorytmy z "nawrotami" *(backtracking)* (nie śmiejcie się, tak podaje [wikipedia](https://pl.wikipedia.org/wiki/Algorytm_z_nawrotami)). Zacznijmy od potraktowania naszego wejścia składającego się z tokenów jako zdanie składające z symboli terminalnych i nieterminalnych oraz proces parsowania jako przeszukiwanie po węzłach. Węzłem będzie **symbol dowolny**, natomiast przejście z węzła na węzeł możliwe będzie wtedy gdy napotkamy symbol, istnieje w zdaniu opisującym symbol dowolny, a tak po ludzku, chodzi o taką sytuację:
 ![Przyklad](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.3_0.png?raw=true)
