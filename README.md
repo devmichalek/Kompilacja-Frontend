@@ -189,15 +189,23 @@ Gramatykę bezkontekstową opisujemy za pomocą [notacji BNF](https://en.wikiped
 ![Derywacja](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.1_2.png?raw=true)<br>
 
 ### Niejednoznaczność
-Podczas rozwijania struktur CFG natrafić możemy na niejednoznaczność *(ambiguity)*. Tak jak w przypadku niedeterministycznego automatu skończonego nie wiemy, która czynność zostanie wykonana tutaj nie wiemy jak nasza struktura drzewiasta zostanie zbudowana lub może zostać zbudowana na kilka rożnych sposobów (w ten sposób mogą powstać dwa kompletnie różne drzewa). Sytuacja jest na tyle nieciekawa, że nie ma konkretnego algorytmu na rozwiązanie tego typu problemu. W tym przypadku mamy dwie opcję zmiana gramatyki języka lub określenie, która zasada gramatyczna ma pierwszeństwo.
+Podczas rozwijania struktur CFG natrafić możemy na niejednoznaczność *(ambiguity)*. Tak jak w przypadku niedeterministycznego automatu skończonego nie wiemy, która czynność zostanie wykonana tutaj nie wiemy jak nasza struktura drzewa zostanie zbudowana tj. może zostać zbudowana na kilka rożnych sposobów (w ten sposób mogą powstać dwa kompletnie różne drzewa). Sytuacja jest na tyle nieciekawa, że nie ma konkretnego algorytmu na rozwiązanie tego typu problemu. W tym przypadku mamy dwie opcję, pierwsza z nich to zmiana gramatyki języka, druga to określenie, która zasada gramatyczna ma **pierwszeństwo**.
 
 #### Niejednoznaczność Priorytetu
-Dla przykładu, w prostym działaniu matematycznym ```2 * 3 + 4```, rozwijając strukturę z prawej strony otrzymamy zły wynik, najpierw wykonana zostanie operacja dodawania a dopiero później mnożenia. Nie musimy się jednak zbytnio skupiać na tego typu problemach, ponieważ zwykłe użycie nawiasów podczas projektowania zasad gramatyki wystarczy. Innym sposobem na pozbycie się problemu jest zadeklarowanie najpierw operacji mnożenia i dzielenia (to one zostaną najpierw dopasowane), a później dodawania i odejmowania. Dodam, iż zasada gramatyczna często nazywana jest **produkcją** ponieważ produkuje ona stringa za pomocą derywacji.<br>
-Rozważmy produkcję ```A -> (A)``` gdzie ```A``` to symbol nieterminalny, ```(``` i ```)``` to symbole nieterminalne. Taki rodzaj produkcji jest **niepoprawny**, gramatyka ta nie generuje żadnego stringa. Dzieje się ponieważ zasada gramatyczna definiuje strukturę rekurencyjną składającą się wyłącznie z symbolu, który występuje rekurencyjnie tj. w produkcji brakuje innego symbolu nieterminalnego, który często nazywany jest jako *base case*. Produkcja ta nie posiada *base case* przez co każda derywacja narażona jest na nieskończoną pętlę.
+Rozważmy proste działanie matematyczne ```34 - 3 * 42```, oraz zdefiniowane przez nas zasady gramatyki:<br>
+![Zasady](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.2.0_0.png?raw=true)<br>
+Rozwijając strukturę z lewej strony otrzymamy zły wynik oraz następujące drzewo:<br>
+![Drzewo](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.2.0_1.png?raw=true)<br>
+Rozwijając strukturę z prawej strony otrzymamy:<br>
+![Drzewo](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.2.0_2.png?raw=true)<br>
+Przy derywacji lewostronnej najpierw wykonana zostanie operacja odejmowana a dopiero później mnożenia (co jest oczywiście błędem). Zmieniając gramatykę języka na taką, w której użycie nawiasów jest obowiązakowe wykluczamy tym samym błędne rozgałęzienie drzewa:<br>
+![Zasady](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.2.0_3.png?raw=true)<br>
+Często jednak zmiana gramatyki nie wchodzi po prostu w grę. Innym sposobem na pozbycie się problemu jest zadeklarowanie najpierw operacji mnożenia i dzielenia (to one zostaną najpierw dopasowane), a później dodawania i odejmowania. Dodam, iż zasada gramatyczna często nazywana jest **produkcją** ponieważ **produkuje** ona stringa za pomocą derywacji.<br>
+Rozważmy produkcję ```A -> (A)``` gdzie ```A``` to symbol nieterminalny, ```(``` i ```)``` to symbole nieterminalne. Taki rodzaj produkcji jest **niepoprawny**, gramatyka ta nie generuje żadnego stringa. Dzieje się ponieważ zasada gramatyczna definiuje strukturę rekurencyjną składającą się wyłącznie z symbolu, który występuje rekurencyjnie tj. w produkcji brakuje innego symbolu nieterminalnego, który często nazywany jest jako *base case*. Produkcja ta nie posiada symbolu na którym może bazować przez co każda derywacja narażona jest na nieskończoną pętlę.
 
 #### Wiszący If-Else
 Spójrzcie proszę na poniższą gramatykę:<br>
-
+![Zasady](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.2.1_0.png?raw=true)<br>
 
 #### Gramatyka Niejednoznaczna
 
