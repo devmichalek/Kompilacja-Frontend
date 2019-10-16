@@ -206,6 +206,10 @@ Rozważmy produkcję ```A -> (A)``` gdzie ```A``` to symbol nieterminalny, ```(`
 #### Wiszący If-Else
 Spójrzcie proszę na poniższą gramatykę:<br>
 ![Zasady](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.2.1_0.png?raw=true)<br>
+Z wyrażenia ```if (1) if (0) other else other``` (przyjmujemy, że *other* to część kodu wykonywana w ifach) otrzymujemy następujące drzewa:<br>
+![Drzewo](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.2.1_1.png?raw=true)
+![Drzewo](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.2.1_2.png?raw=true)<br>
+
 
 #### Gramatyka Niejednoznaczna
 
