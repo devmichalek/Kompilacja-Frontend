@@ -366,7 +366,7 @@ Podczas analizy semantycznej na podstawie wcześniej sprawdzonej i utworzonej st
 [An Introduction to GCC](https://tfetimes.com/wp-content/uploads/2015/09/An_Introduction_to_GCC-Brian_Gough.pdf)<br>
 [Beginner's Guide to Linkers](https://www.lurklurk.org/linkers/linkers.html)<br>
 [Position Independent Code and x86-64 libraries](https://www.technovelty.org/c/position-independent-code-and-x86-64-libraries.html)<br>
-[BFS vs DFS](https://open4tech.com/bfs-vs-dfs/)<br>
+[Depth First and Breadth First Tree Walking](https://nick.balestrafoster.com/2015/depthFirst-vs-breadthFirst/)<br>
 [Version Script](https://ftp.gnu.org/old-gnu/Manuals/ld-2.9.1/html_node/ld_25.html)<br>
 [Calling Conventions Demystified](https://www.codeproject.com/Articles/1388/Calling-Conventions-Demystified)<br>
 [The History of Calling Conventions](https://devblogs.microsoft.com/oldnewthing/20040102-00/?p=41213)<br>
