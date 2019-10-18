@@ -239,7 +239,7 @@ Analiza zstępująca zaczyna się niemalże bez informacji tj. pierwszy symbol o
 ![Przyklad](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5_0.png?raw=true)
 
 #### Przeszukiwanie wszerz
-Zacznijmy od pierwszego, rzadziej używanego algorytmu *Breadth-First Search* lub *BFS*. Algorytm polega na przeszukiwaniu wszerz zaczynając od symbolu najbardziej na lewo lub prawo. Algorytm wymaga zapamiętywania wszystkich węzłów w danej odległości od korzenia. Standardowe [przejście po grafie](https://pl.wikipedia.org/wiki/Przeszukiwanie_wszerz) wygląda następująco:<br>
+Zacznijmy od pierwszego, rzadziej używanego algorytmu *Breadth-First Search* lub *BFS*. Algorytm polega na przeszukiwaniu wszerz zaczynając od symbolu najbardziej na lewo lub prawo. Algorytm wymaga zapamiętywania wszystkich węzłów w danej odległości od korzenia. Standardowe przejście po grafie wygląda następująco:<br>
 ![BFS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.0_0.png?raw=true)<br>
 Od razu wspomnę, że próba szukania od symbolu najbardziej na prawo jest raczej **błędem**. Dlaczego? Zaczynając od symbolu najbardziej na prawo często niepotrzebnie rozwijamy symbol nieterminalny. Poniższa animacja ilustruje powyższy schemat przejść po drzewie tj. pierwszy rozwijany jest symbol najbardziej na lewo:
 ![BFS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.0_1.gif?raw=true)<br>
@@ -253,7 +253,7 @@ Szukane zdanie to ```caaaaaaaaaa```, animacja przedstawiająca problem:<br>
 ![BFS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.0_5.gif?raw=true)
 
 #### Przeszukiwanie wgłąb
-Drugim algorytmem, który postaram się omówić jest *Deep-First Search* lub *DFS*. Przeszukiwanie wgłąb polega na rozpatrywaniu jednej gałęzi i przechodzenia na kolejny węzęł *w jednej linii* w przypadku pasujących symboli, w przypadku niepasujących symboli wracamy się *do góry* po grafie. Algorytm w każdym momencie wymaga zapamiętania ścieżki od korzenia do bieżącego węzła. [Schemat przejść](https://pl.wikipedia.org/wiki/Przeszukiwanie_w_g%C5%82%C4%85b) po drzewie wygląda następująco (zaczynając od symbolu najbardziej na lewo):<br>
+Drugim algorytmem, który postaram się omówić jest *Deep-First Search* lub *DFS*. Przeszukiwanie wgłąb polega na rozpatrywaniu jednej gałęzi i przechodzenia na kolejny węzęł *w jednej linii* w przypadku pasujących symboli, w przypadku niepasujących symboli wracamy się *do góry* po grafie. Algorytm w każdym momencie wymaga zapamiętania ścieżki od korzenia do bieżącego węzła. Schemat przejść po drzewie wygląda następująco (zaczynając od symbolu najbardziej na lewo):<br>
 ![DFS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_0.png?raw=true)<br>
 Kilka zalet w stosunku do *BFS*:
 - mniejsze zużycie pamięci (rozpatrywana jest jedna gałąź w danym momencie, nie trzymamy wskaźników na węzły znajdujące się w innych gałęziach a jedynie wskaźnik na dzieci)
@@ -366,7 +366,7 @@ Podczas analizy semantycznej na podstawie wcześniej sprawdzonej i utworzonej st
 [An Introduction to GCC](https://tfetimes.com/wp-content/uploads/2015/09/An_Introduction_to_GCC-Brian_Gough.pdf)<br>
 [Beginner's Guide to Linkers](https://www.lurklurk.org/linkers/linkers.html)<br>
 [Position Independent Code and x86-64 libraries](https://www.technovelty.org/c/position-independent-code-and-x86-64-libraries.html)<br>
-[PLT and GOT - the key to code sharing and dynamic libraries](https://www.technovelty.org/linux/plt-and-got-the-key-to-code-sharing-and-dynamic-libraries.html)<br>
+[BFS vs DFS](https://open4tech.com/bfs-vs-dfs/)<br>
 [Version Script](https://ftp.gnu.org/old-gnu/Manuals/ld-2.9.1/html_node/ld_25.html)<br>
 [Calling Conventions Demystified](https://www.codeproject.com/Articles/1388/Calling-Conventions-Demystified)<br>
 [The History of Calling Conventions](https://devblogs.microsoft.com/oldnewthing/20040102-00/?p=41213)<br>
