@@ -188,6 +188,10 @@ Podczas analizy składniowej parser z wcześniej przygotowanych przez leksera to
 Gramatykę bezkontekstową opisujemy za pomocą [notacji BNF](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form), w której istnieją dwa sposoby rozwijania symboli przez drzewo parsujące *(parse tree)* nazywane derywacją *(derivation)*. Poniżej przedstawiono: *Leftmost Derivation* (derywacja lewostronna) tj. w każdym kolejnym kroku rozwijany jest pierwszy z lewej symbol nieterminalny, *Rightmost derivation*  (derywacja prawostronna) tj. w każdym kolejnym kroku rozwijany jest pierwszy z prawej symbol nieterminalny. Proszę zwróćcie uwagę na różnice w jakiej opisywana jest zasada i derywacja. [Pierwsza ilustracja dotycząca CFG](https://github.com/devmichalek/Kompilacja/raw/master/assets/1.2.1_0.png?raw=true) tj. strzałka po lewej stronie jest zdecydowanie "chudsza" niż ta po prawej są to szczegóły jednak wciąż istotne. Na ich podstawie wiemy kiedy autor miał na myśli ukazanie derywacji (konstrukcji), a kiedy ukazanie opisu zasady (definicji). Poniżej ta "grubsza" strzałka - proces derywacji.
 ![Derywacja](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.1_2.png?raw=true)<br>
 
+![CFG](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.1_1.png?raw=true)<br>
+Warto wiedzieć, że sładnia wyrażeń regularnych nie może zostać użyta do opisu gramatyki bezkontekstowej.
+Przykładowo ```*``` w wyrażeniach regularnych oznacza 0 lub więcej wystąpień, dla ```a*b```, dopasowane zostałyby słowa ```ab```, ```b```, ```aaaaab```, taka funkcjonalność nie jest jednak wspierana przez CFG. Głównym powodem jest brak konieczności istnienia takiego operatora (otacja BNF zapewnia nam możliwość użycia rekurencji).
+
 ### Niejednoznaczność
 Podczas rozwijania struktur CFG natrafić możemy na niejednoznaczność *(ambiguity)*. Tak jak w przypadku niedeterministycznego automatu skończonego nie wiemy, która czynność zostanie wykonana tutaj nie wiemy jak nasza struktura drzewa zostanie zbudowana tj. może zostać zbudowana na kilka rożnych sposobów (w ten sposób mogą powstać dwa kompletnie różne drzewa). Sytuacja jest na tyle nieciekawa, że nie ma konkretnego algorytmu na rozwiązanie tego typu problemu. W tym przypadku mamy dwie opcję, pierwsza z nich to zmiana gramatyki języka, druga to określenie, która zasada gramatyczna ma **pierwszeństwo**.
 
@@ -209,13 +213,16 @@ Spójrzcie proszę na poniższą gramatykę:<br>
 Z wyrażenia ```if (1) if (0) other else other``` (przyjmujemy, że *other* to część kodu wykonywana w ifach) otrzymujemy następujące drzewa:<br>
 ![Drzewo](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.2.1_1.png?raw=true)
 ![Drzewo](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.2.1_2.png?raw=true)<br>
-
+Który z nich jest poprawny zależy od sposobu interpretacji przez nas samych:
+```
+	if (1)				if (1)
+		if (0) {}	vs.		if (0) {}
+		else {}			else {}
+```
+Wspomniany problem to tzw. *dangling else problem*, polegający na trudności w rozróżnieniu do którego wyrażenia *if* dany *else* należy.
 
 #### Gramatyka Niejednoznaczna
-
-![CFG](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.1_1.png?raw=true)<br>
-Ważne, aby wiedzieć, że sładnia wyrażeń regularnych nie może zostać użyta do opisu gramatyki bezkontekstowej.
-Przykładowo ```*``` w wyrażeniach regularnych oznacza 0 lub więcej wystąpień, dla ```a*b```, dopasowane zostałyby słowa ```ab```, ```b```, ```aaaaab```, taka funkcjonalność nie jest jednak wspierana przez CFG. Głównym powodem jest brak konieczności istnienia takiego operatora. Notacja BNF zapewnia nam możliwość użycia rekurencji.<br><br>
+Gramatyka może być niejednoznaczna mimo to wciąż tworzyć unikalne struktury drzewa tzn. taka, w której algorytm parsujący dla derywacji lewostronnej i prawostronnej tworzy różne struktury drzewa jednak dające ten sam rezultat (w literaturze określane jako *inessential ambiguity*) **na etapie koncowym**. Taka gramatyka dotyczy w szczególności operacji, w których kolejność nie ma znaczenia. Najprostszymi przykładami będą operacje dodawania i mnożenia. W przypadku, w którym niejednoznaczność nie gra roli interesuje nas tak naprawdę efekt końcowy (wyliczona wartość z operacji mnożenia). Zauważmy, że mogą istnieć kompletnie dwie różne struktury drzewa ```(a * b) * c = a * (b * c)``` wciąż dające ten sam rezultat. Niemniej jednak algorytm parsujący powinien rozróżniać tego typu przypadki i stosować się tylko do jednej z wymienionych struktur uniemożliwiając tym samym powstawanie innych.
 
 ### Drzewo składniowe
 Podczas parsowania utworzone zostaje drzewo składniowe, tzw. Concrete Syntax Tree *(CST)* to drzewo odzwierciedlające nasz kod źródłowy w postaci tokenów, bardziej przydatnym typem drzewa okazuje się być Abstract Syntax Tree *(AST)*, które zachowuje najbardziej przydatne informacje w celu dalszej obróbki również w postaci tokenów, różnica pomiędzy CST i AST jest taka, że AST stara się na bieżąco wyliczać wartości oraz usuwać niepotrzebne tokeny.
