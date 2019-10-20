@@ -21,7 +21,7 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
     - 1.2.2.1 [Wiszący If-Else](https://github.com/devmichalek/Kompilacja/blob/master/README.md#wisz%C4%85cy-if-else)
     - 1.2.2.2 [Gramatyka Niejednoznaczna](https://github.com/devmichalek/Kompilacja/blob/master/README.md#gramatyka-niejednoznaczna)
   - 1.2.3 [Drzewo składniowe](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#drzewo-sk%C5%82adniowe)
-  - 1.2.4 [Hierarchia Chomsky’ego](https://github.com/devmichalek/Kompilacja/blob/master/README.md#ebnf)
+  - 1.2.4 [Hierarchia Chomsky’ego](https://github.com/devmichalek/Kompilacja/blob/master/README.md#hierarchia-chomskyego)
   - 1.2.5 [Analiza zstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-zst%C4%99puj%C4%85ca)
     - 1.2.5.0 [Przeszukiwanie wszerz](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wszerz)
     - 1.2.5.1 [Przeszukiwanie wgłąb](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wg%C5%82%C4%85b)
@@ -233,7 +233,27 @@ AST: a index = 6 -> drzewo z wyliczonymi wartościami, nawiasy zostały pominię
 ```
 
 ### Hierarchia Chomsky’ego
+Zanim przejdziemy do algorytmów parsujących chciałbym dodać kilka słów na temat hierarchi Chomsky'ego. Naszą gramatykę języka reprezentujemy za pomocą notacji BNF lub EBNF (wersja rozszerzona, która dodatkowo zawiera np. wyrażenia opcjonalne), są to niezwykle przydatne i potężne narzędzia, jednak równie ważne jest by znać ich ograniczenia. Widzieliśmy przykłady, w których gramatyka może być niejednoznaczna produkując tym samym nieoczekiwaną strukturę drzewa. Tym razem postaram się przytoczyć inne przypadki, w których gramatyka może być zbyt rozbudowana lub niemożliwa wręcz do skonstruowania przez parsera. Warto zadać sobie pytanie, w jakich przypadkach użycie notacji BNF jest potrzebne, a w jakich należałoby użyć wyrażeń regularnych. Gramatyka bezkontekstowa jest w stanie wyrazić konkatenację, powtórzenie oraz wybór tak samo jak wyrażenia regularne. W ten sposób możliwe jest użycie regexów do konkatenacji np. łączenia cyfr w liczbę lub łączenia znaków w słowo (tak jak to dotychczas było robione, zostawiamy zadanie sklejania stringów dla regexów). Wykorzystując wyrażenia regularne ułatwiamy sobie zapis zasad gramatyki (prosty przykład poniżej):
+```
+REGEX:
+digit = 0|1|2|3|4|5|6|7|8|9
+number = digit digit*
 
+BNF:
+digit -> 0|1|2|3|4|5|6|7|8|9
+number -> number digit | digit
+```
+Gramatyka, którą możemy wyrazić za pomocą wyrażen regularnych nazywana jest gramatyką regularną *(regular grammar)* tj. typem 3 według hierarchi Chomsky’ego. Co za tym idzie parsowanie takiej gramatyki może zostać przeprowadzone przez sam skaner gdyż użycie parsera nie było by konieczne. Mimo wszystko brak parsera to zły pomysł, rozsądniejszym byłaby implementacja parsera chociażby w celu odróżnienia procesu aktualnie przeprowadzanego przez kompilator. Sytuacja zmienia się wtedy gdy język posiada kontekst, który w wiekszości języków programowania występuje. Gramatyka bezkontekstowa, co ona tak naprawdę znaczy? Symbole nieterminalne reprezentują "zasady pozbawione kontekstu" (zaraz wyjaśnię), z których wynika, że token *T_Token* może zostać zamieniony na symbol nieterminalny wszędzie tam gdzie pasuje on do produkcji. Z drugiej strony moglibyśmy zdefiniować produkcję, która byłaby wrażliwa na kontekst *(context-sensitive grammar rule)*. Taki rodzaj produkcji jest dużo bardziej skomplikowany i nie możliwy obecnie do przeprowadzenia przez parser. Poniżej przykład gramatyki wrażliwej na kontekst:
+```
+{
+	...
+	int x = 5;
+	...
+	...x...
+	...
+}
+```
+Chodzi o sytuację, w której parser zdaję sobie sprawę z tego, że x to zmienna typu int zadeklarowana gdzieś wyżej. Gdybyśmy chcieli za pomocą notacji BNF stworzyć parser zależny od kontekstu musielibyśmy w jakiś sposób załączać np. nazwy zmiennej do zasad tak aby były one rozróżnialne. Po drugie musielibyśmy znać długość nazwy takiej zmiennej, która w wielu językach nie jest zdefiniowana, przez co potencjalnie liczba możliwych identyfikatorów jest nieskończona (nieskończona liczba zasad nie brzmi ciekawie). Nawet jeśli maksymalna długość identyfikatora wynosiłaby dwa, daje nam to setki nowych zasad gramatycznych. Zakres możliwości parsera jest ograniczony stąd też parser nie powinien przejmować się tego typu problemami. Ta część kompilacji przeprowadzana jest w analizie semantycznej, w której parser uprzednio zdefiniował, że istnieje identyfikator x (potencjalnie jakiejś zmiennej), zadeklarowana w tym danym miejscu. Gramatyka języka, która jest poza możliwościami parsera jednak wciąż możliwa do sprawdzenia przez kompilator nazywana jest semantyką statyczną języka *(static semantics of the language)* (w skład semantyki statycznej wchodzi statyczne sprawdzanie typów). Wspomniana gramatyka nazywana jest gramatyką kontekstową *(context grammar)* tj. typem 1 według hierarchi Chomsky’ego. Istnieje również typ 0 tzw. gramatyka rekurencyjnie przeliczalna (według polskiego tłumaczenia) *(unrestricted grammar)* równoważna automatowi Turinga, którą nie będę tutaj opisywał. Warto wspomnieć o osobie takiej jak Noam Chomsky, który opracował każdy z wymienionych typów gramatyki. Każda z tych gramatyk opisuję również jaki poziom mocy obliczeniowej potrzebne jest do jej opisu. Gramatyka regularna równoważna jest automatowi skończonemu, natomiast gramatyka bezkontekstowa równoważna jest automatowi ze stosem *(pushdown automaton)*.
 
 ### Analiza zstępująca
 Analiza zstępująca zaczyna się niemalże bez informacji tj. pierwszy symbol od którego zaczynamy, pasuje do każdego zestawu symboli. Skąd zatem wiemy, który zestaw symboli to ten którego szukamy? Nie wiemy... Jedynie co możemy zrobić to zgadywać, jeśli natomiast się pomylimy to wracamy po węzłach. Skoro musimy zgadywać to w jaki sposób? Spróbuję teraz omówić dwa podstawowe algorytmy z "nawrotami" *(backtracking)* (nie śmiejcie się, tak podaje [wikipedia](https://pl.wikipedia.org/wiki/Algorytm_z_nawrotami)). Zacznijmy od potraktowania naszego wejścia składającego się z tokenów jako zdanie składające z symboli terminalnych i nieterminalnych oraz proces parsowania jako przeszukiwanie po węzłach. Węzłem będzie **symbol dowolny**, natomiast przejście z węzła na węzeł możliwe będzie wtedy gdy napotkamy symbol, istnieje w zdaniu opisującym symbol dowolny, a tak po ludzku, chodzi o taką sytuację:
