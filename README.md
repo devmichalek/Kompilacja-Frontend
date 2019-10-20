@@ -21,7 +21,7 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
     - 1.2.2.1 [Wiszący If-Else](https://github.com/devmichalek/Kompilacja/blob/master/README.md#wisz%C4%85cy-if-else)
     - 1.2.2.2 [Gramatyka Niejednoznaczna](https://github.com/devmichalek/Kompilacja/blob/master/README.md#gramatyka-niejednoznaczna)
   - 1.2.3 [Drzewo składniowe](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#drzewo-sk%C5%82adniowe)
-  - 1.2.4 [EBNF](https://github.com/devmichalek/Kompilacja/blob/master/README.md#ebnf)
+  - 1.2.4 [Hierarchia Chomsky’ego](https://github.com/devmichalek/Kompilacja/blob/master/README.md#ebnf)
   - 1.2.5 [Analiza zstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-zst%C4%99puj%C4%85ca)
     - 1.2.5.0 [Przeszukiwanie wszerz](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wszerz)
     - 1.2.5.1 [Przeszukiwanie wgłąb](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wg%C5%82%C4%85b)
@@ -190,7 +190,7 @@ Gramatykę bezkontekstową opisujemy za pomocą [notacji BNF](https://en.wikiped
 
 ![CFG](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.1_1.png?raw=true)<br>
 Warto wiedzieć, że sładnia wyrażeń regularnych nie może zostać użyta do opisu gramatyki bezkontekstowej.
-Przykładowo ```*``` w wyrażeniach regularnych oznacza 0 lub więcej wystąpień, dla ```a*b```, dopasowane zostałyby słowa ```ab```, ```b```, ```aaaaab```, taka funkcjonalność nie jest jednak wspierana przez CFG. Głównym powodem jest brak konieczności istnienia takiego operatora (notacja BNF zapewnia nam możliwość użycia rekurencji).
+Przykładowo Kleene Closure ```*``` w wyrażeniach regularnych oznacza 0 lub więcej wystąpień, dla ```a*b```, dopasowane zostałyby słowa ```ab```, ```b```, ```aaaaab```, taka funkcjonalność nie jest jednak wspierana przez CFG. Głównym powodem jest brak konieczności istnienia takiego operatora (notacja BNF zapewnia nam możliwość użycia rekurencji).
 
 ### Niejednoznaczność
 Podczas rozwijania struktur CFG natrafić możemy na niejednoznaczność *(ambiguity)*. Tak jak w przypadku niedeterministycznego automatu skończonego nie wiemy, która czynność zostanie wykonana tutaj nie wiemy jak nasza struktura drzewa zostanie zbudowana tj. może zostać zbudowana na kilka rożnych sposobów (w ten sposób mogą powstać dwa kompletnie różne drzewa). Sytuacja jest na tyle nieciekawa, że nie ma konkretnego algorytmu na rozwiązanie tego typu problemu. W tym przypadku mamy dwie opcję, pierwsza z nich to zmiana gramatyki języka, druga to określenie, która zasada gramatyczna ma **pierwszeństwo**.
@@ -215,9 +215,9 @@ Z wyrażenia ```if (1) if (0) other else other``` (przyjmujemy, że *other* to c
 ![Drzewo](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.2.1_2.png?raw=true)<br>
 Który z nich jest poprawny zależy od sposobu interpretacji przez nas samych:
 ```
-				if (1)				if (1)
-					if (0) {}	vs.		if (0) {}
-					else {}			else {}
+if (1)				if (1)
+	if (0) {}	vs.		if (0) {}
+	else {}			else {}
 ```
 Wspomniany problem to tzw. *dangling else problem*, polegający na trudności w rozróżnieniu do którego wyrażenia *if* dany *else* należy.
 
@@ -232,7 +232,8 @@ CST: a [ index ] = 4 + 2; -> drzewo dokładnie odzwierciedlające nasz kod źró
 AST: a index = 6 -> drzewo z wyliczonymi wartościami, nawiasy zostały pominięte ponieważ token T_Index sam w sobie reprezentuje komórkę w tablicy
 ```
 
-### EBNF
+### Hierarchia Chomsky’ego
+
 
 ### Analiza zstępująca
 Analiza zstępująca zaczyna się niemalże bez informacji tj. pierwszy symbol od którego zaczynamy, pasuje do każdego zestawu symboli. Skąd zatem wiemy, który zestaw symboli to ten którego szukamy? Nie wiemy... Jedynie co możemy zrobić to zgadywać, jeśli natomiast się pomylimy to wracamy po węzłach. Skoro musimy zgadywać to w jaki sposób? Spróbuję teraz omówić dwa podstawowe algorytmy z "nawrotami" *(backtracking)* (nie śmiejcie się, tak podaje [wikipedia](https://pl.wikipedia.org/wiki/Algorytm_z_nawrotami)). Zacznijmy od potraktowania naszego wejścia składającego się z tokenów jako zdanie składające z symboli terminalnych i nieterminalnych oraz proces parsowania jako przeszukiwanie po węzłach. Węzłem będzie **symbol dowolny**, natomiast przejście z węzła na węzeł możliwe będzie wtedy gdy napotkamy symbol, istnieje w zdaniu opisującym symbol dowolny, a tak po ludzku, chodzi o taką sytuację:
