@@ -285,7 +285,7 @@ Animacja przedstawiająca szukanie rozwiązania dla ```int + int``` zaczynając 
 ![DFS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_1.gif?raw=true)<br>
 Problemy z przeszukiwaniem wgłąb podczas szukania rozwiązania dla ```c``` zaczynając od symbolu najbardziej na lewo wpadamy w nieskończoną rekurencję:<br>
 ![DFS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_2.png?raw=true)<br>
-No dobrze ale jak temu zaradzić? Przecież musi istnieć jakiś sposób dostania się do ```c``` (parsery zstępujące LL równiez podatne są na tego typu problemy). Postaram się omówić jak usunąć rekurencję lewostronną *(left recursion removal)* bezpośrednią *(immediate)* oraz pośrednią *(indirect)* (zwykle technika usuwania rekurencji powiązana jest z usunięciem wspólnych symboli *left factoring*). Zacznijmy od rekurencji lewostronnej bezpośredniej (najprostszy przykład z jednym symbolem rekurencyjnym):<br>
+No dobrze ale jak temu zaradzić? Przecież musi istnieć jakiś sposób dostania się do ```c``` (parsery zstępujące LL równiez podatne są na tego typu problemy). Postaram się omówić jak usunąć rekurencję lewostronną *(left recursion removal)* bezpośrednią *(immediate)* oraz pośrednią *(indirect)* (zwykle technika usuwania rekurencji powiązana jest z usunięciem wspólnych symboli *(left factoring)*). Zacznijmy od rekurencji lewostronnej bezpośredniej (najprostszy przykład z jednym symbolem rekurencyjnym):<br>
 ![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_3.png?raw=true)<br>
 Teraz trochę trudniejszy przykład, rekurencja lewostronna bezpośrednia z więcej niz jednym symbolem rekurencyjnym:<br>
 ![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_4.png?raw=true)<br>
@@ -293,8 +293,12 @@ Powyższe grafiki obrazują **bezpośrednią** rekurencję lewostronną poniewa�
 ![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_5.png?raw=true)<br>
 Takie produkcje są jednak rzadkością wśród języków programowania. Zacznijmy od rekurencji bezpośredniej, występuje ona w formie:<br>
 ![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_6.png?raw=true)<br>
-w której α i β składają się z symboli nieterminalnych i symboli terminalnych nie zaczynających się na A. Do usunięcia rekurencji niezbędne jest dopisanie dodatkowej zasady gramatycznej w następujący sposób (przypominam, że ε oznacza pustego stringa):
+w której α i β składają się z symboli nieterminalnych i symboli terminalnych nie zaczynających się na A. Do usunięcia rekurencji niezbędne jest dopisanie dodatkowej zasady gramatycznej w następujący sposób (przypominam, że ε oznacza pustego stringa):<br>
 ![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_7.png?raw=true)<br>
+Stąd rozwiązaniem dla ![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_3.png?raw=true) jest
+![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_8.png?raw=true)<br>
+Również rozwiązaniem dla ![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_4.png?raw=true) jest
+![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_9.png?raw=true)<br>
 
 Przeszukiwanie wszerz | Przeszukiwanie wgłąb
 --- | --- 
