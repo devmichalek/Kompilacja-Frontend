@@ -45,10 +45,10 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
 4. Uruchamianie programu
 
 ## Tworzenie kodu źródłowego
-Pierwszym etapem w drodze do utworzenia programu jest napisanie kodu źródłowego. Na tym etapie nie dzieje się zbytnio dużo. Otwieramy ulubiony edytor tekstu lub dedykowane IDE. Warto wspomnieć, że podczas pracy nad danym projektem staramy trzymać się pewnej hierarchi. Każdą inną różniącą się funcjonalność trzymiemy w osobnych plikach, pliki o podobnej charakterystyce trzymamy w jednym projekcie, a ogół projektów trzymamy w rozwiązaniu *solution* (rekomendowana hierarchia plików w Visual Studio), natomiast produkt końcowy składać się będzie zwykle z różnych rozwiązań. Przykładem może być firma, która zatrudnia dwie grupy programistów, w której jedna zajmuje się rozwiązaniami nad GUI, a druga nad rozwiązaniami dotyczącymi mechaniki aplikacji, obie grupy pracują nad inną specyfikacją aplikacji (wspomniany przykład to jedynie uproszczenie całej sytuacji, w rzeczywistości jest to bardziej skomplikowane).
+Pierwszym etapem w drodze do utworzenia programu jest napisanie kodu źródłowego. Na tym etapie nie dzieje się zbytnio dużo. Otwieramy ulubiony edytor tekstu lub dedykowane IDE. Warto wspomnieć, że podczas pracy nad danym projektem staramy trzymać się pewnej hierarchi. Każdą inną różniącą się funcjonalność trzymiemy w osobnych plikach, pliki o podobnej charakterystyce trzymamy w jednym projekcie, a ogół projektów trzymamy w rozwiązaniu (rekomendowana hierarchia plików w Visual Studio), natomiast produkt końcowy składać się będzie zwykle z różnych rozwiązań. Przykładem może być firma, która zatrudnia dwie grupy programistów, w której jedna zajmuje się rozwiązaniami nad GUI, a druga nad rozwiązaniami dotyczącymi mechaniki aplikacji, obie grupy pracują nad inną specyfikacją aplikacji (wspomniany przykład to jedynie uproszczenie całej sytuacji, w rzeczywistości jest to bardziej skomplikowane).
 
 ## Kompilacja
-Zacznijmy od tego, że kod który napisaliśmy w danym języku kompilujemy nie tylko po to aby otrzymać plik z kodem maszynowym (tzw. plik obiektowy) ale również po to aby sprawdzić czy jest on poprawny gramatycznie (Czy brak w nim polskich znaków?), czy pomimo braków błędów językowych struktura naszego kodu jest dopuszczalna (Czy definicja funkcji zamyka się w klamrach?), czy pomimo poprawnej struktury kodu nie popełniliśmy błędu związanego z semantyką (Czy nie próbujemy przypisać dwóch kompletnie różnych obiektów do siebie?) oraz szereg innych rzeczy, które będą szczegółowo omawiane później. Sama znajomość języka programowania bez wiedzy jak nasz kod jest budowany nie wystarcza, dlatego postaram się szczegółowo omówić jak wygląda proces kompilacji krok po kroku.
+Kompilacja to proces tłumaczenia kodu napisanego w języku wyższego poziomu do języka niższego poziomu. Mimo wszystko kod, który napisaliśmy w danym języku kompilujemy nie tylko po to aby otrzymać plik z kodem maszynowym (plik obiektowy) ale również po to aby sprawdzić czy jest on poprawny gramatycznie (Czy brak w nim polskich znaków?), czy pomimo braków błędów językowych struktura naszego kodu jest dopuszczalna (Czy definicja funkcji zamyka się w klamrach?), czy pomimo poprawnej struktury kodu nie popełniliśmy błędu związanego z semantyką (Czy nie próbujemy przypisać dwóch kompletnie różnych obiektów do siebie?) oraz szereg innych rzeczy, które będą szczegółowo omawiane później. Sama znajomość języka programowania bez wiedzy jak nasz kod jest budowany nie wystarcza, dlatego postaram się szczegółowo omówić jak wygląda proces kompilacji krok po kroku.
 
 ## Preprocessing
 W przypadku języka C w pierwszym etapie kompilacji specjalny program nazywany preprocessorem parsuje pliki źrodłowe w celu:
@@ -301,6 +301,12 @@ Stąd rozwiązaniem dla<br>
 Również rozwiązaniem dla<br>
 ![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_4.png?raw=true) jest
 ![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_9.png?raw=true)<br>
+Teraz coś trudniejszego, gramatyka, której prawdopodobnie większość z nas nie zobaczy:<br>
+![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_10.png?raw=true)<br>
+Po dokonaniu usunięcia rekurencji lewostronnej:<br>
+![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_11.png?raw=true)<br>
+
+Usuwanie rekurencji lewostronnych nie zmienia języka, który rozpoznajemy. Zmienia to natomiast gramatykę, a co za tym idzie strukturę drzewa. W rzeczywistości usuwanie rekurencjnych symboli utrudnia nam jako projektantom gramatyki przejrzystośc produkcji (parser staje się bardziej skomplikowany).
 
 Przeszukiwanie wszerz | Przeszukiwanie wgłąb
 --- | --- 
