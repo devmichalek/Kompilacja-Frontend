@@ -306,7 +306,7 @@ Teraz coś trudniejszego, gramatyka, której prawdopodobnie większość z nas n
 Po dokonaniu usunięcia rekurencji lewostronnej:<br>
 ![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_11.png?raw=true)<br>
 
-Usuwanie rekurencji lewostronnych nie zmienia języka, który rozpoznajemy. Zmienia to natomiast gramatykę, a co za tym idzie strukturę drzewa. W rzeczywistości usuwanie rekurencjnych symboli utrudnia nam jako projektantom gramatyki przejrzystośc produkcji (parser staje się bardziej skomplikowany).
+Usuwanie rekurencji lewostronnych nie zmienia języka, którego rozpoznajemy, zmieniana jest gramatyka, a co za tym idzie struktura drzewa. W rzeczywistości usuwanie symboli rekurencyjnych utrudnia nam jako projektantom gramatyki przejrzystość produkcji (parser staje się bardziej skomplikowany).
 
 Przeszukiwanie wszerz | Przeszukiwanie wgłąb
 --- | --- 
