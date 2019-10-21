@@ -293,11 +293,13 @@ Powyższe grafiki obrazują **bezpośrednią** rekurencję lewostronną poniewa�
 ![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_5.png?raw=true)<br>
 Takie produkcje są jednak rzadkością wśród języków programowania. Zacznijmy od rekurencji bezpośredniej, występuje ona w formie:<br>
 ![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_6.png?raw=true)<br>
-w której α i β składają się z symboli nieterminalnych i symboli terminalnych nie zaczynających się na A. Do usunięcia rekurencji niezbędne jest dopisanie dodatkowej zasady gramatycznej w następujący sposób (przypominam, że ε oznacza pustego stringa):<br>
-![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_7.png?raw=true)<br>
-Stąd rozwiązaniem dla ![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_3.png?raw=true) jest
-![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_8.png?raw=true)<br>
-Również rozwiązaniem dla ![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_4.png?raw=true) jest
+w której α i β składają się z symboli nieterminalnych i symboli terminalnych nie zaczynających się na A. Do usunięcia rekurencji niezbędne jest dopisanie dodatkowej zasady gramatycznej. Pierwsza generująca β oraz druga generująca powtórzenia α używając rekurencji prawostronnej. Wygląda to w następujący sposób: (przypominam, że ε oznacza pustego stringa):<br>
+![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_7.png?raw=true)<br><br>
+Stąd rozwiązaniem dla<br>
+![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_3.png?raw=true) jest
+![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_8.png?raw=true)<br><br>
+Również rozwiązaniem dla<br>
+![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_4.png?raw=true) jest
 ![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_9.png?raw=true)<br>
 
 Przeszukiwanie wszerz | Przeszukiwanie wgłąb
