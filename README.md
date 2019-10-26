@@ -334,7 +334,7 @@ $		    $	// Akceptacja stringa
 Metoda ta pokazuje nam pewną zależność. Jeśli na górze stosu znajduje się symbol nieterminalny zobowiązani jesteśmy do rozwinięcia jednej z produkcji na podstawie aktualnie rozpatrywanego tokenu oraz jednego tokenu wprzód. Sytuacja wygląda inaczej gdy na górze stosu znajdziemy symbol terminalny, oprócz tego, że nie musimy podejmować decyzji związanej z uprzednim wybraniem i rozwinięciem produkcji to nie musimy również brać pod uwagę następnego tokenu. Decyzje podejmowane przez LL(1) wyrażane są za pomocą uprzednio utworzonych tablic *(parsing table)*.
 
 #### Tablice LL(1)
-Podczas parsowania LL(1) wszystkie nasze decyzje dotyczące rozwijania symboli nieterminalnych są niejako **wymuszone** poprzez rozpatrywanie następnego tokenu. W nastęnym nagłówku postaram się nieco przybliżyć zastosowanie tablic umożliwiających szybsze wyszukiwanie rozwiązania oraz **detekcje błędów** gramatycznych. Na poniższych ilustracjach przedstawiono kolejno: opis naszej gramatyki oraz tablicę przejść, pierwsza z lewej kolumna to symbole nieterminalne, pierwszy z góry wiersz to symbole terminalne.<br>
+Podczas parsowania LL(1) wszystkie nasze decyzje dotyczące rozwijania symboli nieterminalnych są niejako **wymuszone** poprzez rozpatrywanie następnego tokenu. W nastęnym nagłówku postaram się nieco przybliżyć zastosowanie tablic umożliwiających szybsze wyszukiwanie rozwiązania oraz **detekcje błędów** gramatycznych. Zakładamy, że tablica jest na początku pusta. Po konstrukcji tablicy jakakolwiek pusta komórka stwarza potencjalny błąd podczas parsowania. Na poniższych ilustracjach przedstawiono kolejno: opis naszej gramatyki oraz tablicę przejść, pierwsza z lewej kolumna to symbole nieterminalne, pierwszy z góry wiersz to symbole terminalne.<br>
 ![PT](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.3_0.png?raw=true)<br>
 Tak utworzoną tablicę parser woła w sposób: M[N, T] gdzie M to tablica *(moves)*, N to symbol nieterminalny (na górze stosu) oraz T symbol terminalny (występujący na wejściu). Podczas parsowania zdania ```(int + (int * int))``` zaznaczmy gdzie się ono kończy znakiem ```$```, od teraz nasze zdanie to ```(int + (int * int))$```. Poniżej ilustracja procesu parsowania tablicą przejść (zwróćcie uwagę, że tym razem stos został inaczej przedstawiony, element na samej górze znajduję się po lewej stronie).<br>
 ![PT](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.3_1.png?raw=true)<br>
@@ -351,6 +351,12 @@ Spróbujmy podsumować algorytm działania parsera LL(1):
   - Jeśli na samym wierzchu znajduje się symbol nieterminalny ```A```
     - Jeśli ```T[A, t]``` jest niezdefiniowane, zwróć błąd
     - W przeciwnym wypadku zamień pierwszy element stosu na ```T[A, t]```
+    
+Gramatyką LL(1) nazywamy tablice, w której w każdej komórce znajduje się maksymalnie jedna możliwa produkcja, oznacza to, że gramatyka nie może być niejednoznaczna, nie może istnieć sytuacja, w której dla danego symbolu nieterminalnego i tokenu istnieją dwie możliwe opcje do wybrania. Podczas gdy wymagamy aby ta zasada obowiązywała możliwe jest zaimplementowanie wyjątków. Jednym z przykładów może być (wspomniany wcześniej) *dangling else problem*:
+![Zasady](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.3_4.png?raw=true)<br>
+![Tablica](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.3_5.png?raw=true)<br>
+
+Komórka M\[else-part, else\] zawiera dwie produkcje. Podczas budowania tablicy moglibyśmy przyjąć zasadę, w której wybierana będzie ta produkcja, w której występuje następny token na wejściu *(most closely nested disambiguating rule)*.
 
 #### FIRST, FOLLOW
 W ostatnim podpunkcie postaram się krótko przybliżyć w jaki sposób tworzone są tablice przejść dla parsera LL(1). Podczas parsowania chcielibyśmy wiedzieć czy dany symbol nieterminalny może zostać rozwinięty do symbolu terminalnego występującego na wejściu, aby to zrobić niezbędna jest tablica FIRST, która reprezentuje wszystkie **możliwe symbole terminalne, które mogą wystąpić przed symbolem nieterminalnym** przy jego rozwijaniu oraz tablica FOLLOW, która reprezentuje wszystkie **możliwe symbole terminalne, które mogą wystąpić po danym symbolu nieterminalnym**. Przykład poniżej przedstawia utworzone wspomniane wcześniej tablice (dla jasności symbol ```ε``` oznacza pusty symbol):<br>
