@@ -352,8 +352,8 @@ Spróbujmy podsumować algorytm działania parsera LL(1):
     - Jeśli ```T[A, t]``` jest niezdefiniowane, zwróć błąd
     - W przeciwnym wypadku zamień pierwszy element stosu na ```T[A, t]```
     
-Gramatyką LL(1) nazywamy tablice, w której w każdej komórce znajduje się maksymalnie jedna możliwa produkcja, oznacza to, że gramatyka nie może być niejednoznaczna, nie może istnieć sytuacja, w której dla danego symbolu nieterminalnego i tokenu istnieją dwie możliwe opcje do wybrania. Podczas gdy wymagamy aby ta zasada obowiązywała możliwe jest zaimplementowanie wyjątków. Jednym z przykładów może być (wspomniany wcześniej) *dangling else problem*:
-![Zasady](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.3_4.png?raw=true)<br>
+Gramatyka LL(1) istnieje wtedy gdy utworzona tablica, posiada w każdej komórce maksymalnie jedna możliwa produkcja, oznacza to, że gramatyka nie może być niejednoznaczna, nie może istnieć sytuacja, w której dla danego symbolu nieterminalnego i tokenu istnieją dwie możliwe opcje do wybrania. Podczas gdy wymagamy aby ta zasada obowiązywała możliwe jest zaimplementowanie wyjątków. Jednym z przykładów może być (wspomniany wcześniej) *dangling else problem*:
+![Zasady](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.3_4.png?raw=true)<br><br>
 ![Tablica](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.3_5.png?raw=true)<br>
 
 Komórka M\[else-part, else\] zawiera dwie produkcje. Podczas budowania tablicy moglibyśmy przyjąć zasadę, w której wybierana będzie ta produkcja, w której występuje następny token na wejściu *(most closely nested disambiguating rule)*.
