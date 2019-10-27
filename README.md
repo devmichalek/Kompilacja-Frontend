@@ -362,8 +362,29 @@ Komórka M\[else-part, else\] zawiera dwie produkcje. Podczas budowania tablicy 
 Algorytm parsera LL(1) zawiera w sobie jeszcze jedną rzecz, mianowicie zbiory First i Follow. Podczas parsowania chcielibyśmy wiedzieć czy dany symbol nieterminalny może zostać rozwinięty do symbolu terminalnego występującego na wejściu, aby to zrobić niezbędna jest tablica First, która reprezentuje wszystkie **możliwe symbole terminalne, które mogą wystąpić jako pierwsze** oraz tablica Follow, która reprezentuje wszystkie **możliwe symbole terminalne, które mogą wystąpić jako ostatnie** przy rozwijaniu symbolu nieterminalnego. Przykład poniżej przedstawia utworzone tablice:<br>
 ![FIRSTFOLLOW](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.4_0.png?raw=true)<br>
 Proszę zauważyć, że zbiór First nie służy wyłącznie tylko do szukania terminali. Podczas szukania First dla symbolu nieterminalnego dowiadujemy się również tego czy symbol jest w stanie rozwinąć się do pustego stringa ε (jeśli tak to symbol ten może zostać pominięty).
-Symbol nieterminalny, który może przyjmować postać pustego stringa określany jest jako *nullable*.
-Na tym etapie chciałbym zakończyć analizę zstępującą. Omówiony parser LL(1) to parser wspomagany tablicą *(table-driven LL(1))*, jednak istnieje równie szybkie podejście algorytmiczne tego parsera. Tak zwany *recursive-descent LL(1)* to parser, w którym każdy symbol nieterminalny zdefiniowany jest jako osobna funkcja, znając aktualnie rozpatrywany token wołana jest odpowiednia funckja.
+Symbol nieterminalny, który może przyjmować postać pustego stringa określany jest jako *nullable*. Szukanie terminali dla zbioru First jest stosunkowo proste. Weźmy jako przykład poniższą gramatykę:
+```
+exp -> exp addop term | term
+addop -> + | -
+term -> term mulop factor | factor
+mulop -> *
+factor -> ( exp ) | number
+```
+Każdą z produkcji należy odpowiednio rozpisać:
+```
+(1) exp -> exp addop term
+(2) exp -> term
+(3) addop -> +
+(4) addop -> -
+(5) term -> term mulop factor
+(6) term -> factor
+(7) mulop -> *
+(8) factor -> ( exp )
+(9) factor -> number
+```
+W tym przypadku żadna z produkcji nie jest w stanie zwrócić ε, dlatego rekurencje lewostronne (1) oraz (5) nic nie wnoszą (ich usunięcie nie zmieni zbiorów First). Zbiór zwiększamy wyszukując terminali w każdym z możliwych opcji od (1) do (9). Produkcja (1) nie powoduje zmian. Produkcja (2) dodaje zbiór First(term) do zbioru First(exp), ponieważ First(term) nie zostało jeszcze wyliczone to pomijamy tą produkcję. Produkcje (3) i (4) tworzą zbiór First(addop) = { +, - }. Produkcji (5) oraz (6) nie jesteśmy jeszcze w stanie wyliczyć. Produkcja (7) uzupełnia First(mulop) = { * }. Produkcje (8) oraz (9) tworzą zbiór First(factor) = { (, number }. Na tym etapie algorytm wraca się do produkcji (1) (ponieważ wystąpiły zmiany w zbiorach) i sprawdza czy jest w stanie ją wyliczyć, jeśli nie to znów idzie dalej. W iteracji drugiej jesteśmy w stanie wyliczyć First(term) = { (, number } dla produkcji (5) i (6), ponieważ znamy First(factor). W iteracji trzeciej jesteśmy w stanie wyliczyć zbiór First(exp) = { (, number } dla produkcji (1) i (2), ponieważ znamy First(term). W iteracji czwartej zbiory nie zmieniły się co skutkuje przerwaniem procesu, tym samym posiadamy już uzupełnione zbiory dla wyżej wymionych produkcji.
+<br>
+Na tym etapie zakończę analizę zstępującą. Omówiony parser LL(1) to parser wspomagany tablicą *(table-driven LL(1))*, jednak istnieje równie szybkie podejście algorytmiczne tego parsera. Tak zwany *recursive-descent LL(1)* to parser, w którym każdy symbol nieterminalny zdefiniowany jest jako osobna funkcja, znając aktualnie rozpatrywany token wołana jest ta odpowiednia.
 
 ### Analiza wstępująca
 Przez jakiś czas zastanawiałem się nad podziałem materiału dotyczącej analizy wstępującej, jest to bowiem bardziej obszerny temat, dzieje się tak ponieważ ten typ analizy jest niejako częściej implementowany w współczesnych parserach. Pomimo możliwości użycia BFS i DFS w tworzeniu parsera, analiza zstępująca jest raczej **rzadko** spotykana. Podczas analizy zstępującej najpierw rozpatrywany był symbol dowolny, to od niego parser zaczynał **rozwijać** kolejne symbole nieterminalne, w przypadku analizy wstępującej sprawa wygląda nieco inaczej, w tym przypadku parser **redukuje** tokeny konwertując je na symbole nieterminalne tak aby z czasem dojść do symbolu dowolnego (osobiście uważam, że takie rozwiązanie jest bardziej logiczne). Oto jak analiza wstępująca wygląda:<br>
