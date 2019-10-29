@@ -36,6 +36,7 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
     - 1.2.6.3 [LR(1)]()
   - 1.2.7 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
 - 1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
+  - 1.3.0 [Zasięg widoczności]()
 - 1.4. [Generacja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#generacja-ir)
 - 1.5. [Optymalizaja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#optymalizaja-ir)
 - 1.6. [Generacja kodu](https://github.com/devmichalek/Kompilacja/blob/master/README.md#generacja-kodu)
@@ -437,7 +438,55 @@ Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej z
 [Using Flex and Bison - Mactech](http://preserve.mactech.com/articles/mactech/Vol.16/16.07/UsingFlexandBison/index.html)
 
 ## Analiza semantyczna
-Podczas analizy semantycznej na podstawie wcześniej sprawdzonej i utworzonej struktury drzewa następuję sprawdzanie poprawności typów, instrukcji i programu jako całości (analiza ta sprawdza czy program ma jakikolwiek sens). Ilość zadań i poziom skomplikowania podczas tej analizy zależy w głównej mierze od specyfikacji języka.
+Podczas analizy semantycznej na podstawie utworzonej struktury drzewa następuję sprawdzanie poprawności typów, instrukcji i programu jako całości (analiza ta sprawdza czy program ma jakikolwiek sens). Ilość zadań i poziom skomplikowania podczas tej analizy zależy w głównej mierze od specyfikacji języka. Przykład na jakim etapie się znajdujemy (Java):
+```Java
+class MyClass implements MyInterface {	// Niezadeklarowany interfejs.
+	string myInteger;
+	
+	void doSomething() {
+		int[] x = new string;	// Niepoprawny typ.
+		x[5] = myInteger * y;	// Brak mozliwosci mnozenia stringow. Nie zadeklarowana zmienna.
+	}
+	
+	void doSomething() {	// Brak mozliwosci duplikacji tej samej funkcji.
+	}
+	
+	int fibonacci(int n) {
+		return doSomething() + fibonacci(n - 1);	// Nie mozna dodawac typu void.
+	}
+}
+// Brak funkcji main.
+```
+Na etapie analizy semantycznej kompilator ma za zadanie zweryfikować przypadki, które nie zostały wychwycone w poprzednich etapach:
+- Deklaracja zmiennych przed ich użyciem
+- Poprawny typ wyrażeń
+- Klasy dziedziczą po zaklarowanych klasach bazowych
+- ...
+
+Po analizie semantycznej wiemy już, że kod napisany przez użytkownika jest poprawny. Idealny kompilator powinien zaakceptować jak najwięcej poprawnych programów jednocześnie jak najmniej niepoprawnych programów (C++):
+```C++
+int main() {
+	std::string x;
+	if (false) {
+		x = 137;	// Niewykonywalna czesc kodu.
+	}
+	return 0;
+}
+```
+```C++
+int fibonacci(int n) {
+	if (n <= 1)
+		return 0;	// Niepoprawna wartosc zwracana. Powinno byc n
+				// Brak mozliwosci zgloszenia bledu przez kompilator.
+	return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+int main() {
+	std::cout << fibonacci(40);
+	return 0;
+}
+```
+Jest jest jedna ważna rzecz, czas wykonania powinien być możliwie jak najkrótszy (to właśnie analiza semantyczna trwa najczęściej najdłużej). Na tym etapie kompilator stara się zebrać jak najwięcej informacji w celu obróbki w następnym etapie.
 
 ## Generacja IR
 
