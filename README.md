@@ -438,7 +438,7 @@ Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej z
 [Using Flex and Bison - Mactech](http://preserve.mactech.com/articles/mactech/Vol.16/16.07/UsingFlexandBison/index.html)
 
 ## Analiza semantyczna
-Podczas analizy semantycznej na podstawie utworzonej struktury drzewa następuję sprawdzanie poprawności typów, instrukcji i programu jako całości (analiza ta sprawdza czy program ma jakikolwiek sens). Ilość zadań i poziom skomplikowania podczas tej analizy zależy w głównej mierze od specyfikacji języka. Przykład na jakim etapie się znajdujemy (Java):
+Podczas analizy semantycznej na podstawie utworzonej struktury drzewa następuję sprawdzanie poprawności typów, instrukcji i programu jako całości (analiza ta sprawdza czy program ma jakikolwiek sens). Ilość zadań i poziom skomplikowania zależy w głównej mierze od specyfikacji języka. Przykład na jakim etapie się znajdujemy (Java):
 ```Java
 class MyClass implements MyInterface {	// Niezadeklarowany interfejs.
 	string myInteger;
@@ -486,7 +486,7 @@ int main() {
 	return 0;
 }
 ```
-Jest jest jedna ważna rzecz, czas wykonania powinien być możliwie jak najkrótszy (to właśnie analiza semantyczna trwa najczęściej najdłużej). Na tym etapie kompilator stara się zebrać jak najwięcej informacji w celu obróbki w następnym etapie.
+Jest jeszcze jedna ważna rzecz, czas wykonania powinien być możliwie jak najkrótszy (to właśnie analiza semantyczna trwa najczęściej najdłużej). Podczas analizy semantycznej zebrane zostają informacje potrzebne do utworzenia reprezentacji pośredniej takiej jak znaczenie identyfikatorów (Czym jest identyfikator?) i liczba zmiennych w danym zasięgu widoczności. Tak jak w przypadku skanera potrzebny był parser chociażby z powodu *pumping lemma* czy *Ogden's lemma* tak samo parser nie jest w stanie rozpoznać czy dana zmienna została zadeklarowana.
 
 ## Generacja IR
 
