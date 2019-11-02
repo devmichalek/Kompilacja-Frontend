@@ -486,7 +486,7 @@ int main() {
 	return 0;
 }
 ```
-Jest jeszcze jedna ważna rzecz, czas wykonania powinien być możliwie jak najkrótszy (to właśnie analiza semantyczna trwa najczęściej najdłużej). Podczas analizy semantycznej zebrane zostają informacje potrzebne do utworzenia reprezentacji pośredniej takiej jak znaczenie identyfikatorów i liczba zmiennych w danym zasięgu widoczności. Tak jak w przypadku skanera potrzebny był parser chociażby z powodu *pumping lemma* czy *Ogden's lemma* tak analiza semantyczna jest niezbędna by sprawdzić chociażby czy zmienna została zadeklarowana. W implementacji analizatora wyróżniamy dwie metodyki, pierwsza określana jako *attribute grammars* druga natomiast jako *recursive AST walk*.
+Jest jeszcze jedna ważna rzecz, czas wykonania powinien być możliwie jak najkrótszy (to właśnie analiza semantyczna trwa najczęściej najdłużej). Podczas analizy semantycznej zebrane zostają informacje potrzebne do utworzenia reprezentacji pośredniej takiej jak znaczenie identyfikatorów i liczba zmiennych w danym zasięgu widoczności. Tak jak w przypadku skanera potrzebny był parser chociażby z powodu *pumping lemma* czy *Ogden's lemma* tak samo analiza składniowa ze względu na swoje ograniczenia dopuszcza istnienie analizy semantycznej. W implementacji analizatora wyróżniamy dwie metodyki, pierwsza określana jako *attribute grammars* druga natomiast jako *recursive AST walk*.
 
 ## Generacja IR
 
