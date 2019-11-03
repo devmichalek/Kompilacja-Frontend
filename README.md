@@ -486,7 +486,31 @@ int main() {
 	return 0;
 }
 ```
-Jest jeszcze jedna ważna rzecz, czas wykonania powinien być możliwie jak najkrótszy (to właśnie analiza semantyczna trwa najczęściej najdłużej). Podczas analizy semantycznej zebrane zostają informacje potrzebne do utworzenia reprezentacji pośredniej takiej jak znaczenie identyfikatorów i liczba zmiennych w danym zasięgu widoczności. Tak jak w przypadku skanera potrzebny był parser chociażby z powodu *pumping lemma* czy *Ogden's lemma* tak samo analiza składniowa ze względu na swoje ograniczenia dopuszcza istnienie analizy semantycznej. W implementacji analizatora wyróżniamy dwie metodyki, pierwsza określana jako *attribute grammars* druga natomiast jako *recursive AST walk*.
+Jest jeszcze jedna ważna rzecz, czas wykonania powinien być możliwie jak najkrótszy (to właśnie analiza semantyczna trwa najczęściej najdłużej). Podczas analizy semantycznej zebrane zostają informacje potrzebne do utworzenia reprezentacji pośredniej takie jak znaczenie identyfikatorów i liczba zmiennych w danym zasięgu widoczności. Tak jak w przypadku skanera potrzebny był parser chociażby z powodu *pumping lemma* czy *Ogden's lemma* tak samo analiza składniowa ze względu na swoje ograniczenia wymusza istnienie analizy semantycznej. W implementacji analizatora wyróżniamy dwie główne metodyki, pierwsza określana jako *attribute grammars* druga natomiast jako *recursive AST walk*. W tej części artykułu wykorzystamy metodę rekurencyjnego przechodzenia po AST bazującą na funkcjach wirtualnych.
+
+### Zasięg widoczności
+Zasięg widoczności określa zakres w jakim dany identyfikator jest widoczny. Skąd wiemy do jakiego obiektu odnosi się poszczególny identyfikator? Jak przechowujemy informacje na temat poszczególnego identyfikatora? Identyfikatory o tej samej nazwie mogą odnosić się do kompletnie innych obiektów. Przykłady kodów kompilowalnych (Java, C++):
+```Java
+public class A {
+	char A;
+	A A(A A) {
+		A.A = 'A';
+		return A((A)A);
+	}
+}
+```
+```C++
+int Awful() {
+	int x = 137;
+	{
+		std::string x = "Scope!"
+		if (float x = 0)
+			double x = x;
+	}
+	if (x == 137)
+		std::cout << "Y";
+}
+```
 
 ## Generacja IR
 
