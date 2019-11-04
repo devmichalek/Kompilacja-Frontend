@@ -560,7 +560,7 @@ int main()
 	return 0; 
 }
 ```
-Animacja przedstawiająca zakres dynamiczny:<br>
+Animacja przedstawiająca wartości dodawane na stos podczas pracy programu:<br>
 ![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.4.gif?raw=true)<br>
 
 ### System typów
