@@ -511,7 +511,7 @@ int Awful() {
 		std::cout << "Y";
 }
 ```
-Podczas analizy semantycznej każda nowa deklaracja identyfikatora dodawana jest do tzw. tablicy symboli *(symbol table)*, ta zdefiniowana jest jako pusta, w momencie przeskoczenia do nowego zakresu dodawany jest stos reprezentujący zakres. W przypadku gdy na danym poziomie zasięgu znaleziony zostanie duplikat identyfikatora ogłaszany jest błąd analizy semantycznej. Zauważmy, że tego typu błąd nie występuje gdy ta sama nazwa identyfikatora (również tego samego typu) znajduje się o n poziomów wyżej. Naszą tablicę reprezentowana jest za pomocą stosu z wskaźnikiem na rodzica *(spaghetti stack)* tym samym identyfikator szukany jest najpierw w zakresie, w którym się znajduje, nie znaleziony symbol szukany jest o poziom wyżej, a w przypadku braku symbolu ogłoszany jest błąd analizy semantycznej (brak potrzeby implementacji wskaźnika na dziecko).<br>
+Podczas analizy semantycznej każda nowa deklaracja identyfikatora dodawana jest do tzw. tablicy symboli *(symbol table)*, ta zdefiniowana jest jako pusta, w momencie przeskoczenia do nowego zakresu dodawany jest stos reprezentujący zakres. W przypadku gdy na danym poziomie zasięgu znaleziony zostanie duplikat identyfikatora ogłaszany jest błąd analizy semantycznej. Zauważmy, że tego typu błąd nie występuje gdy ta sama nazwa identyfikatora (również tego samego typu) znajduje się o n poziomów wyżej. Nasza tablica reprezentowana jest za pomocą stosu z wskaźnikiem na rodzica *(spaghetti stack)* tym samym identyfikator szukany jest najpierw w zakresie, w którym się znajduje, nie znaleziony symbol szukany jest o poziom wyżej, a w przypadku braku symbolu ogłoszany jest błąd analizy semantycznej (brak potrzeby implementacji wskaźnika na dziecko).<br>
 ![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.0.gif?raw=true)<br>
 Taki typ struktury definiuje cztery główne operacje: dodaj/usuń zakres *(push/pop scope)*, dodaj/znajdź symbol *(insert/lookup symbol)*. Przykładowa implementacja to najzwyklejsze zdefiniowanie klasy reprezentującej zakres po której dziedziczą klasy funkcji, instrukcji warunkowych, klasy, pętle itd.
 ```C++
@@ -522,8 +522,11 @@ class ClassDefiniton : public Scope {...};
 class ForLoopStatement : public Scope {...};
 ...
 ```
-Każda z powyższych klas rozszerza klasę bazową *Scope*, podczas analizy wołane są jej odpowiedniki (spora część analizy opiera się na tego typu rozwiązaniu).<br>
+Każda z powyższych klas rozszerza klasę bazową *Scope*, podczas analizy wołane są jej odpowiedniki (spora część analizy opiera się na tego typu rozwiązaniu). Inne spojrzenie na tablicę symboli<br>
 ![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.1.gif?raw=true)<br>
+W sytuacji, w której dana klasa posiada rodzica (dziedziczy po innej klasie) przechowany zostaje wskaźnik na stos zakresu klasy bazowej (symbol szukany jest również w klasie bazowej):<br>
+![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.2.gif?raw=true)<br>
+![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.3.gif?raw=true)<br>
 
 ## Generacja IR
 
