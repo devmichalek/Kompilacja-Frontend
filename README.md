@@ -36,7 +36,9 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
     - 1.2.6.3 [LR(1)]()
   - 1.2.7 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
 - 1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
-  - 1.3.0 [Zasięg widoczności]()
+  - 1.3.0 [Zasięg widoczności](https://github.com/devmichalek/Kompilacja#zasi%C4%99g-widoczno%C5%9Bci)
+    - 1.3.0.0 [Zakres statyczny](https://github.com/devmichalek/Kompilacja#zakres-statyczny)
+    - 1.3.0.0 [Zakres dynamiczny](https://github.com/devmichalek/Kompilacja#zakres-dynamiczny)
 - 1.4. [Generacja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#generacja-ir)
 - 1.5. [Optymalizaja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#optymalizaja-ir)
 - 1.6. [Generacja kodu](https://github.com/devmichalek/Kompilacja/blob/master/README.md#generacja-kodu)
@@ -527,6 +529,38 @@ Każda z powyższych klas rozszerza klasę bazową *Scope*, podczas analizy woł
 W sytuacji, w której dana klasa posiada rodzica (dziedziczy po innej klasie) przechowany zostaje wskaźnik na stos zakresu klasy bazowej (symbol szukany jest również w klasie bazowej):<br>
 ![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.2.gif?raw=true)<br>
 ![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.3.gif?raw=true)<br>
+Z uwagi na fakt, iż parsery LL(1) i LR(1) (oraz inne) znają swój następny token skanowanie i parsowanie może odbywać się jednoczeście jednoetapowo. Niektóre kompilatory przeprowadzają skanowanie, parsowanie, analizę semantyczą i generację kodu jednocześnie jednoetapowo. Taki typ kompilatora określany jest jako *single-pass compiler* (niektóre starsze kompilatory Pascala działały w ten sposób, języki takie jak C i C++ zaprojektowane są w sposób ułatwiający implementację kompilatora jednoetapowego). Obecnie najczęściej możemy spotkać kompilatory przeprowadzające analizy wielokrotnie ze zwględu na zbyt skomplikowaną semantykę, taki typ kompilatora określany jest jako *multi-pass compiler*.
+
+#### Zakres statyczny
+Zakres statyczny *(static/lexical scoping)* reprezentuje sposób w jaki symbole są widoczne oraz, których zasięg wyliczany jest na **kompilacji**. Wszystkie dotychczas omawiane przykłady korzystały z tablicy symboli wyliczanej na kompilacji. W tym wypadku to **struktura kodu** definuje **widoczność** symboli. Poniżej przykład kodu napisanego języku C:
+```C
+#include<stdio.h> 
+int x = 10; 
+int f() { return x; }
+int g() { int x = 20; return f(); }
+int main()
+{
+	printf("%Wynik: d\n", g()); // Wynik: 10
+	return 0; 
+}
+```
+Najpopularniejszymi językami programowania korzystającymi z statycznych zakresów są np. Java i C++.
+
+#### Zakres dynamiczny
+Zakres dynamiczny *(dynamic scoping)* nie definiuje bezpośrednio związku między strukturą kodu źródłowego a symbolem, to **aktualny stan stosu programu** ustala, do którego symbolu się odnosimy. Jest to niezwykle nietypowe podejście występujące w językach takich jak Perl i Lisp. Zasięg widoczności, który rozwiązywany jest podczas pracy programu jest stosunkowo wolniejszy ze względu na fakt, iż kompilator nie przypisał np. adresu zmiennej do, której zmienna się odnosi. Krótko mówiąc podczas pracy programu będąc w danej funkcji program najpierw sprawdza czy szukana zmienna znajduje się w obrębie tego samego zakresu jeśli nie to szuka dalej tym razem w funkcji z której została zawołana itd. Poniżej przykład kodu napisanego w języku Pseudo-C:
+```C
+#include<stdio.h> 
+int x = 10; 
+int f() { return x; }
+int g() { int x = 20; return f(); }
+int main()
+{
+	printf("%Wynik: d\n", g()); // Wynik: 20
+	return 0; 
+}
+```
+Animacja przedstawiająca zakres dynamiczny:<br>
+![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.4.gif?raw=true)<br>
 
 ## Generacja IR
 
