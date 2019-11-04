@@ -511,6 +511,8 @@ int Awful() {
 		std::cout << "Y";
 }
 ```
+Podczas analizy semantycznej każda nowa deklaracja identyfikatora dodawana jest do tzw. tablicy symboli *(symbol table)*, ta natomiast dodawana jest w momencie wejścia w nowy zakres widoczności. W przypadku gdy na danym poziomie zasięgu znaleziony zostanie duplikat identyfikatora ogłaszany jest błąd analizy semantycznej. Zauważmy, że tego typu błąd nie występuje gdy ta sama nazwa identyfikatora (również tego samego typu) znajduje się o n poziomów wyżej. Naszą tablicę reprezentujemy za pomocą stosu z wskaźnikiem na rodzica *(spaghetti stack)* tym samym szukając identyfikatora zaczynamy od tablicy symboli aktualnego zakresu, nie znaleziony symbol szukany jest o poziom wyżej, a w przypadku nie znalezienia symbolu ogłoszany jest błąd analizy semantycznej.<br>
+![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.0.gif?raw=true)<br>
 
 ## Generacja IR
 
