@@ -39,7 +39,9 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
   - 1.3.0 [Zasięg widoczności](https://github.com/devmichalek/Kompilacja#zasi%C4%99g-widoczno%C5%9Bci)
     - 1.3.0.0 [Zakres statyczny](https://github.com/devmichalek/Kompilacja#zakres-statyczny)
     - 1.3.0.1 [Zakres dynamiczny](https://github.com/devmichalek/Kompilacja#zakres-dynamiczny)
-  - 1.3.1 [System typów]()
+  - 1.3.1 [System typów](https://github.com/devmichalek/Kompilacja#system-typ%C3%B3w)
+    - 1.3.1.0 [Typy statyczne](https://github.com/devmichalek/Kompilacja#typy-statyczne)
+    - 1.3.1.1 [Typy dynamicznie](https://github.com/devmichalek/Kompilacja#typy-dynamiczne)
 - 1.4. [Generacja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#generacja-ir)
 - 1.5. [Optymalizaja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#optymalizaja-ir)
 - 1.6. [Generacja kodu](https://github.com/devmichalek/Kompilacja/blob/master/README.md#generacja-kodu)
@@ -564,6 +566,10 @@ Animacja przedstawiająca wartości dodawane na stos podczas pracy programu:<br>
 ![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.4.gif?raw=true)<br>
 
 ### System typów
+
+#### Typy statyczne
+
+#### Typy dynamiczne
 
 ## Generacja IR
 
