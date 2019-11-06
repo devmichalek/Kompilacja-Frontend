@@ -581,7 +581,7 @@ if (1.0 + 4.0) {
 ```
 Jak wywnioskować jakiego typu jest wyrażenie? Przykład:<br>
 ![Wnioskowanie](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.1.png?raw=true)<br>
-Jeśli stała ```137``` jest typem całkowitym to oczekujemy tego samego typu również i po prawej stronie dodawania ```42``` (lub typu, w którym dozwolone jest dodanie liczby całkowitej).
+Jeśli stała ```137``` jest typem całkowitym to oczekujemy tego samego typu również i po prawej stronie dodawania ```42``` (lub typu, w którym dozwolone jest dodanie liczby całkowitej). Analizę semantyczną traktujemy jako jeden wielki if, w momencie gdy występuje zgodność typów łączymy wyrażenia w całość. System typów rozumiany jest również jako zbiór możliwych operacji na typach. Jeśli ```x``` to identyfikator odwołujący się do obiektu typu ```t``` to ```x``` jest typu ```t``` (```int x;```). Jeśli ```e``` to liczba stała to ```e``` jest typu ```int```. Jeśli argumentami operacji jest ```x``` typu ```int``` oraz ```y``` typu ```int``` to wyrażenie ```x + y``` przyjmuje typ ```int```.
 
 ## Generacja IR
 
