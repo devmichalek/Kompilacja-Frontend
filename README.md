@@ -515,7 +515,7 @@ int Awful() {
 }
 ```
 Podczas analizy semantycznej każda nowa deklaracja identyfikatora dodawana jest do tzw. tablicy symboli *(symbol table)*, ta zdefiniowana jest jako pusta, w momencie przeskoczenia do nowego zakresu dodawany jest stos reprezentujący zakres. W przypadku gdy na danym poziomie zasięgu znaleziony zostanie duplikat identyfikatora ogłaszany jest błąd analizy semantycznej. Zauważmy, że tego typu błąd nie występuje gdy ta sama nazwa identyfikatora (również tego samego typu) znajduje się o n poziomów wyżej. Nasza tablica reprezentowana jest za pomocą stosu z wskaźnikiem na rodzica *(spaghetti stack)* tym samym identyfikator szukany jest najpierw w zakresie, w którym się znajduje, nie znaleziony symbol szukany jest o poziom wyżej, a w przypadku braku symbolu ogłoszany jest błąd analizy semantycznej (brak potrzeby implementacji wskaźnika na dziecko).<br>
-![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.0.gif?raw=true)<br>
+![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.0.0.gif?raw=true)<br>
 Taki typ struktury definiuje cztery główne operacje: dodaj/usuń zakres *(push/pop scope)*, dodaj/znajdź symbol *(insert/lookup symbol)*. Przykładowa implementacja to najzwyklejsze zdefiniowanie klasy reprezentującej zakres po której dziedziczą klasy funkcji, instrukcji warunkowych, klasy, pętle itd.
 ```C++
 class Scope {...};
@@ -526,10 +526,10 @@ class ForLoopStatement : public Scope {...};
 ...
 ```
 Każda z powyższych klas rozszerza klasę bazową *Scope*, podczas analizy wołane są jej odpowiedniki (spora część analizy opiera się na tego typu rozwiązaniu). Inne spojrzenie na tablicę symboli<br>
-![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.1.gif?raw=true)<br>
+![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.0.1.gif?raw=true)<br>
 W sytuacji, w której dana klasa posiada rodzica (dziedziczy po innej klasie) przechowany zostaje wskaźnik na stos zakresu klasy bazowej (symbol szukany jest również w klasie bazowej):<br>
-![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.2.gif?raw=true)<br>
-![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.3.gif?raw=true)<br>
+![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.0.2.gif?raw=true)<br>
+![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.0.3.gif?raw=true)<br>
 Z uwagi na fakt, iż parsery LL(1) i LR(1) (oraz inne) znają swój następny token skanowanie i parsowanie może odbywać się jednoczeście jednoetapowo. Niektóre kompilatory przeprowadzają skanowanie, parsowanie, analizę semantyczą i generację kodu jednocześnie jednoetapowo. Taki typ kompilatora określany jest jako *single-pass compiler* (niektóre starsze kompilatory Pascala działały w ten sposób, języki takie jak C i C++ zaprojektowane są w sposób ułatwiający implementację kompilatora jednoetapowego). Obecnie najczęściej możemy spotkać kompilatory przeprowadzające analizy wielokrotnie ze zwględu na zbyt skomplikowaną semantykę, taki typ kompilatora określany jest jako *multi-pass compiler*.
 
 #### Zakres statyczny
@@ -561,7 +561,7 @@ int main()
 }
 ```
 Animacja przedstawiająca wartości wrzucane do tablicy symboli podczas pracy programu:<br>
-![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.4.gif?raw=true)<br>
+![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.0.4.gif?raw=true)<br>
 
 ### System typów
 Systemem typów *(type system)* nazywamy zbiór wszystkich możliwych **wyrażeń w zależności od rodzajów wartości, jakie one generują**. Każdej obliczonej wartości przypisywany jest pewien typ, który jednoznacznie definiuje, jakie **operacje można na nim wykonać**. Zadaniem kompilatora jest zgłaszanie błędów o niezgodności typu wtedy gdy przeprowadzane operacje są niezdefiniowane (np. brakujący operator przypisania). Sprawdzanie poprawności typów podczas kompilacji określane jest jako *static type checking* (kompilacja nie powiedzie się w przypadku błędów) występujące np. w języku Go. Istnieją również języki, w których operacje na typach sprawdzane są podczas działania programu *(dynamic type checking)* (sprawdzanie jest zazwyczaj wolniejsze lecz bardziej precyzyjne), popularnym językiem korzystającym z tego typu rozwiązania jest Python. Sytem typów dzieli języki programowania na silnie typowane *(strongly typed)*: Java, Python, JavaScript, Haskell i słabo typowane *(weakly/loosely typed)*: C, C++. Języki silnie typowane nie pozwalają programiście na jakiekolwiek błędy związane z typami podczas gdy języki słabo typowane są zazwyczaj szybsze (niejawne konwersje) i mniej dokładne przez co nie każdy błąd zostaje wykryty na kompilacji. Podczas tego artykułu postaramy się przyjrzeć typowaniu słabemu oraz statycznemu sprawdzaniu poprawności typów.<br>
@@ -579,6 +579,9 @@ if (1.0 + 4.0) {
 	/* ... */
 }
 ```
+Jak wywnioskować jakiego typu jest wyrażenie? Przykład:<br>
+![Wnioskowanie](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.1.png?raw=true)<br>
+Jeśli stała ```137``` jest typem całkowitym to oczekujemy tego samego typu również i po prawej stronie dodawania ```42``` (lub typu, w którym dozwolone jest dodanie liczby całkowitej).
 
 ## Generacja IR
 
