@@ -40,8 +40,6 @@ Cześć, na wstępie chciałbym aby całą pracę włożoną w to repozytorium p
     - 1.3.0.0 [Zakres statyczny](https://github.com/devmichalek/Kompilacja#zakres-statyczny)
     - 1.3.0.1 [Zakres dynamiczny](https://github.com/devmichalek/Kompilacja#zakres-dynamiczny)
   - 1.3.1 [System typów](https://github.com/devmichalek/Kompilacja#system-typ%C3%B3w)
-    - 1.3.1.0 [Typy statyczne](https://github.com/devmichalek/Kompilacja#typy-statyczne)
-    - 1.3.1.1 [Typy dynamicznie](https://github.com/devmichalek/Kompilacja#typy-dynamiczne)
 - 1.4. [Generacja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#generacja-ir)
 - 1.5. [Optymalizaja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#optymalizaja-ir)
 - 1.6. [Generacja kodu](https://github.com/devmichalek/Kompilacja/blob/master/README.md#generacja-kodu)
@@ -562,14 +560,13 @@ int main()
 	return 0; 
 }
 ```
-Animacja przedstawiająca wartości dodawane na stos podczas pracy programu:<br>
+Animacja przedstawiająca wartości wrzucane do tablicy symboli podczas pracy programu:<br>
 ![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.4.gif?raw=true)<br>
 
 ### System typów
+Systemem typów *(type system)* nazywamy zbiór wszystkich możliwych **wyrażeń w zależności od rodzajów wartości, jakie one generują**. Każdej obliczonej wartości przypisywany jest pewien typ, który jednoznacznie definiuje, jakie **operacje można na nim wykonać**. Kolejnym ważnym zadaniem kompilatora podczas analizy semantycznej jest zgłaszanie błędów o niezgodności typu wtedy gdy przeprowadzane operacje są niezdefiniowane (np. brakujący operator przypisania). Sprawdzanie poprawności typów podczas kompilacji określane jest jako *static type checking* (kompilacja nie powiedzie się w przypadku błędów) występujące np. w języku Go. Istnieją również języki, w których operacje na typach sprawdzane są podczas działania programu *(dynamic type checking)* (sprawdzanie jest zazwyczaj wolniejsze lecz bardziej precyzyjne), popularnym językiem korzystającym z tego typu rozwiązania jest Python. Sytem typów dzieli języki programowania na silnie typowane *(strongly typed)*: Java, Python, JavaScript, Haskell i słabo typowane *(weakly/loosely typed)*: C, C++. Języki silnie typowane nie pozwalają programiście na jakiekolwiek błędy związane z typami podczas gdy języki słabo typowane są zazwyczaj szybsze (niejawne konwersje) i mniej dokładne przez co nie każdy błąd zostaje wykryty na kompilacji. Podczas tego artykułu postaramy się przyjrzeć typowaniu słabemu oraz statycznemu sprawdzaniu poprawności typów.<br>
+Podczas analizy semantycznej kompilator ma za zadanie "wydedukować" jakie typu jest każde wyrażenie.
 
-#### Typy statyczne
-
-#### Typy dynamiczne
 
 ## Generacja IR
 
