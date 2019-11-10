@@ -573,15 +573,28 @@ int y = x * 5; // Wartosci z wynikow dzialan arytmetycznych
 int z = y; // Wartosci zmiennych
 ...
 ```
-Następnym (równoległym) zadaniem jest sprawdzenie poprawności wyrażeń w kontekście. Dla przykładu ```1.0 + 4.0``` jest wyrażeniem poprawnym jednak niepoprawnym względem instrukcji if, który oczekuje typu boolean lub typu całkowitego (w zależności od semantyki języka):
+Następnym (równoległym) zadaniem jest sprawdzenie poprawności wyrażeń w kontekście. Dla przykładu ```1.0 + 4.0``` jest wyrażeniem poprawnym jednak niepoprawnym względem instrukcji if, który oczekuje typu boolean (w zależności od semantyki języka):
 ```C++
 if (1.0 + 4.0) {
 	/* ... */
 }
 ```
 Jak wywnioskować jakiego typu jest wyrażenie? Przykład:<br>
-![Wnioskowanie](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.1.png?raw=true)<br>
-Jeśli stała ```137``` jest typem całkowitym to oczekujemy tego samego typu również i po prawej stronie dodawania ```42``` (lub typu, w którym dozwolone jest dodanie liczby całkowitej). Analizę semantyczną traktujemy jako jeden wielki if, w momencie gdy występuje zgodność typów łączymy wyrażenia w całość. System typów rozumiany jest również jako zbiór możliwych operacji na typach. Jeśli ```x``` to identyfikator odwołujący się do obiektu typu ```t``` to ```x``` jest typu ```t``` (```int x;```). Jeśli ```e``` to liczba stała to ```e``` jest typu ```int```. Jeśli argumentami operacji jest ```x``` typu ```int``` oraz ```y``` typu ```int``` to wyrażenie ```x + y``` przyjmuje typ ```int```.
+![Wnioskowanie](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.1.0.png?raw=true)<br>
+Jeśli stała ```137``` jest typem całkowitym to oczekujemy tego samego typu również i po prawej stronie dodawania ```42``` (lub typu, w którym dozwolone jest dodanie liczby całkowitej). Analizę semantyczną traktujemy jako jeden wielki if, w momencie gdy występuje zgodność typów łączymy wyrażenia w całość. System typów rozumiany jest również jako zbiór możliwych operacji na typach. Jeśli ```x``` to identyfikator odwołujący się do obiektu typu ```t``` to ```x``` jest typu ```t``` (```int x;```). Jeśli ```e``` to liczba stała to ```e``` jest typu ```int```. Jeśli argumentami wyrażenia ```x + y``` jest ```x``` typu ```int``` oraz ```y``` typu ```int``` to  wyrażenie przyjmuje typ ```int``` itd. W przypadku gdy w wyrażeniu znajduje się stała i identyfikator nie należy zakładać, że identyfikator jest tego samego typu co stała (typ zmiennej należy bezpośrednio wyciągnąć z tablicy symboli):
+```C++
+int function(int x)
+{
+	{
+		double x;
+	}
+	if (x == 1.5) // Nie nalezy zakladac ze zmienna x jet typu double
+	{	// Pomijamy fakt ze porownywanie typow double odbywa sie za pomoca przyblizen
+		/* ... */
+	}
+}
+```
+![Wnioskowanie](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.1.1.png?raw=true)<br>
 
 ## Generacja IR
 
