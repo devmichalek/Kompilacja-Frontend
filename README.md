@@ -588,13 +588,13 @@ int function(int x)
 	{
 		double x;
 	}
-	if (x == 1.5) // Nie nalezy zakladac ze zmienna x jet typu double
-	{	// Pomijamy fakt ze porownywanie typow double odbywa sie za pomoca przyblizen
+	if (x == 1.5) // Nie nalezy zakladac ze zmienna x jest typu double.
+	{	// Pomijamy fakt ze porownywanie typow double odbywa sie za pomoca przyblizen.
 		/* ... */
 	}
 }
 ```
-![Wnioskowanie](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.1.1.png?raw=true)<br>
+![Bledne wyrazenie](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.1.1.png?raw=true)<br>
 
 ## Generacja IR
 
