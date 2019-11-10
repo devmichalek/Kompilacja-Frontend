@@ -391,7 +391,7 @@ W tym przypadku żadna z produkcji nie jest w stanie zwrócić ε, dlatego rekur
 First(exp) = { (, number }
 First(term) = { (, number }
 First(factor) = { (, number }
-First(addop) = { +, -}
+First(addop) = { +, - }
 First(mulop) = { * }
 ```
 Tworzenie zbioru Follow jest nieco bardziej skomplikowane jednak i z tym damy sobie radę. Do utworzenia zbioru Follow niezbędny jest zbiór First. Zasada wygląda następująco, zbiór Follow pierwszego symbolu inicjujemy ```$```, będąc w danej produkcji, w której znajdują się nieterminale np. ```A -> B C D``` do zbioru Follow(B) dodajemy symbole ze zbioru First(C), ponieważ symbole terminalne, które mogą wystąpić na początku nieterminala C są symbolami, które mogą wystąpić po nieterminalu B, również i do zbioru Follow(C) dodawane są symbole ze zbioru First(D). Na końcu należy pamiętać, że symbole terminalne zbioru Follow(A) dodajemy do nieterminali kończących produkcję A. Innymi słowy symbole ze zbioru Follow(A) dodajemy do zbioru Follow(D). Należy pamiętać, że token ε nigdy nie wystąpi w zbiorze Follow. Znając zasady rozpoczynamy tworzenie zbioru Follow.<br>
@@ -403,7 +403,7 @@ Follow(term) = { $, +, -, *, ) }
 Follow(mulop) = { (, number }
 Follow(factor) = { $, +, -, *, ) }
 ```
-Niewątpliwie ostatnim podpunktem w analizie zstępującej jest odzyskiwanie informacji o błędach składniowych *(error recovery)* wygenerowanych przez parsera. Podstawowym zadaniem parsera jest sprawdzenie czy nasz kod jest składniowo poprawny. Parser wykonujący tylko to zadanie określany jest jako *recognizer*, ponieważ jedyne co musi zrobić to zwrócić błąd analizy składniowej (brak mechanizmu budowy drzewa). Jednym z standardowych metod odzyskiwania informacji o błędach jest tzw. metoda *panic mode*.
+Niewątpliwie ostatnim podpunktem w analizie zstępującej jest odzyskiwanie informacji o błędach składniowych *(error recovery)* wygenerowanych przez parsera. Podstawowym zadaniem parsera jest sprawdzenie czy nasz kod jest składniowo poprawny. Parser wykonujący tylko to zadanie określany jest jako *recognizer*, ponieważ jedyne co musi zrobić to zwrócić błąd analizy składniowej (brak mechanizmu budowy drzewa). Jednym z standardowych metod odzyskiwania informacji o błędach jest tzw. metoda *panic mode*. Podczas błędu składniowego w jednym z wyrażeń parser przestaje tworzyć drzewo składniowe do momentu natrafienia na token "separujący" np. ```;```. Jest to jedna z naprostszych metod odzyskiwania informacji o błędach składniowych, która likwiduje problem zapętlenia błędów.
 <br>
 Na tym etapie zakończę analizę zstępującą. Omówiony parser LL(1) to parser wspomagany tablicą *(table-driven LL(1))*, jednak istnieje równie szybkie podejście algorytmiczne tego parsera. Tak zwany *recursive-descent LL(1)* to parser, w którym każdy symbol nieterminalny zdefiniowany jest jako osobna funkcja, znając aktualnie rozpatrywany token wołana jest ta odpowiednia. 
 
