@@ -2,40 +2,40 @@
 Cześć, na wstępie chcę zaznaczyć, aby całą pracę włożoną w to repozytorium potraktować bardziej jako obszerny artykuł. Zebrane tutaj informacje są krótkim podsumowaniem zdobytej wiedzy na temat procesu kompilacji. Przykłady omawiane są w języku C-podobnym oraz oczywiście w języku polskim ;). Możliwe, że artykuł nie pokrył wszystkich tematów związanych z kompilacją, jednak dopiąłem wszelkich starań by tak było. Artykuł będzie co jakiś czas ulepszany, dodam, że chętnie przyjmę jakiekolwiek sugestie drogą mailowa.<br>
 
 ## Spis treści
-0. [Tworzenie kodu źrodłowego](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#tworzenie-kodu-%C5%BAr%C3%B3d%C5%82owego)
-1. [Kompilacja](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#kompilacja)
-- 1.0. [Preprocessing](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#preprocessing)
-- 1.1. [Analiza leksykalna - skanowanie](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-leksykalna---skanowanie)
-  - 1.1.0 [Jak działa lekser?](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#jak-dzia%C5%82a-lekser)
-  - 1.1.1 [Wyrażenia regularne](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#wyra%C5%BCenia-regularne)
-  - 1.1.2 [NFA - Niedeterministyczny Automat Skończony](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#nfa---niedeterministyczny-automat-sko%C5%84czony)
-  - 1.1.3 [Maximal Munch](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#maximal-munch)
-  - 1.1.4 [DFA - Deterministyczny Automat Skończony](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#dfa---deterministyczny-automat-sko%C5%84czony)
-  - 1.1.5 [Flex](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#flex)
-  - 1.1.6 [Identyfikatory](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#identyfikatory)
-- 1.2. [Analiza składniowa - parsowanie](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-sk%C5%82adniowa)
-  - 1.2.0 [Jak działa parser?](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#jak-dzia%C5%82a-parser)
-  - 1.2.1 [Gramatyka bezkontekstowa](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#gramatyka-bezkontekstowa)
+0. [Tworzenie kodu źrodłowego](https://github.com/devmichalek/Kompilacja/blob/master/README.md#tworzenie-kodu-%C5%BAr%C3%B3d%C5%82owego)
+1. [Kompilacja](https://github.com/devmichalek/Kompilacja/blob/master/README.md#kompilacja)
+- 1.0. [Preprocessing](https://github.com/devmichalek/Kompilacja/blob/master/README.md#preprocessing)
+- 1.1. [Analiza leksykalna - skanowanie](https://github.com/devmichalek/Kompilacja/blob/master/README.md#analiza-leksykalna---skanowanie)
+  - 1.1.0 [Jak działa lekser?](https://github.com/devmichalek/Kompilacja/blob/master/README.md#jak-dzia%C5%82a-lekser)
+  - 1.1.1 [Wyrażenia regularne](https://github.com/devmichalek/Kompilacja/blob/master/README.md#wyra%C5%BCenia-regularne)
+  - 1.1.2 [NFA - Niedeterministyczny Automat Skończony](https://github.com/devmichalek/Kompilacja/blob/master/README.md#nfa---niedeterministyczny-automat-sko%C5%84czony)
+  - 1.1.3 [Maximal Munch](https://github.com/devmichalek/Kompilacja/blob/master/README.md#maximal-munch)
+  - 1.1.4 [DFA - Deterministyczny Automat Skończony](https://github.com/devmichalek/Kompilacja/blob/master/README.md#dfa---deterministyczny-automat-sko%C5%84czony)
+  - 1.1.5 [Flex](https://github.com/devmichalek/Kompilacja/blob/master/README.md#flex)
+  - 1.1.6 [Identyfikatory](https://github.com/devmichalek/Kompilacja/blob/master/README.md#identyfikatory)
+- 1.2. [Analiza składniowa - parsowanie](https://github.com/devmichalek/Kompilacja/blob/master/README.md#analiza-sk%C5%82adniowa)
+  - 1.2.0 [Jak działa parser?](https://github.com/devmichalek/Kompilacja/blob/master/README.md#jak-dzia%C5%82a-parser)
+  - 1.2.1 [Gramatyka bezkontekstowa](https://github.com/devmichalek/Kompilacja/blob/master/README.md#gramatyka-bezkontekstowa)
   - 1.2.2 [Niejednoznaczność](https://github.com/devmichalek/Kompilacja/blob/master/README.md#niejednoznaczno%C5%9B%C4%87)
     - 1.2.2.0 [Niejednoznaczność Priorytetu](https://github.com/devmichalek/Kompilacja/blob/master/README.md#niejednoznaczno%C5%9B%C4%87-priorytetu)
     - 1.2.2.1 [Wiszący If-Else](https://github.com/devmichalek/Kompilacja/blob/master/README.md#wisz%C4%85cy-if-else)
     - 1.2.2.2 [Gramatyka Niejednoznaczna](https://github.com/devmichalek/Kompilacja/blob/master/README.md#gramatyka-niejednoznaczna)
-  - 1.2.3 [Drzewo składniowe](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#drzewo-sk%C5%82adniowe)
+  - 1.2.3 [Drzewo składniowe](https://github.com/devmichalek/Kompilacja/blob/master/README.md#drzewo-sk%C5%82adniowe)
   - 1.2.4 [Hierarchia Chomsky’ego](https://github.com/devmichalek/Kompilacja/blob/master/README.md#hierarchia-chomskyego)
-  - 1.2.5 [Analiza zstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-zst%C4%99puj%C4%85ca)
-    - 1.2.5.0 [Przeszukiwanie wszerz](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wszerz)
-    - 1.2.5.1 [Przeszukiwanie wgłąb](https://github.com/devmichalek/Biblioteki-Dynamiczne#przeszukiwanie-wg%C5%82%C4%85b)
-    - 1.2.5.2 [LL(1)](https://github.com/devmichalek/Biblioteki-Dynamiczne#ll1)
-    - 1.2.5.3 [Tablice LL(1)](https://github.com/devmichalek/Biblioteki-Dynamiczne#tablice-ll1)
-    - 1.2.5.4 [Zbiory First i Follow](https://github.com/devmichalek/Biblioteki-Dynamiczne#zbiory-first-i-follow)
-  - 1.2.6 [Analiza wstępująca](https://github.com/devmichalek/Biblioteki-Dynamiczne#analiza-wst%C4%99puj%C4%85ca)
+  - 1.2.5 [Analiza zstępująca](https://github.com/devmichalek/Kompilacja#analiza-zst%C4%99puj%C4%85ca)
+    - 1.2.5.0 [Przeszukiwanie wszerz](https://github.com/devmichalek/Kompilacja#przeszukiwanie-wszerz)
+    - 1.2.5.1 [Przeszukiwanie wgłąb](https://github.com/devmichalek/Kompilacja#przeszukiwanie-wg%C5%82%C4%85b)
+    - 1.2.5.2 [LL(1)](https://github.com/devmichalek/Kompilacja#ll1)
+    - 1.2.5.3 [Tablice LL(1)](https://github.com/devmichalek/Kompilacja#tablice-ll1)
+    - 1.2.5.4 [Zbiory First i Follow](https://github.com/devmichalek/Kompilacja#zbiory-first-i-follow)
+  - 1.2.6 [Analiza wstępująca](https://github.com/devmichalek/Kompilacja#analiza-wst%C4%99puj%C4%85ca)
     - 1.2.6.0 [Redukcje, Przesunięcia, Uchwyty](https://github.com/devmichalek/Kompilacja/blob/master/README.md#redukcje-przesuni%C4%99cia-uchwyty)
-    - 1.2.6.1 [Gdzie szukamy uchwytów?](https://github.com/devmichalek/Kompilacja/blob/master/README.md#gdzie-s%C4%85-uchwyty)
+    - 1.2.6.1 [Gdzie szukamy uchwytów?](https://github.com/devmichalek/Kompilacja#gdzie-szukamy-uchwyt%C3%B3w)
     - 1.2.6.2 [Jak szukamy uchwytów?](https://github.com/devmichalek/Kompilacja/blob/master/README.md#jak-szukamy-uchwyt%C3%B3w)
     - 1.2.6.2 [LR(0)](https://github.com/devmichalek/Kompilacja/blob/master/README.md#lr0)
     - 1.2.6.3 [LR(1)]()
-  - 1.2.7 [Bison](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#bison)
-- 1.3. [Analiza semantyczna](https://github.com/devmichalek/Biblioteki-Dynamiczne/blob/master/README.md#analiza-semantyczna)
+  - 1.2.7 [Bison](https://github.com/devmichalek/Kompilacja/blob/master/README.md#bison)
+- 1.3. [Analiza semantyczna](https://github.com/devmichalek/Kompilacja/blob/master/README.md#analiza-semantyczna)
   - 1.3.0 [Zasięg widoczności](https://github.com/devmichalek/Kompilacja#zasi%C4%99g-widoczno%C5%9Bci)
     - 1.3.0.0 [Zakres statyczny](https://github.com/devmichalek/Kompilacja#zakres-statyczny)
     - 1.3.0.1 [Zakres dynamiczny](https://github.com/devmichalek/Kompilacja#zakres-dynamiczny)
@@ -261,7 +261,7 @@ Gramatyka, którą możemy wyrazić za pomocą wyrażen regularnych nazywana jes
 Chodzi o sytuację, w której parser zdaję sobie sprawę z tego, że x to zmienna typu int zadeklarowana gdzieś wyżej. Gdybyśmy chcieli za pomocą notacji BNF stworzyć parser zależny od kontekstu musielibyśmy w jakiś sposób załączać np. nazwy zmiennej do zasad tak aby były one rozróżnialne. Po drugie musielibyśmy znać długość nazwy takiej zmiennej, która w wielu językach nie jest zdefiniowana, przez co potencjalnie liczba możliwych identyfikatorów jest nieskończona (nieskończona liczba zasad nie brzmi ciekawie). Nawet jeśli maksymalna długość identyfikatora wynosiłaby dwa, daje nam to setki nowych zasad gramatycznych. Zakres możliwości parsera jest ograniczony stąd też parser nie powinien przejmować się tego typu problemami. Ta część kompilacji przeprowadzana jest w analizie semantycznej, w której parser uprzednio zdefiniował, że istnieje identyfikator x (potencjalnie jakiejś zmiennej), zadeklarowana w tym danym miejscu. Gramatyka języka, która jest poza możliwościami parsera jednak wciąż możliwa do sprawdzenia przez kompilator nazywana jest semantyką statyczną języka *(static semantics of the language)* (w skład semantyki statycznej wchodzi statyczne sprawdzanie typów). Wspomniana gramatyka nazywana jest gramatyką kontekstową *(context grammar)* (typem 1 według hierarchi Chomsky’ego). Istnieje również typ 0 tzw. gramatyka rekurencyjnie przeliczalna (według polskiego tłumaczenia) *(unrestricted grammar)* równoważna automatowi Turinga, którą nie będę tutaj opisywał. Warto wspomnieć o osobie takiej jak Noam Chomsky, który opracował każdy z wymienionych typów gramatyki. Każda z tych gramatyk opisuję również jaki poziom mocy obliczeniowej potrzebny jest do jej opisu. Gramatyka regularna równoważna jest automatowi skończonemu, natomiast gramatyka bezkontekstowa równoważna jest automatowi ze stosem *(pushdown automaton)*.
 
 ### Analiza zstępująca
-Analiza zstępująca zaczyna się niemalże bez informacji tj. pierwszy symbol od którego zaczynamy, pasuje do każdego zestawu symboli. Skąd zatem wiemy, który zestaw symboli to ten którego szukamy? Nie wiemy... Jedynie co możemy zrobić to zgadywać, jeśli natomiast się pomylimy to wracamy po węzłach. Skoro musimy zgadywać to w jaki sposób? Spróbuję teraz omówić dwa podstawowe algorytmy z nawrotami *(backtracking)*. Zacznijmy od potraktowania naszego wejścia składającego się z tokenów jako zdanie składające z symboli terminalnych i nieterminalnych oraz proces parsowania jako przeszukiwanie po węzłach. Węzłem będzie **symbol dowolny**, natomiast przejście z węzła na węzeł możliwe będzie wtedy gdy napotkamy symbol istnieje w produkcji:
+Analiza zstępująca *(top-down)* zaczyna się niemalże bez informacji. Symbol od którego zaczynamy (symbol początkowy), pasuje do każdej z produkcji. Skąd zatem wiemy, który zestaw symboli to ten którego szukamy? Nie wiemy... Jedynie co możemy zrobić to zgadywać, a w przypadku pomyłki wrócić się po węzłach. Skoro musimy zgadywać to w jaki sposób? Spróbuję teraz omówić dwa podstawowe algorytmy z nawrotami *(backtracking)*. Zacznijmy od potraktowania naszego wejścia składającego się z tokenów jako zdanie składające z symboli terminalnych i nieterminalnych oraz proces parsowania jako przeszukiwanie po węzłach. Węzłem będzie **symbol dowolny**, natomiast przejście z węzła na węzeł możliwe będzie wtedy gdy napotkamy symbol istnieje w produkcji:
 ![Przyklad](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5_0.png?raw=true)
 
 #### Przeszukiwanie wszerz
@@ -408,7 +408,7 @@ Tak utworzone zbiory First i Follow wykorzystujemy do budowy tablicy przejść, 
 Na tym etapie zakończę analizę zstępującą. Omówiony parser LL(1) to parser wspomagany tablicą *(table-driven LL(1))*, jednak istnieje równie szybkie podejście algorytmiczne tego parsera. Tak zwany *recursive-descent LL(1)* to parser, w którym każdy symbol nieterminalny zdefiniowany jest jako osobna funkcja, znając aktualnie rozpatrywany token wołana jest ta odpowiednia. 
 
 ### Analiza wstępująca
-Analiza wstępująca jest metodyką dużo bardziej skomplikowaną, która znaczącą przewyższa analizę zstępującą pod względem trudności gramatyki zdolnej do sparsowania. Ze względu na znaczącą przewagę ten typ analizy jest niejako częściej implementowany w współczesnych parserach. Dla przykładu w analizie wstępującej nie mamy problemu z rekurencją lewostronną występującą w produkcji. Pomimo możliwości użycia algorytmów BFS i DFS w tworzeniu parsera jak i samego LL(1), analiza zstępująca jest raczej **rzadko** spotykana. Raczej nikt nie zakłada przebudowy parsera, ponieważ w nowszym standardzie języka występuje nowa, zbyt skomplikowana semantyka, w której parser LL(1) sobie nie radzi (oczekujemy potężnego narzędzia, którego gramatykę będziemy w stanie poszerzać). Podczas analizy zstępującej najpierw rozpatrywany był symbol początkowy, to od niego parser zaczynał **rozwijać** kolejne symbole nieterminalne. W przypadku analizy wstępującej parser **redukuje** tokeny konwertując je na symbole nieterminalne tak aby z czasem dojść do symbolu początkowego (osobiście uważam, że takie rozwiązanie jest bardziej logiczne). Oto jak analiza wstępująca wygląda:<br>
+Analiza wstępująca *(bottom-up)* jest metodyką dużo bardziej skomplikowaną, która znaczącą przewyższa analizę zstępującą pod względem trudności gramatyki zdolnej do sparsowania. Ze względu na znaczącą przewagę ten typ analizy jest niejako częściej implementowany w współczesnych parserach. Dla przykładu w analizie wstępującej nie mamy problemu z rekurencją lewostronną występującą w produkcji. Pomimo możliwości użycia algorytmów BFS i DFS w tworzeniu parsera jak i samego LL(1), analiza zstępująca jest raczej **rzadko** spotykana. Raczej nikt nie zakłada przebudowy parsera, ponieważ w nowszym standardzie języka występuje nowa, zbyt skomplikowana semantyka, w której parser LL(1) sobie nie radzi (oczekujemy potężnego narzędzia, którego gramatykę będziemy w stanie poszerzać). Podczas analizy zstępującej najpierw rozpatrywany był symbol początkowy, to od niego parser zaczynał **rozwijać** kolejne symbole nieterminalne. W przypadku analizy wstępującej parser **redukuje** tokeny konwertując je na symbole nieterminalne tak aby z czasem dojść do symbolu początkowego (osobiście uważam, że takie rozwiązanie jest bardziej logiczne). Oto jak analiza wstępująca wygląda:<br>
 ![BOTTOM-UP](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6_0.png?raw=true)<br>
 ![BOTTOM-UP](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6_1.gif?raw=true)<br>
 
@@ -418,7 +418,7 @@ Podczas parsowania metodą wstępującą zadaniem parsera jest znalezienie jak n
 Jak widać powyższy uchwyt jest błędny. Redukując lewostronnie **nie zawsze** jesteśmy w stanie otrzymać poprawny uchwyt. Drugi ```int``` został błędnie zinterpretowany jako **int => T => F**, oczekiwaliśmy redukcji w formie **int => T => F * T**.
 
 #### Gdzie szukamy uchwytów?
-Parser, który rozpatrzymy to LL(1) tj. parser rozpatrujący o jeden token wprzód. Pomysł polega na podzieleniu zdania na wejściu na dwie części. Lewa strona to nasza "strefa robocza", wszystkie uchwyty muszą się tam znajdować, prawa strona zawiera wejście, które nie zostało jeszcze przeczytane (składa się tylko i wyłącznie z symboli terminalnych). Stopniowo będziemy zajmować się przesuwaniem symboli teminalnych z prawej strony na strefę roboczą po lewej stronie. Rozpatrzmy zdanie ```int + int * int + int```:<br>
+Parser, który rozpatrzymy bazować będzie na rozpatrywaniu jednego tokenu wprzód, czytając wejście od lewej do prawej. Pomysł polega na podzieleniu zdania na wejściu na dwie części. Lewa strona to nasza strefa robocza, w której znajdować się będą potencjalne uchwyty. Prawą stronę potraktujemy jako wejście, które nie zostało jeszcze przeczytane (składa się tylko i wyłącznie z symboli terminalnych). Stopniowo będziemy zajmować się przesuwaniem symboli teminalnych z prawej strony na strefę roboczą po lewej stronie. Rozpatrzmy zdanie ```int + int * int + int```:<br>
 ![Przesuniecia](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.1_0.gif?raw=true)<br>
 Skoro redukcja przeprowadzana jest po prawej stronie strefy roboczej, nigdy nie przesuniemy symbolu z lewej do prawej. Ważne aby od tego momentu traktować lewą strone jako stos do którego wrzucamy symbole terminalne z prawej strony. Dochodzimy do wniosku, że uchwytem nazywamy element znajdujący się na górze stosu (uchwyty znajdują się na górze stosu).
 
