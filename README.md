@@ -414,7 +414,7 @@ Analiza wstępująca *(bottom-up)* jest metodyką dużo bardziej skomplikowaną,
 Jako ciekawostkę chciałbym dodać, że kompilatory GCC i LLVM-Clang to ręcznie napisane parsery zstępujące (w przeszłości GCC używał Yacc'a do generacji parsera, gdzie Yacc bazuje na analizie wstępującej). Proszę się nie zdziwić, ale wiele z obecnie dzisiejszych kompilatorów powstało kilkanaście, a może nawet kilkadziesiąt lat temu. Programiści budujący kompilator pisali kod mając inne podejście względem analizy składniowej niż jak to ma miejsce teraz, gdzie znane nam obecnie algorytmy parsujące nie były tak popularne. Wszystkie metody pozwalające zbudować parser wstępujący są **zbyt trudne** dla kogoś kto chciałby go ręcznie napisać. Niemniej jednak ważne jest, aby zrozumieć jak działa analiza wstępująca, jeśli w przyszłości chcielibyśmy szybciej wykrywać potencjalne problemy związane z składnią BNF używając gotowych generatorów takich jak Bison.
 
 #### Redukcje, Przesunięcia, Uchwyty
-Parser wstępujący korzysta z **stosu** podobnego do nierekurencyjnego parsera zstępującego. Stos zawiera w sobie zarówno tokeny jak i nieterminale. Na początku nasz stos jest pusty, gdzie po poprawnym sparsowaniu zawierać będzie jedynie symbol początkowy. Parser posiada trzy możliwe akcje do wykonania, są to m. in. "zaakceptuj", "przesuń", "zredukuj" (w literaturze LR(1) określany jest jako *shift-reduce parser*). Wyróżniającą się cechą parserów wstępujących jest koniecznośc rozszerzenia gramatyki poprzez dodanie **nowego symbolu początkowego**. Dla przykładu dla poniższej gramatyki:
+Parser wstępujący korzysta ze **stosu** podobnie jak nierekurencyjny parser zstępujący. Stos zawiera w sobie zarówno tokeny jak i nieterminale. Na początku nasz stos jest pusty, gdzie po poprawnym sparsowaniu zawierać będzie jedynie symbol początkowy. Parser posiada trzy możliwe akcje do wykonania, są to m. in. "zaakceptuj", "przesuń" i "zredukuj" (w literaturze ze zwględu na wspomniane czynności LR(1) określany jest jako *shift-reduce parser*). Wyróżniającą się cechą parserów wstępujących jest koniecznośc rozszerzenia gramatyki poprzez dodanie **nowego symbolu początkowego**. Dla przykładu dla poniższej gramatyki:
 ```
 S -> ( S ) S | ε
 ```
@@ -423,7 +423,12 @@ Zobowiązani jesteśmy do rozszerzania jej do postaci (dlaczego tak się dzieje 
 S' -> S
 S -> ( S ) S | ε
 ```
-Podczas parsowania metodą wstępującą zadaniem parsera jest znalezienie jak największej uzupełnionej grupy symboli gotowej do redukcji (gotowej do zamiany na symbol nieterminalny) określane przez literature jako uchwyt *(handle)*. Podczas analizy wstępującej zajmować się będziemy wyszukiwaniem uchwytów w sposób kierunkowy (skanując od lewej do prawej) patrząc o jeden token do przodu (istnieje również grupa parserów wstępujących bezkierunkowych). Spójrzcie proszę na poniższy przykład, jak znaleziony został uchwyt dla zdania ```int + int * int```:
+Kolejnym nowym określeniem jest *right sentential form* oznaczające możliwe pośrednie zdanie występujące podczas derywacji **prawostronnej**. Dla przykładu w poniższej gramatyce:
+```
+E' -> E
+E -> E + n | n
+```
+Wyróżniamy następujące RSF: ```E```, ```E + n```, ```n + n```, są to tzw. przejścia możliwe do wykonania dla derywacji prawostronnej. Parser wrzuca symbole z wejścia na stos do momentu, w którym może wykonać redukcję na RSF. Podczas parsowania metodą wstępującą zadaniem parsera jest znalezienie jak największej uzupełnionej grupy symboli gotowej do redukcji (gotowej do zamiany na symbol nieterminalny) określane przez literature jako uchwyt *(handle)*. Tak jak wspomniałem w tym przypadku parser nie potrzebuje tokenu podglądowego, ponieważ symbole z wejścia mogą być wrzucane na stos tak długo, aż podjęta zostanie odpowiednia akcja. Podczas analizy wstępującej zajmować się będziemy wyszukiwaniem uchwytów w sposób kierunkowy (skanując od lewej do prawej) patrząc o jeden token do przodu (istnieje również grupa parserów wstępujących bezkierunkowych). Spójrzcie proszę na poniższy przykład, jak znaleziony został uchwyt dla zdania ```int + int * int```:
 ![Zly uchwyt](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.0_0.png?raw=true)<br>
 Jak widać powyższy uchwyt jest błędny. Redukując lewostronnie **nie zawsze** jesteśmy w stanie otrzymać poprawny uchwyt. Drugi ```int``` został błędnie zinterpretowany jako **int => T => F**, oczekiwaliśmy redukcji w formie **int => T => F * T**.
 
