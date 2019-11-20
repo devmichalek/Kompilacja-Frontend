@@ -2,26 +2,26 @@
 Cześć, na wstępie chcę zaznaczyć, aby całą pracę włożoną w to repozytorium potraktować bardziej jako obszerny artykuł. Zebrane tutaj informacje są krótkim podsumowaniem zdobytej wiedzy na temat procesu kompilacji. Przykłady omawiane są w języku C-podobnym oraz oczywiście w języku polskim ;). Możliwe, że artykuł nie pokrył wszystkich tematów związanych z kompilacją, jednak dopiąłem wszelkich starań by tak było. Artykuł będzie co jakiś czas ulepszany, dodam, że chętnie przyjmę jakiekolwiek sugestie drogą mailowa.<br>
 
 ## Spis treści
-0. [Tworzenie kodu źrodłowego](https://github.com/devmichalek/Kompilacja/blob/master/README.md#tworzenie-kodu-%C5%BAr%C3%B3d%C5%82owego)
-1. [Kompilacja](https://github.com/devmichalek/Kompilacja/blob/master/README.md#kompilacja)
-- 1.0. [Preprocessing](https://github.com/devmichalek/Kompilacja/blob/master/README.md#preprocessing)
-- 1.1. [Analiza leksykalna - skanowanie](https://github.com/devmichalek/Kompilacja/blob/master/README.md#analiza-leksykalna---skanowanie)
-  - 1.1.0 [Jak działa lekser?](https://github.com/devmichalek/Kompilacja/blob/master/README.md#jak-dzia%C5%82a-lekser)
-  - 1.1.1 [Wyrażenia regularne](https://github.com/devmichalek/Kompilacja/blob/master/README.md#wyra%C5%BCenia-regularne)
-  - 1.1.2 [NFA - Niedeterministyczny Automat Skończony](https://github.com/devmichalek/Kompilacja/blob/master/README.md#nfa---niedeterministyczny-automat-sko%C5%84czony)
-  - 1.1.3 [Maximal Munch](https://github.com/devmichalek/Kompilacja/blob/master/README.md#maximal-munch)
-  - 1.1.4 [DFA - Deterministyczny Automat Skończony](https://github.com/devmichalek/Kompilacja/blob/master/README.md#dfa---deterministyczny-automat-sko%C5%84czony)
-  - 1.1.5 [Flex](https://github.com/devmichalek/Kompilacja/blob/master/README.md#flex)
-  - 1.1.6 [Identyfikatory](https://github.com/devmichalek/Kompilacja/blob/master/README.md#identyfikatory)
-- 1.2. [Analiza składniowa - parsowanie](https://github.com/devmichalek/Kompilacja/blob/master/README.md#analiza-sk%C5%82adniowa)
-  - 1.2.0 [Jak działa parser?](https://github.com/devmichalek/Kompilacja/blob/master/README.md#jak-dzia%C5%82a-parser)
-  - 1.2.1 [Gramatyka bezkontekstowa](https://github.com/devmichalek/Kompilacja/blob/master/README.md#gramatyka-bezkontekstowa)
-  - 1.2.2 [Niejednoznaczność](https://github.com/devmichalek/Kompilacja/blob/master/README.md#niejednoznaczno%C5%9B%C4%87)
-    - 1.2.2.0 [Niejednoznaczność Priorytetu](https://github.com/devmichalek/Kompilacja/blob/master/README.md#niejednoznaczno%C5%9B%C4%87-priorytetu)
-    - 1.2.2.1 [Wiszący If-Else](https://github.com/devmichalek/Kompilacja/blob/master/README.md#wisz%C4%85cy-if-else)
-    - 1.2.2.2 [Gramatyka Niejednoznaczna](https://github.com/devmichalek/Kompilacja/blob/master/README.md#gramatyka-niejednoznaczna)
-  - 1.2.3 [Drzewo składniowe](https://github.com/devmichalek/Kompilacja/blob/master/README.md#drzewo-sk%C5%82adniowe)
-  - 1.2.4 [Hierarchia Chomsky’ego](https://github.com/devmichalek/Kompilacja/blob/master/README.md#hierarchia-chomskyego)
+0. [Tworzenie kodu źrodłowego](https://github.com/devmichalek/Kompilacja#tworzenie-kodu-%C5%BAr%C3%B3d%C5%82owego)
+1. [Kompilacja](https://github.com/devmichalek/Kompilacja#kompilacja)
+- 1.0. [Preprocessing](https://github.com/devmichalek/Kompilacja#preprocessing)
+- 1.1. [Analiza leksykalna - skanowanie](https://github.com/devmichalek/Kompilacja#analiza-leksykalna---skanowanie)
+  - 1.1.0 [Jak działa lekser?](https://github.com/devmichalek/Kompilacja#jak-dzia%C5%82a-lekser)
+  - 1.1.1 [Wyrażenia regularne](https://github.com/devmichalek/Kompilacja#wyra%C5%BCenia-regularne)
+  - 1.1.2 [NFA - Niedeterministyczny Automat Skończony](https://github.com/devmichalek/Kompilacja#nfa---niedeterministyczny-automat-sko%C5%84czony)
+  - 1.1.3 [Maximal Munch](https://github.com/devmichalek/Kompilacja#maximal-munch)
+  - 1.1.4 [DFA - Deterministyczny Automat Skończony](https://github.com/devmichalek/Kompilacja#dfa---deterministyczny-automat-sko%C5%84czony)
+  - 1.1.5 [Flex](https://github.com/devmichalek/Kompilacja#flex)
+  - 1.1.6 [Identyfikatory](https://github.com/devmichalek/Kompilacja#identyfikatory)
+- 1.2. [Analiza składniowa - parsowanie](https://github.com/devmichalek/Kompilacja#analiza-sk%C5%82adniowa)
+  - 1.2.0 [Jak działa parser?](https://github.com/devmichalek/Kompilacja#jak-dzia%C5%82a-parser)
+  - 1.2.1 [Gramatyka bezkontekstowa](https://github.com/devmichalek/Kompilacja#gramatyka-bezkontekstowa)
+  - 1.2.2 [Niejednoznaczność](https://github.com/devmichalek/Kompilacja#niejednoznaczno%C5%9B%C4%87)
+    - 1.2.2.0 [Niejednoznaczność Priorytetu](https://github.com/devmichalek/Kompilacja#niejednoznaczno%C5%9B%C4%87-priorytetu)
+    - 1.2.2.1 [Wiszący If-Else](https://github.com/devmichalek/Kompilacja#wisz%C4%85cy-if-else)
+    - 1.2.2.2 [Gramatyka Niejednoznaczna](https://github.com/devmichalek/Kompilacja#gramatyka-niejednoznaczna)
+  - 1.2.3 [Drzewo składniowe](https://github.com/devmichalek/Kompilacja#drzewo-sk%C5%82adniowe)
+  - 1.2.4 [Hierarchia Chomsky’ego](https://github.com/devmichalek/Kompilacja#hierarchia-chomskyego)
   - 1.2.5 [Analiza zstępująca](https://github.com/devmichalek/Kompilacja#analiza-zst%C4%99puj%C4%85ca)
     - 1.2.5.0 [Przeszukiwanie wszerz](https://github.com/devmichalek/Kompilacja#przeszukiwanie-wszerz)
     - 1.2.5.1 [Przeszukiwanie wgłąb](https://github.com/devmichalek/Kompilacja#przeszukiwanie-wg%C5%82%C4%85b)
@@ -29,21 +29,22 @@ Cześć, na wstępie chcę zaznaczyć, aby całą pracę włożoną w to repozyt
     - 1.2.5.3 [Tablice LL(1)](https://github.com/devmichalek/Kompilacja#tablice-ll1)
     - 1.2.5.4 [Zbiory First i Follow](https://github.com/devmichalek/Kompilacja#zbiory-first-i-follow)
   - 1.2.6 [Analiza wstępująca](https://github.com/devmichalek/Kompilacja#analiza-wst%C4%99puj%C4%85ca)
-    - 1.2.6.0 [Redukcje, Przesunięcia, Uchwyty](https://github.com/devmichalek/Kompilacja/blob/master/README.md#redukcje-przesuni%C4%99cia-uchwyty)
+    - 1.2.6.0 [Redukcje, Przesunięcia, Uchwyty](https://github.com/devmichalek/Kompilacja#redukcje-przesuni%C4%99cia-uchwyty)
     - 1.2.6.1 [Gdzie szukamy uchwytów?](https://github.com/devmichalek/Kompilacja#gdzie-szukamy-uchwyt%C3%B3w)
-    - 1.2.6.2 [Jak szukamy uchwytów?](https://github.com/devmichalek/Kompilacja/blob/master/README.md#jak-szukamy-uchwyt%C3%B3w)
-    - 1.2.6.2 [LR(0)](https://github.com/devmichalek/Kompilacja/blob/master/README.md#lr0)
-    - 1.2.6.3 [LR(1)]()
-  - 1.2.7 [Bison](https://github.com/devmichalek/Kompilacja/blob/master/README.md#bison)
-- 1.3. [Analiza semantyczna](https://github.com/devmichalek/Kompilacja/blob/master/README.md#analiza-semantyczna)
+    - 1.2.6.2 [Jak szukamy uchwytów?](https://github.com/devmichalek/Kompilacja#jak-szukamy-uchwyt%C3%B3w)
+    - 1.2.6.3 [Automaty, Elementy LR(0)](https://github.com/devmichalek/Kompilacja#automaty-elementy-lr0)
+    - 1.2.6.4 [LR(0)](https://github.com/devmichalek/Kompilacja#lr0)
+    - 1.2.6.5 [LR(1)]()
+  - 1.2.7 [Bison](https://github.com/devmichalek/Kompilacja#bison)
+- 1.3. [Analiza semantyczna](https://github.com/devmichalek/Kompilacja#analiza-semantyczna)
   - 1.3.0 [Zasięg widoczności](https://github.com/devmichalek/Kompilacja#zasi%C4%99g-widoczno%C5%9Bci)
     - 1.3.0.0 [Zakres statyczny](https://github.com/devmichalek/Kompilacja#zakres-statyczny)
     - 1.3.0.1 [Zakres dynamiczny](https://github.com/devmichalek/Kompilacja#zakres-dynamiczny)
   - 1.3.1 [System typów](https://github.com/devmichalek/Kompilacja#system-typ%C3%B3w)
-- 1.4. [Generacja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#generacja-ir)
-- 1.5. [Optymalizaja IR](https://github.com/devmichalek/Kompilacja/blob/master/README.md#optymalizaja-ir)
-- 1.6. [Generacja kodu](https://github.com/devmichalek/Kompilacja/blob/master/README.md#generacja-kodu)
-- 1.7. [Optymalizacja](https://github.com/devmichalek/Kompilacja/blob/master/README.md#optymalizacja)
+- 1.4. [Generacja IR](https://github.com/devmichalek/Kompilacja#generacja-ir)
+- 1.5. [Optymalizaja IR](https://github.com/devmichalek/Kompilacja#optymalizaja-ir)
+- 1.6. [Generacja kodu](https://github.com/devmichalek/Kompilacja#generacja-kodu)
+- 1.7. [Optymalizacja](https://github.com/devmichalek/Kompilacja#optymalizacja)
 2. Linkowanie
 3. Ładowanie programu
 4. Uruchamianie programu
@@ -438,7 +439,7 @@ Nasze zdanie dzielimy na dwie części. Lewa strona to nasza strefa robocza, w k
 Skoro redukcja przeprowadzana jest po prawej stronie strefy roboczej, nigdy nie przesuniemy symbolu z lewej do prawej. Lewą stronę traktujemy jako wspomniany stos do którego wrzucamy symbole terminalne z prawej strony. Jak można łatwo zauważyć uchwyty znajdują się zawsze na górze stosu.
 
 #### Jak szukamy uchwytów?
-Podczas parsowania metodą przesuń/zredukuj za każdym razem zobowiązani jesteśmy zdecydować jaką akcję chcemy podjąć. Czy zredukować symbol? Czy być może pobrać więcej symboli z prawej strony? Skąd wiemy co należy wykonać? Wiemy, że uchwyt pojawi się zawsze na końcu zdania po lewej stronie, gdybyśmy w jakiś sposób znaleźli wzór na rozpoznawanie uchwytów będziemy wiedzieć kiedy wykonać redukcję a kiedy przesunięcie. Ponownie rozpatrzmy zdanie ```int + int * int + int``` tym razem z innej perspektywy:<br>
+Podczas parsowania metodą przesuń/zredukuj za każdym razem zobowiązani jesteśmy zdecydować jaką akcję chcemy podjąć. Czy zredukować symbol? Czy być może pobrać więcej symboli z prawej strony? Skąd wiemy co należy wykonać? Wiemy, że uchwyt pojawi się zawsze na końcu zdania strefy roboczej, gdybyśmy w jakiś sposób znaleźli wzór na rozpoznawanie uchwytów będziemy wiedzieć kiedy wykonać redukcję, a kiedy przesunięcie. Ponownie rozpatrzmy zdanie ```int + int * int + int``` tym razem z innej perspektywy:<br>
 ![Redukcja](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.2_0.gif?raw=true)<br><br>
 Śledząc naszą pozycję wyglądałoby to w następujący sposób:<br>
 ![Sledzenie](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.2_1.gif?raw=true)<br><br>
@@ -446,7 +447,10 @@ W dowolnym momencie generacja zawartości po lewej stronie może zostać opisana
  - Zaczynając od symbolu startowego S śledź produkcje, które nie są jeszcze kompletne (produkcje, które nie zostały jeszcze zredukowane do końca) oraz to gdzie w danej produkcji się znajdujemy (na powyższej animacji zaznaczone jest to znakiem kropki **·**)
  - Dla każdej produkcji, w kolejności, zredukuj kolejne symbole do punktu, w którym się znajdujemy. Inaczej mówiąc redukuj na bieżąco to co znajduje się po naszej lewej stronie **·**
  
-Posiadając algorytm do generacji lewej strony czy jesteśmy w stanie zbudować mechanizm do "rozpoznawania lewej strony"? W każdym momencie parsowania śledzimy, w której produkcji się znajdujemy oraz jak daleko jesteśmy w tej produkcji. W każdym momencie próbujemy dopasować symbol po prawej stronie jako nowego kandydata na symbol po lewej stronie lub jeśli jest to symbol terminalny próbujemy zgadnąć, której produkcji użyć. Projektanci kompilatora doszli do wniosku, że istnieje skończona liczba produkcji, w której istnieje skończona liczba pozycji w jakiej możemy się znaleźć. W każdym momencie jesteśmy zobowiązani śledzić gdzie się znajdujemy tylko w jednej produkcji. Dlaczego się nad tym zastanawiać? Do tego typu zadań świetnie nadają się automaty skończone. Naszym pierwszym celem było szukanie uchwytów. Podczas działania automatu gdy kiedykolwiek znajdziemy się w produkcji w takim miejscu gdzie **·** znajduję się na końcu ![Kropka](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.2_2.png?raw=true) to prawdopodobnie będzie to uchwyt. Póki co pozwolę sobie pominąć jak generowane są automaty skończone do szukania uchwytów (swoją drogą tego typu mechanizm wbudowany jest generatorze bison).
+Posiadając algorytm do generacji lewej strony czy jesteśmy w stanie zbudować mechanizm do jej rozpoznawania? W każdym momencie parsowania śledzimy, w której produkcji się znajdujemy oraz jak daleko jesteśmy w tej produkcji. W każdym momencie próbujemy dopasować symbol po prawej stronie jako nowego kandydata na symbol po lewej stronie lub jeśli jest to symbol terminalny próbujemy zgadnąć, której produkcji użyć. Istnieje skończona liczba produkcji, w której istnieje skończona liczba pozycji w jakiej możemy się znaleźć. W każdym momencie zobowiązani jesteśmy śledzić gdzie się znajdujemy tylko w jednej produkcji. Dlaczego się nad tym zastanawiać? Do tego typu zadań świetnie nadają się automaty skończone. Naszym pierwszym celem było szukanie uchwytów. Podczas działania automatu gdy kiedykolwiek znajdziemy się w produkcji w takim miejscu gdzie **·** znajduję się na końcu ![Kropka](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.2_2.png?raw=true) to prawdopodobnie będzie to uchwyt (swoją drogą tego typu mechanizm wbudowany jest generatorze bison).
+
+#### Automaty, Elementy LR(0)
+
 
 #### LR(0)
 Nasz automat wskaże nam miejsca, w których potencjalnie znajduję się uchwyt, jednakże potrzebujemy jakiegoś sposobu na potwierdzenie tej informacji. Do tego celu użyjemy parsera rozpatrującego **(0)** tokenów w przód, skanującego wejście od **l**ewej do prawej z derywacją **p**rawostroną  *(**r**ightmost derivation)*. Parsery LR(0) zwykle reprezentowane są za pomocą tabeli *action* i tabeli *goto*. Tabela akcji przypisuje każdemu stanowi określoną akcję tj. przesunięcie lub redukcję. Tabela goto mapuje następny stan każdemu z stanów (symboli). Dla chętnych poniżej zostawiam grafikę z wygenerowaną tablica i automatem skończonym.<br>
@@ -459,7 +463,7 @@ Niestety tak jak poprzednie techniki parsowania również i LR(0) nie jest w sta
 Na koniec warto zauważyć, że konflikt przesunięcie/przesunięcie nigdy nie wystąpi. Dlaczego LR(0) jest słaby? LR(0) akceptuje gramatyki, w której uchwyt pozbawiony jest prawego kontekstu tzn. nasz parser wyszukuje uchwytów jedynie po stronie lewej.
 
 #### LR(1)
-Znacznie potężniejszym parserem jest LR(1). Decyzja w szukaniu uchwytów bazuję na rozpatrywaniu jednego tokena w przód.
+
 
 ### Bison
 Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej znajduje się lista świetnych tutoriali odnośnie tego generatora:<br>
