@@ -447,10 +447,32 @@ W dowolnym momencie generacja zawartości po lewej stronie może zostać opisana
  - Zaczynając od symbolu startowego S śledź produkcje, które nie są jeszcze kompletne (produkcje, które nie zostały jeszcze zredukowane do końca) oraz to gdzie w danej produkcji się znajdujemy (na powyższej animacji zaznaczone jest to znakiem kropki **·**)
  - Dla każdej produkcji, w kolejności, zredukuj kolejne symbole do punktu, w którym się znajdujemy. Inaczej mówiąc redukuj na bieżąco to co znajduje się po naszej lewej stronie **·**
  
-Posiadając algorytm do generacji lewej strony czy jesteśmy w stanie zbudować mechanizm do jej rozpoznawania? W każdym momencie parsowania śledzimy, w której produkcji się znajdujemy oraz jak daleko jesteśmy w tej produkcji. W każdym momencie próbujemy dopasować symbol po prawej stronie jako nowego kandydata na symbol po lewej stronie lub jeśli jest to symbol terminalny próbujemy zgadnąć, której produkcji użyć. Istnieje skończona liczba produkcji, w której istnieje skończona liczba pozycji w jakiej możemy się znaleźć. W każdym momencie zobowiązani jesteśmy śledzić gdzie się znajdujemy tylko w jednej produkcji. Dlaczego się nad tym zastanawiać? Do tego typu zadań świetnie nadają się automaty skończone. Naszym pierwszym celem było szukanie uchwytów. Podczas działania automatu gdy kiedykolwiek znajdziemy się w produkcji w takim miejscu gdzie **·** znajduję się na końcu ![Kropka](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.2_2.png?raw=true) to prawdopodobnie będzie to uchwyt (swoją drogą tego typu mechanizm wbudowany jest generatorze bison).
+Posiadając algorytm do generacji lewej strony czy jesteśmy w stanie zbudować mechanizm do jej rozpoznawania? W każdym momencie parsowania śledzimy, w której produkcji się znajdujemy oraz jak daleko jesteśmy w tej produkcji. W każdym momencie próbujemy dopasować symbol po prawej stronie jako nowego kandydata na symbol po lewej stronie lub jeśli jest to symbol terminalny próbujemy zgadnąć, której produkcji użyć. Istnieje skończona liczba produkcji, w której istnieje skończona liczba pozycji w jakiej możemy się znaleźć. W każdym momencie zobowiązani jesteśmy śledzić gdzie się znajdujemy tylko w jednej produkcji. Dlaczego się nad tym zastanawiać? Do tego typu zadań świetnie nadają się automaty skończone. Podczas działania automatu gdy kiedykolwiek znajdziemy się w produkcji w takim miejscu gdzie **·** znajduję się na końcu ![Kropka](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.2_2.png?raw=true) to prawdopodobnie będzie to uchwyt (swoją drogą tego typu mechanizm wbudowany jest generatorze bison).
 
 #### Automaty, Elementy LR(0)
-
+Elementem LR(0) (lub po prostu elementem) nazywamy jedną z możliwych wyborów w produkcji z zaznaczeniem pozycji, w której się znajdujemy (w poprzednim przykładzie oznaczona jako znak kropki **·**). Rozważmy poprzednią gramatykę:
+```
+S' -> S
+S -> ( S ) S | ε
+```
+Gramatyka ta posiada trzy możliwe wybory:
+```
+S' -> S
+S -> ( S ) S
+S -> ε
+```
+Tak rozpisana gramatyka posiada dokładnie osiem elementów:
+```
+S' -> ·S
+S' -> S·
+S ->·( S ) S
+S -> (·S ) S
+S -> ( S·) S
+S -> ( S )·S
+S -> ( S ) S·
+S -> ·
+```
+Pomysł polega na potraktowaniu każdego z elementów jako rejestratora pozycji w danej części produkcji. Dla przykładu znajdując się w elemencie ```S -> ( S·) S``` wiemy, że symbole ```( S``` zostały pobrane z wejścia i umieszczone na stosie. Znajdując się w ```S' -> .S``` prawdopodobnie oczekujemy ```S``` jako następnego symbolu na wejściu, a będąc w ```S -> ( S ) S.``` wiemy, że symbole ```( S ) S``` znajdują się na górze stosu i pradopodobnie mogą zostać potraktowane jako nowy uchwyt. Mając informacje o pozycji każdy z elementów może zostać uzyty jako stan w automacie skończonym, odpowiedzialnym jedynie za utrzymanie informacji o obecnym stanie stosu. Przejście z jednego stanu do drugiego będzie możliwe wtedy gdy pobrany w wejścia token jest równy terminalowi na przejściu. Z drugiej strony istnieje sytuacja, w której na przejściu może znajdować się symbol nieterminalny np. po dokonaniu redukcji grupa terminali zamieniana jest na symbol nieterminalny, który wciąż należy zredukować (który wciąż nie jest symbolem początkowym).
 
 #### LR(0)
 Nasz automat wskaże nam miejsca, w których potencjalnie znajduję się uchwyt, jednakże potrzebujemy jakiegoś sposobu na potwierdzenie tej informacji. Do tego celu użyjemy parsera rozpatrującego **(0)** tokenów w przód, skanującego wejście od **l**ewej do prawej z derywacją **p**rawostroną  *(**r**ightmost derivation)*. Parsery LR(0) zwykle reprezentowane są za pomocą tabeli *action* i tabeli *goto*. Tabela akcji przypisuje każdemu stanowi określoną akcję tj. przesunięcie lub redukcję. Tabela goto mapuje następny stan każdemu z stanów (symboli). Dla chętnych poniżej zostawiam grafikę z wygenerowaną tablica i automatem skończonym.<br>
