@@ -463,7 +463,7 @@ S -> ε
 ```
 Tak rozpisana gramatyka posiada dokładnie osiem elementów:
 ```
-S' -> ·S
+S' ->·S
 S' -> S·
 S ->·( S ) S
 S -> (·S ) S
@@ -472,13 +472,32 @@ S -> ( S )·S
 S -> ( S ) S·
 S -> ·
 ```
-Pomysł polega na potraktowaniu każdego z elementów jako rejestratora pozycji w danej części produkcji. Dla przykładu znajdując się w elemencie ```S -> ( S·) S``` wiemy, że symbole ```( S``` zostały pobrane z wejścia i umieszczone na stosie. Znajdując się w ```S' -> .S``` prawdopodobnie oczekujemy ```S``` jako następnego symbolu na wejściu, a będąc w ```S -> ( S ) S.``` wiemy, że symbole ```( S ) S``` znajdują się na górze stosu i pradopodobnie mogą zostać potraktowane jako nowy uchwyt. Mając informacje o pozycji każdy z elementów może zostać uzyty jako stan w automacie skończonym, odpowiedzialnym jedynie za utrzymanie informacji o obecnym stanie stosu. Przejście z jednego stanu do drugiego będzie możliwe wtedy gdy pobrany w wejścia token jest równy terminalowi na przejściu. Z drugiej strony istnieje sytuacja, w której na przejściu może znajdować się symbol nieterminalny np. po dokonaniu redukcji grupa terminali zamieniana jest na symbol nieterminalny, który wciąż należy zredukować (który wciąż nie jest symbolem początkowym).<br>
-Do tej pory omówione zostały stany oraz tranzycje. Pozostała kwestia dotyczy stanu początkowego oraz stanu akceptacji. Z związku z tym, że istnieje ryzyko zapętlenia się w przypadku gdy posiadamy produkcję rekurencyjną, zobowiązani jesteśmy do rozszerzenia gramatyki poprzez wspomniane dodatkowe wstawienie symbolu początkowego. No dobrze, ale skąd wiemy, który z stanów jest stanem akceptacji? Odpowiedź jest prosta. Pamiętajmy, że nasz automat słuzy do utrzymania informacji na temat tego gdzie się aktualnie znajdujemy, a nie do rozpoznawia symboli (to parser podejmuje decyzje o zaakceptowaniu i ostatecznej redukcji), stąd **stan akceptacji nie istnieje**.
+Pomysł polega na potraktowaniu każdego z elementów jako rejestratora pozycji w danej części produkcji. Dla przykładu znajdując się w elemencie ```S -> ( S·) S``` wiemy, że symbole ```( S``` zostały pobrane z wejścia i umieszczone na stosie. Znajdując się w ```S' -> ·S``` prawdopodobnie oczekujemy ```S``` jako następnego symbolu na wejściu, a będąc w ```S -> ( S ) S·``` wiemy, że symbole ```( S ) S``` znajdują się na górze stosu i pradopodobnie mogą zostać potraktowane jako nowy uchwyt. Mając informacje o pozycji każdy z elementów może zostać uzyty jako stan w automacie skończonym, odpowiedzialnym jedynie za utrzymanie informacji o obecnym stanie stosu. Przejście z jednego stanu do drugiego będzie możliwe wtedy gdy pobrany w wejścia token jest równy terminalowi na przejściu. Z drugiej strony istnieje sytuacja, w której na przejściu może znajdować się symbol nieterminalny np. po dokonaniu redukcji grupa terminali zamieniana jest na symbol nieterminalny, który wciąż należy zredukować (który wciąż nie jest symbolem początkowym).<br>
+Do tej pory omówione zostały stany oraz tranzycje. Pozostała kwestia dotyczy stanu początkowego oraz stanu akceptacji. Z związku z tym, że istnieje ryzyko zapętlenia się w przypadku gdy posiadamy produkcję rekurencyjną, zobowiązani jesteśmy do rozszerzenia gramatyki poprzez wspomniane dodatkowe wstawienie symbolu początkowego. No dobrze, ale skąd wiemy, który z stanów jest stanem akceptacji? Odpowiedź jest prosta. Pamiętajmy, że nasz automat służy wyłącznie do utrzymania informacji na temat tego gdzie się aktualnie znajdujemy, a nie do rozpoznawania symboli (to parser podejmuje decyzje o zaakceptowaniu i ostatecznej redukcji), stąd **stan akceptacji nie istnieje**. W istocie nasz automat powinien dać sygnał o tym, że np. podany token jest niemożliwy do zaakceptowania (brak tranzycji z aktualnego stanu) jednak nie jest to bezpośrednio związane z stanem akceptacji. Automat skończony LR(0) to automat DFA (budując NFA LR(0) jesteśmy w stanie zbudować DFA LR(0)). Rozpatrzmy poniższą gramatykę:
+```
+E' -> E
+E -> E + n | n
+```
+Jej elementami są kolejno:
+```
+E' ->·E
+E' -> E·
+E ->·E + n
+E -> E·+ n
+E -> E +·n
+E -> E + n·
+E ->·n
+E -> n·
+```
+Automat NFA powstały z powyższych elementów to:<br>
+![NFA](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.3_0.png?raw=true)<br>
+Zwróćcie uwagę, że dla powstałego NFA element ```E -> ·E + n``` posiada ```ε``` tranzycję do samego siebie (powodem jest produkcja rekurencyjna). Powstały automat DFA to:<br>
+![DFA](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.3_1.png?raw=true)<br>
 
 #### LR(0)
 Nasz automat wskaże nam miejsca, w których potencjalnie znajduję się uchwyt, jednakże potrzebujemy jakiegoś sposobu na potwierdzenie tej informacji. Do tego celu użyjemy parsera rozpatrującego **(0)** tokenów w przód, skanującego wejście od **l**ewej do prawej z derywacją **p**rawostroną  *(**r**ightmost derivation)*. Parsery LR(0) zwykle reprezentowane są za pomocą tabeli *action* i tabeli *goto*. Tabela akcji przypisuje każdemu stanowi określoną akcję tj. przesunięcie lub redukcję. Tabela goto mapuje następny stan każdemu z stanów (symboli). Dla chętnych poniżej zostawiam grafikę z wygenerowaną tablica i automatem skończonym.<br>
-![Automat](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.3_0.png?raw=true)<br>
-![Tabela](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.3_1.png?raw=true)<br><br>
+![Automat](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.4_0.png?raw=true)<br>
+![Tabela](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.4_1.png?raw=true)<br><br>
 Niestety tak jak poprzednie techniki parsowania również i LR(0) nie jest w stanie rozpatrzyć każdej gramatyki dlatego krótko postaram się przybliżyć konflikty, które występują pomiędzy przesunięciami a redukcjami.
  - Konflikt przesunięcie/redukcja - konflikt, w którym nie jesteśmy w stanie stwierdzić czy należy pobrać więcej symboli z wejścia czy zredukować aktualnie pobrane symbole. Występuje zwykle gdy dwie produkcje nakładają się na siebie.
  - Konflikt redukcja/redukcja - konflikt, w którym nie jesteśmy w stanie stwierdzić, którą redukcje przeprowadzić. Powodem może okazać się "niejednoznaczność" gramatyki.
