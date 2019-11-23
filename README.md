@@ -495,17 +495,26 @@ Zwróćcie uwagę, że dla powstałego NFA element ```E -> ·E + n``` posiada ``
 ![DFA](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.3_1.png?raw=true)<br>
 
 #### LR(0)
-Nasz automat wskaże nam miejsca, w których potencjalnie znajduję się uchwyt, jednakże potrzebujemy jakiegoś sposobu na potwierdzenie tej informacji. Parsery LR(0) zwykle reprezentowane są za pomocą tabeli *action* i tabeli *goto*. Tabela akcji przypisuje każdemu stanowi określoną akcję tj. przesunięcie lub redukcję. Tabela goto mapuje następny stan każdemu z stanów (symboli). Dla chętnych poniżej zostawiam grafikę z wygenerowaną tablica i automatem skończonym.<br>
+Nasz automat wskaże nam miejsca, w których potencjalnie znajduję się uchwyt. Parser LR(0) potrzebuje informacji na temat tego w jakim stanie się znajdujemy, co za tym idzie, każdemu z stanów przypisujemy numer. Podczas wrzucania symboli na stos wrzucamy również odpowiedni numer stanu (właściwie jedynie co nas interesuje to właśnie numer stanu, w którym aktualnie się znajdujemy, stos składający się z symboli nas nie interesuje, ponieważ nie daje on żadnych informacji). Algorytm parsera LR(0) wybiera akcję na podstawie aktualnego stanu automatu DFA tj. aktualnego stanu na stosie. Algorytm przebiega w następujący sposób:
+- Jeśli stan s zawiera **jakikolwiek** element w formie ```A -> α·Xβ``` gdzie ```X``` jest symbolem terminalnym wtedy wrzuć token z wejścia na stos. Jeśli jakikolwiek z elementów zawierających ```X``` jest równe tokenowi wrzuconemu na stos, wrzucany jest numer stanu zawierający ten element. Jeśli każdy z elementów zawierających ```X``` nie jest równe tokenowi zwracany jest błąd.
+- Jeśli stan s zawiera kompletny element w formie ```A -> γ·``` wtedy wykonaj redukcję. Redukcja ```S' -> S·``` równoznaczna jest z akceptacją zdania jeśli na wejściu nie pozostało żadnych tokenów, w przeciwnym wypadku zwróć błąd. Podczas wykonywania redukcji zrzuć z stosu numery stanów do momentu ```A -> ·γ``` (do momentu, w którym parsowanie ```γ``` się rozpoczęło).
+
+Gramatyka LR(0) istnieje wtedy gdy powyższe reguły nie są **dwuznaczne**. Możliwe do wystąpienia konflikty to:
+ - Konflikt przesunięcie/redukcja - konflikt, w którym nie jesteśmy w stanie stwierdzić czy należy pobrać więcej symboli z wejścia czy zredukować aktualnie pobrane symbole.
+ - Konflikt redukcja/redukcja - konflikt, w którym nie jesteśmy w stanie stwierdzić, którą redukcje przeprowadzić.
+
+Niestety parser LR(0) nie jest w stanie poprawnie przeparsować poprzedniej gramatyki ```E' -> E``` z powodu istniejących konfliktów. Nic dziwnego, ponieważ parser LR(0) nie jest w stanie sparsować większości "prawdziwych" gramatyk, jest on natomiast używany jako podstawa do zbudowania parsera SLR(1). Przykład gramatyki LR(0):
+```
+A -> ( A ) | a
+```
+
+Parsery LR(0) zwykle reprezentowane są za pomocą tabeli *action* i tabeli *goto*. Tabela akcji przypisuje każdemu stanowi określoną akcję tj. przesunięcie lub redukcję. Tabela goto to nic innego jak tranzycja z jednego stanu do drugiego. 
+
+Inny przykład wygenerowanej tablicy oraz automatu skończonego:<br>
 ![Automat](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.4_0.png?raw=true)<br>
 ![Tabela](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.4_1.png?raw=true)<br><br>
-Niestety tak jak poprzednie techniki parsowania również i LR(0) nie jest w stanie rozpatrzyć każdej gramatyki dlatego krótko postaram się przybliżyć konflikty, które występują pomiędzy przesunięciami a redukcjami.
- - Konflikt przesunięcie/redukcja - konflikt, w którym nie jesteśmy w stanie stwierdzić czy należy pobrać więcej symboli z wejścia czy zredukować aktualnie pobrane symbole. Występuje zwykle gdy dwie produkcje nakładają się na siebie.
- - Konflikt redukcja/redukcja - konflikt, w którym nie jesteśmy w stanie stwierdzić, którą redukcje przeprowadzić. Powodem może okazać się "niejednoznaczność" gramatyki.
- 
-Na koniec warto zauważyć, że konflikt przesunięcie/przesunięcie nigdy nie wystąpi. Dlaczego LR(0) jest słaby? LR(0) akceptuje gramatyki, w której uchwyt pozbawiony jest prawego kontekstu tzn. nasz parser wyszukuje uchwytów jedynie po stronie lewej. 
 
 #### SLR(1)
-
 
 ### Bison
 Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej znajduje się lista świetnych tutoriali odnośnie tego generatora:<br>
