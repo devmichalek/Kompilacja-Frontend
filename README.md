@@ -34,7 +34,7 @@ Cześć, na wstępie chcę zaznaczyć, aby całą pracę włożoną w to repozyt
     - 1.2.6.2 [Jak szukamy uchwytów?](https://github.com/devmichalek/Kompilacja#jak-szukamy-uchwyt%C3%B3w)
     - 1.2.6.3 [Automaty, Elementy LR(0)](https://github.com/devmichalek/Kompilacja#automaty-elementy-lr0)
     - 1.2.6.4 [LR(0)](https://github.com/devmichalek/Kompilacja#lr0)
-    - 1.2.6.5 [LR(1)]()
+    - 1.2.6.5 [SLR(1)](https://github.com/devmichalek/Kompilacja#slr1)
   - 1.2.7 [Bison](https://github.com/devmichalek/Kompilacja#bison)
 - 1.3. [Analiza semantyczna](https://github.com/devmichalek/Kompilacja#analiza-semantyczna)
   - 1.3.0 [Zasięg widoczności](https://github.com/devmichalek/Kompilacja#zasi%C4%99g-widoczno%C5%9Bci)
@@ -495,7 +495,7 @@ Zwróćcie uwagę, że dla powstałego NFA element ```E -> ·E + n``` posiada ``
 ![DFA](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.3_1.png?raw=true)<br>
 
 #### LR(0)
-Nasz automat wskaże nam miejsca, w których potencjalnie znajduję się uchwyt, jednakże potrzebujemy jakiegoś sposobu na potwierdzenie tej informacji. Do tego celu użyjemy parsera rozpatrującego **(0)** tokenów w przód, skanującego wejście od **l**ewej do prawej z derywacją **p**rawostroną  *(**r**ightmost derivation)*. Parsery LR(0) zwykle reprezentowane są za pomocą tabeli *action* i tabeli *goto*. Tabela akcji przypisuje każdemu stanowi określoną akcję tj. przesunięcie lub redukcję. Tabela goto mapuje następny stan każdemu z stanów (symboli). Dla chętnych poniżej zostawiam grafikę z wygenerowaną tablica i automatem skończonym.<br>
+Nasz automat wskaże nam miejsca, w których potencjalnie znajduję się uchwyt, jednakże potrzebujemy jakiegoś sposobu na potwierdzenie tej informacji. Parsery LR(0) zwykle reprezentowane są za pomocą tabeli *action* i tabeli *goto*. Tabela akcji przypisuje każdemu stanowi określoną akcję tj. przesunięcie lub redukcję. Tabela goto mapuje następny stan każdemu z stanów (symboli). Dla chętnych poniżej zostawiam grafikę z wygenerowaną tablica i automatem skończonym.<br>
 ![Automat](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.4_0.png?raw=true)<br>
 ![Tabela](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.4_1.png?raw=true)<br><br>
 Niestety tak jak poprzednie techniki parsowania również i LR(0) nie jest w stanie rozpatrzyć każdej gramatyki dlatego krótko postaram się przybliżyć konflikty, które występują pomiędzy przesunięciami a redukcjami.
@@ -504,7 +504,7 @@ Niestety tak jak poprzednie techniki parsowania również i LR(0) nie jest w sta
  
 Na koniec warto zauważyć, że konflikt przesunięcie/przesunięcie nigdy nie wystąpi. Dlaczego LR(0) jest słaby? LR(0) akceptuje gramatyki, w której uchwyt pozbawiony jest prawego kontekstu tzn. nasz parser wyszukuje uchwytów jedynie po stronie lewej. 
 
-#### LR(1)
+#### SLR(1)
 
 
 ### Bison
