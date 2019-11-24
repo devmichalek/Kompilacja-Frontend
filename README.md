@@ -221,9 +221,11 @@ Z wyrażenia ```if (1) if (0) other else other``` (przyjmujemy, że *other* to c
 ![Drzewo](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.2.1_2.png?raw=true)<br>
 Który z nich jest poprawny zależy od sposobu interpretacji przez nas samych:
 ```
-if (1)				if (1)
+if (1) {			if (1) {
 	if (0) {}	vs.		if (0) {}
+				}
 	else {}			else {}
+}
 ```
 Wspomniany problem to tzw. *dangling else problem*, polegający na trudności w rozróżnieniu do którego wyrażenia *if* dany *else* należy.
 
@@ -518,7 +520,7 @@ Zdanie, które rozpatrzymy to:
 Wygenerowany automat skończony:<br>
 ![DFA](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.4_0.png?raw=true)<br>
 
-Parsowanie rozpoczynamy w stanie 0 (stan ten wrzucany jest na stos). Będąc w stanie 0 przesuwamy symbol ```(``` z wejścia i wrzucamy go na stos. Automat wskazuje na tranzycję z stanu 0 do stanu 3 w przypadku wystąpienia ```(```, stan 3 wrzucanmy na stos. Stan 3 podpowiada nam, aby pobrać więcej symboli z wejścia. Symbol ```(``` pobieramy z wejścia i wrzucamy go na stos. Automat wskazuje na tranzycję z stanu 3 do stanu 3 w związku z tym stan 3 wrzucany jest na stos. Ponownie będąc w stanie 3 pobierany jest symbol ```a```, który wrzucamy na stos. Wykonywane jest przejście z stanu 3 do stanu drugiego co skutkuje wrzuceniem stanu 2 na stos. W stanie 2 wykonywana jest redukcja ```A -> a``` przez co stan 2 oraz symbol ```a``` zrzucane są z stosu. Symbol ```A``` umieszczany jest na stosie. Przejście z stanu 3 do stanu 4 skutkuje wrzuceniem stanu 4 na stos. W stanie 4 pobieramy symbol ```)``` z wejścia i umieszczamy go na stosie, równocześnie wykonywane jest przejście z stanu 4 do stanu 5 przez co stan 5 ląduje na stosie. W stanie 5 wykonujemy redukcję ```A -> ( A )``` tym samym zrzucając stany 5, 4, 3 oraz symbole ```)```, ```A``` i ```(```. Symbol ```A``` umieszczany jest na stosie co powoduje przejściem z stanu 3 do stanu 4 (stan 4 wrzucany jest na stos). W stanie 4 pobieramy symbol ```)``` z wejścia i wrzucamy go na stos, przechodzimy do stanu 5 i również wrzucamy go na stos. Ponownie wykonujemy redukcje, która zrzuca stany 5, 4, 3 oraz symbole , ```A``` i ```(``` z stosu. Znajdując się w stanie 0 symbol ```A``` wrzucany jest na stos, przechodzimy do stanu 1. Będąc w stanie 1 akceptujemy przeparsowane zdanie ze względu na brak tokenów na wejściu. Proces parsowania można przedstawić następująco:
+Parsowanie rozpoczynamy w stanie 0 (stan ten wrzucany jest na stos). Będąc w stanie 0 przesuwamy symbol ```(``` z wejścia i wrzucamy go na stos. Automat wskazuje na tranzycję z stanu 0 do stanu 3 w przypadku wystąpienia ```(```, stan 3 wrzucamy na stos. Stan 3 podpowiada nam, aby pobrać więcej symboli, stąd ```(``` pobieramy z wejścia i wrzucamy go na stos. Automat wskazuje na tranzycję z stanu 3 do stanu 3 w związku z tym stan 3 wrzucany jest na stos. Ponownie będąc w stanie 3 pobierany jest symbol ```a```, który wrzucamy na stos. Wykonywane jest przejście z stanu 3 do stanu drugiego co skutkuje wrzuceniem stanu 2 na stos. W stanie 2 wykonywana jest redukcja ```A -> a``` przez co stan 2 oraz symbol ```a``` zrzucane są z stosu. Symbol ```A``` umieszczany jest na stosie. Przejście z stanu 3 do stanu 4 skutkuje wrzuceniem stanu 4 na stos. W stanie 4 pobieramy symbol ```)``` i umieszczamy go na stosie, równocześnie wykonywane jest przejście z stanu 4 do stanu 5 przez co stan 5 ląduje na stosie. W stanie 5 wykonujemy redukcję ```A -> ( A )``` tym samym zrzucając stany 5, 4, 3 oraz symbole ```)```, ```A```, ```(```. Symbol ```A``` umieszczany jest na stosie co powoduje przejście z stanu 3 do stanu 4 (stan 4 wrzucany jest na stos). W stanie 4 pobieramy symbol ```)``` z wejścia i wrzucamy go na stos, przechodzimy do stanu 5 i również wrzucamy go na stos. Ponownie wykonujemy redukcje, która zrzuca stany 5, 4, 3 oraz symbole ```)```, ```A```, ```(``` z stosu. Znajdując się w stanie 0 symbol ```A``` wrzucany jest na stos, przechodzimy do stanu 1. Będąc w stanie 1 akceptujemy zdanie ze względu na brak dodatkowych tokenów na wejściu. Proces parsowania można przedstawić następująco:
 
 ```
 Stos			Wejscie		Akcja
@@ -533,7 +535,7 @@ $ 0 ( 3 A 4 ) 5		     $		Zredukuj A -> ( A )
 $ 0 A 1			     $		Zaakceptuj
 ```
 
-Parsery LR(0) zwykle reprezentowane są za pomocą tabeli *action* i tabeli *goto*. Tabela akcji przypisuje każdemu stanowi określoną akcję tj. przesunięcie lub redukcję. Tabela goto to nic innego jak tranzycja z jednego stanu do drugiego. Tabela tworzona jest na podstawie DFA oraz symboli terminalnych występujących w gramatyce. Dla powyższej gramatyki tablica parsera LR(0) wygląda następująco:
+Parsery LR(0) zwykle reprezentowane są za pomocą tabeli *action* i tabeli *goto*. Tabela akcji przypisuje każdemu stanowi określoną akcję tj. przesunięcie lub redukcję. Tabela goto to nic innego jak tranzycja z jednego stanu do drugiego. Tabela tworzona jest na podstawie DFA oraz symboli terminalnych występujących w gramatyce. Dla powyższej gramatyki tabela wygląda następująco:
 
 | Stan | Akcja    | Zasada     | ```(``` | ```a``` | ```)``` | Goto |
 |------|----------|------------|---------|---------|---------|------|
@@ -544,11 +546,12 @@ Parsery LR(0) zwykle reprezentowane są za pomocą tabeli *action* i tabeli *got
 | 4    | Przesuń  |            |         |         | 5       |      | 
 | 5    | Zredukuj | A -> ( A ) |         |         |         |      |  
 
-Warto zaznaczyć, że każde puste miejsce w tabeli oznacza potencjalny błąd w parsowaniu w przypadku błędnego tokenu. Inny przykład wygenerowanej tablicy oraz automatu skończonego:<br>
+Warto zaznaczyć, że każde puste miejsce w tabeli oznacza potencjalne zwrócenie błądu podczas parsowania. Inny przykład wygenerowanej tablicy oraz automatu skończonego:<br>
 ![Automat](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.4_1.png?raw=true)<br>
 ![Tabela](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.4_2.png?raw=true)<br><br>
 
 #### SLR(1)
+**S**imple LR(1) lub SLR(1) używa automatu skończonego dla elementów LR(0). Różnicą w stosunku do LR(0) jest rozpatrywanie dodatkowego tokenu z wejścia.
 
 ### Bison
 Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej znajduje się lista świetnych tutoriali odnośnie tego generatora:<br>
