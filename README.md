@@ -472,8 +472,8 @@ S -> ( S )·S
 S -> ( S ) S·
 S -> ·
 ```
-Pomysł polega na potraktowaniu każdego z elementów jako rejestratora pozycji w danej części produkcji. Dla przykładu znajdując się w elemencie ```S -> ( S·) S``` wiemy, że symbole ```( S``` zostały pobrane z wejścia i umieszczone na stosie. Znajdując się w ```S' -> ·S``` prawdopodobnie oczekujemy ```S``` jako następnego symbolu na wejściu, a będąc w ```S -> ( S ) S·``` wiemy, że symbole ```( S ) S``` znajdują się na górze stosu i pradopodobnie mogą zostać potraktowane jako nowy uchwyt. Mając informacje o pozycji każdy z elementów może zostać uzyty jako stan w automacie skończonym, odpowiedzialnym jedynie za utrzymanie informacji o obecnym stanie stosu. Przejście z jednego stanu do drugiego będzie możliwe wtedy gdy pobrany w wejścia token jest równy terminalowi na przejściu. Z drugiej strony istnieje sytuacja, w której na przejściu może znajdować się symbol nieterminalny np. po dokonaniu redukcji grupa terminali zamieniana jest na symbol nieterminalny, który wciąż należy zredukować (który wciąż nie jest symbolem początkowym).<br>
-Do tej pory omówione zostały stany oraz tranzycje. Pozostała kwestia dotyczy stanu początkowego oraz stanu akceptacji. Z związku z tym, że istnieje ryzyko zapętlenia w przypadku gdy posiadamy produkcję rekurencyjną zobowiązani jesteśmy do rozszerzenia gramatyki poprzez wspomniane dodatkowe wstawienie symbolu początkowego. No dobrze, ale skąd wiemy, który z stanów jest stanem akceptacji? Odpowiedź jest prosta. Pamiętajmy, że nasz automat służy wyłącznie do utrzymania informacji na temat tego gdzie się aktualnie znajdujemy, a nie do rozpoznawania symboli (to parser podejmuje decyzje o zaakceptowaniu i ostatecznej redukcji), stąd **stan akceptacji nie istnieje**. W istocie nasz automat powinien dać sygnał o tym, że np. podany token jest niemożliwy do zaakceptowania (brak tranzycji z aktualnego stanu) jednak nie jest to bezpośrednio związane z stanem akceptacji. Automat skończony LR(0) to automat DFA (budując NFA LR(0) jesteśmy w stanie zbudować DFA LR(0)). Rozpatrzmy poniższą gramatykę:
+Pomysł polega na potraktowaniu każdego z elementów jako rejestratora pozycji w danej części produkcji. Dla przykładu znajdując się w elemencie ```S -> ( S·) S``` wiemy, że symbole ```( S``` zostały pobrane z wejścia i umieszczone na stosie. Znajdując się w ```S' -> ·S``` prawdopodobnie oczekujemy ```S``` jako następnego symbolu na wejściu, a będąc w ```S -> ( S ) S·``` wiemy, że symbole ```( S ) S``` znajdują się na górze stosu i prawdopodobnie mogą zostać potraktowane jako nowy uchwyt. Mając informacje o pozycji każdy z elementów może zostać użyty jako stan w automacie skończonym odpowiedzialnym jedynie za utrzymanie informacji o obecnym stanie stosu. Przejście z jednego stanu do drugiego będzie możliwe wtedy gdy pobrany w wejścia token jest równy terminalowi na przejściu. Z drugiej strony istnieje sytuacja, w której na przejściu może znajdować się symbol nieterminalny np. po dokonaniu redukcji grupa terminali zamieniana jest na symbol nieterminalny, który wciąż należy zredukować (który wciąż nie jest symbolem początkowym).<br>
+Do tej pory omówione zostały stany oraz tranzycje. Pozostała kwestia dotyczy stanu początkowego oraz stanu akceptacji. Z uwagi na ryzyko zapętlenia spowodowane występowaniem produkcji rekurencyjnych zobowiązani jesteśmy do rozszerzenia gramatyki poprzez wspomniane dodatkowe wstawienie symbolu początkowego (nowy symbol oznaczamy za pomocą ```'```). No dobrze, ale skąd wiemy, który z stanów jest stanem akceptacji? Odpowiedź jest prosta. Pamiętajmy, że nasz automat służy wyłącznie do utrzymania informacji na temat tego gdzie się aktualnie znajdujemy, a nie do rozpoznawania symboli (to parser podejmuje decyzje o zaakceptowaniu i ostatecznej redukcji), stąd **stan akceptacji nie istnieje**. W istocie nasz automat powinien dać sygnał o tym, że np. podany token jest niemożliwy do zaakceptowania (brak tranzycji z aktualnego stanu) jednak nie jest to bezpośrednio związane z stanem akceptacji. Automat skończony LR(0) to automat DFA (budując NFA LR(0) jesteśmy w stanie zbudować DFA LR(0)). Rozpatrzmy poniższą gramatykę:
 ```
 E' -> E
 E -> E + n | n
@@ -497,19 +497,29 @@ Zwróćcie uwagę, że dla powstałego NFA element ```E -> ·E + n``` posiada ``
 #### LR(0)
 Nasz automat wskaże nam miejsca, w których potencjalnie znajduję się uchwyt. Parser LR(0) potrzebuje informacji na temat tego w jakim stanie się znajdujemy, co za tym idzie, każdemu z stanów przypisujemy numer. Podczas wrzucania symboli na stos wrzucamy również odpowiedni numer stanu (właściwie jedynie co nas interesuje to właśnie numer stanu, w którym aktualnie się znajdujemy, stos składający się z symboli nas nie interesuje, ponieważ nie daje on żadnych informacji). Algorytm parsera LR(0) wybiera akcję na podstawie aktualnego stanu automatu DFA tj. aktualnego stanu na stosie. Algorytm przebiega w następujący sposób:
 - Jeśli stan s zawiera **jakikolwiek** element w formie ```A -> α·Xβ``` gdzie ```X``` jest symbolem terminalnym wtedy wrzuć token z wejścia na stos. Jeśli jakikolwiek z elementów zawierających ```X``` jest równe tokenowi wrzuconemu na stos, wrzucany jest numer stanu zawierający ten element. Jeśli każdy z elementów zawierających ```X``` nie jest równe tokenowi zwracany jest błąd.
-- Jeśli stan s zawiera kompletny element w formie ```A -> γ·``` wtedy wykonaj redukcję. Redukcja ```S' -> S·``` równoznaczna jest z akceptacją zdania jeśli na wejściu nie pozostało żadnych tokenów, w przeciwnym wypadku zwróć błąd. Podczas wykonywania redukcji zrzuć z stosu numery stanów do momentu ```A -> ·γ``` (do momentu, w którym parsowanie ```γ``` się rozpoczęło).
+- Jeśli stan s zawiera kompletny element w formie ```A -> γ·``` wykonaj redukcję. Redukcja ```S' -> S·``` równoznaczna jest z akceptacją zdania jeśli na wejściu nie pozostało żadnych tokenów, w przeciwnym wypadku zwróć błąd. Podczas wykonywania redukcji zrzuć z stosu numery stanów do momentu ```A -> ·γ``` (do momentu, w którym parsowanie ```γ``` się rozpoczęło).
 
 Gramatyka LR(0) istnieje wtedy gdy powyższe reguły nie są **dwuznaczne**. Możliwe do wystąpienia konflikty to:
  - Konflikt przesunięcie/redukcja - konflikt, w którym nie jesteśmy w stanie stwierdzić czy należy pobrać więcej symboli z wejścia czy zredukować aktualnie pobrane symbole.
  - Konflikt redukcja/redukcja - konflikt, w którym nie jesteśmy w stanie stwierdzić, którą redukcje przeprowadzić.
 
-Niestety parser LR(0) nie jest w stanie poprawnie przeparsować poprzedniej gramatyki ```E' -> E``` z powodu istniejących konfliktów. Nic dziwnego, ponieważ parser LR(0) nie jest w stanie sparsować większości "prawdziwych" gramatyk, jest on natomiast używany jako podstawa do zbudowania parsera SLR(1). Przykład gramatyki LR(0):
+Niestety parser LR(0) nie jest w stanie poprawnie przeparsować poprzedniej gramatyki ```E' -> E``` z powodu istniejących konfliktów. Nic dziwnego, ponieważ parser LR(0) nie jest w stanie sparsować większości "prawdziwych" gramatyk, jest on natomiast używany jako podstawa do zbudowania parsera SLR(1). Aby zobaczyć jak algorytm parsera LR(0) działa rozpatrzmy poniższą gramatykę:
+
 ```
 A' -> A
 A -> ( A ) | a
 ```
+
+Zdanie, które rozpatrzymy to:
+```
+((a))
+```
+
 Wygenerowany automat skończony:<br>
 ![DFA](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.4_0.png?raw=true)<br>
+
+Parsowanie rozpoczynamy w stanie 0 (stan ten wrzucany jest na stos). Będąc w stanie 0 przesuwamy symbol ```(``` z wejścia i wrzucamy go na stos. Automat wskazuje na tranzycję z stanu 0 do stanu 3 w przypadku wystąpienia ```(```, stan 3 wrzucanmy na stos. Stan 3 podpowiada nam, aby pobrać więcej symboli z wejścia. Symbol ```(``` pobieramy z wejścia i wrzucamy go na stos. Automat wskazuje na tranzycję z stanu 3 do stanu 3 w związku z tym stan 3 wrzucany jest na stos. Ponownie będąc w stanie 3 pobierany jest symbol ```a```, który wrzucamy na stos. Wykonywane jest przejście z stanu 3 do stanu drugiego co skutkuje wrzuceniem stanu 2 na stos. W stanie 2 wykonywana jest redukcja ```A -> a``` przez co stan 2 oraz symbol ```a``` zrzucane są z stosu. Symbol ```A``` umieszczany jest na stosie. Przejście z stanu 3 do stanu 4 skutkuje wrzuceniem stanu 4 na stos. W stanie 4 pobieramy symbol ```)``` z wejścia i umieszczamy go na stosie, równocześnie wykonywane jest przejście z stanu 4 do stanu 5 przez co stan 5 ląduje na stosie. W stanie 5 wykonujemy redukcję ```A -> ( A )``` tym samym zrzucając stany 5, 4, 3 oraz symbole ```)```, ```A``` i ```(```. Symbol ```A``` umieszczany jest na stosie co powoduje przejściem z stanu 3 do stanu 4 (stan 4 wrzucany jest na stos). W stanie 4 pobieramy symbol ```)``` z wejścia i wrzucamy go na stos, przechodzimy do stanu 5 i również wrzucamy go na stos. Ponownie wykonujemy redukcje, która zrzuca stany 5, 4, 3 oraz symbole , ```A``` i ```(``` z stosu. Znajdując się w stanie 0 symbol ```A``` wrzucany jest na stos, przechodzimy do stanu 1. Będąc w stanie 1 akceptujemy przeparsowane zdanie ze względu na brak tokenów na wejściu. Proces parsowania można przedstawić następująco:
+
 ```
 Stos			Wejscie		Akcja
 $ 0			((a))$		Przesuń
@@ -520,8 +530,10 @@ $ 0 ( 3 ( 3 A 4		   ))$		Przesuń
 $ 0 ( 3 ( 3 A 4 ) 5	    )$		Zredukuj A -> ( A )
 $ 0 ( 3 A 4		    )$		Przesuń
 $ 0 ( 3 A 4 ) 5		     $		Zredukuj A -> ( A )
-$ 0 A 1					Zaakceptuj
+$ 0 A 1			     $		Zaakceptuj
 ```
+
+Parsery LR(0) zwykle reprezentowane są za pomocą tabeli *action* i tabeli *goto*. Tabela akcji przypisuje każdemu stanowi określoną akcję tj. przesunięcie lub redukcję. Tabela goto to nic innego jak tranzycja z jednego stanu do drugiego. Tabela tworzona jest na podstawie DFA oraz symboli terminalnych występujących w gramatyce. Dla powyższej gramatyki tablica parsera LR(0) wygląda następująco:
 
 | Stan | Akcja    | Zasada     | ```(``` | ```a``` | ```)``` | Goto |
 |------|----------|------------|---------|---------|---------|------|
@@ -530,11 +542,9 @@ $ 0 A 1					Zaakceptuj
 | 2    | Zredukuj | A -> a     |         |         |         |      | 
 | 3    | Przesuń  |            | 3       | 2       |         | 4    | 
 | 4    | Przesuń  |            |         |         | 5       |      | 
-| 5    | Zredukuj | A -> ( A ) |         |         |         |      | 
+| 5    | Zredukuj | A -> ( A ) |         |         |         |      |  
 
-Parsery LR(0) zwykle reprezentowane są za pomocą tabeli *action* i tabeli *goto*. Tabela akcji przypisuje każdemu stanowi określoną akcję tj. przesunięcie lub redukcję. Tabela goto to nic innego jak tranzycja z jednego stanu do drugiego. 
-
-Inny przykład wygenerowanej tablicy oraz automatu skończonego:<br>
+Warto zaznaczyć, że każde puste miejsce w tabeli oznacza potencjalny błąd w parsowaniu w przypadku błędnego tokenu. Inny przykład wygenerowanej tablicy oraz automatu skończonego:<br>
 ![Automat](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.4_1.png?raw=true)<br>
 ![Tabela](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.4_2.png?raw=true)<br><br>
 
