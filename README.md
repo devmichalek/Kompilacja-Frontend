@@ -505,14 +505,14 @@ Gramatyka LR(0) istnieje wtedy gdy powyższe reguły nie są **dwuznaczne**. Mo�
  - Konflikt przesunięcie/redukcja - konflikt, w którym nie jesteśmy w stanie stwierdzić czy należy pobrać więcej symboli z wejścia czy zredukować aktualnie pobrane symbole.
  - Konflikt redukcja/redukcja - konflikt, w którym nie jesteśmy w stanie stwierdzić, którą redukcje przeprowadzić.
 
-Niestety parser LR(0) nie jest w stanie poprawnie przeparsować poprzedniej gramatyki ```E' -> E``` z powodu istniejących konfliktów. Nic dziwnego, ponieważ parser LR(0) nie jest w stanie sparsować większości "prawdziwych" gramatyk, jest on natomiast używany jako podstawa do zbudowania parsera SLR(1). Aby zobaczyć jak algorytm parsera LR(0) działa rozpatrzmy poniższą gramatykę:
+Niestety parser LR(0) nie jest w stanie poprawnie przeparsować poprzedniej gramatyki ```E' -> E``` z powodu istniejących konfliktów. Nic dziwnego, ponieważ parser LR(0) nie jest w stanie sparsować większości "prawdziwych" gramatyk, jest on natomiast używany jako podstawa do zbudowania parsera SLR(1). Aby zobaczyć jak algorytm parsera LR(0) działa w praktyce, rozpatrzmy poniższą gramatykę:
 
 ```
 A' -> A
 A -> ( A ) | a
 ```
 
-Zdanie, które rozpatrzymy to:
+Zdanie, które weźniemy pod uwagę to:
 ```
 ((a))
 ```
@@ -551,7 +551,7 @@ Warto zaznaczyć, że każde puste miejsce w tabeli oznacza potencjalne zwrócen
 ![Tabela](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.4_2.png?raw=true)<br><br>
 
 #### SLR(1)
-**S**imple LR(1) lub SLR(1) używa automatu skończonego dla elementów LR(0). Różnicą w stosunku do LR(0) jest rozpatrywanie dodatkowego tokenu z wejścia.
+**S**imple LR(1) lub SLR(1) używa automatu skończonego oraz elementów LR(0). Różnicą w stosunku do LR(0) jest rozpatrywanie dodatkowego tokenu z wejścia.
 
 ### Bison
 Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej znajduje się lista świetnych tutoriali odnośnie tego generatora:<br>
