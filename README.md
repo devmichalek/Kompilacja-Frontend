@@ -230,7 +230,7 @@ if (1) {			if (1) {
 Wspomniany problem to tzw. *dangling else problem*, polegający na trudności w rozróżnieniu do którego wyrażenia *if* dany *else* należy.
 
 #### Gramatyka Niejednoznaczna
-Gramatyka może być niejednoznaczna mimo to wciąż tworzyć unikalne struktury drzewa tzn. taka, w której algorytm parsujący dla derywacji lewostronnej i prawostronnej tworzy różne struktury drzewa jednak dające ten sam rezultat (w literaturze określane jako *inessential ambiguity*) **na etapie koncowym**. Taka gramatyka dotyczy w szczególności operacji, w których kolejność nie ma znaczenia. Najprostszymi przykładami będą operacje dodawania i mnożenia. W przypadku, w którym niejednoznaczność nie gra roli interesuje nas tak naprawdę efekt końcowy (wyliczona wartość z operacji mnożenia). Zauważmy, że mogą istnieć kompletnie dwie różne struktury drzewa ```(a * b) * c = a * (b * c)``` wciąż dające ten sam rezultat. Niemniej jednak algorytm parsujący powinien rozróżniać tego typu przypadki i stosować się tylko do jednej z wymienionych struktur uniemożliwiając tym samym powstawanie innych.
+Gramatyka może być niejednoznaczna mimo to wciąż tworzyć unikalne struktury drzewa tzn. taka, w której algorytm parsujący dla derywacji lewostronnej i prawostronnej tworzy różne struktury drzewa jednak dające ten sam rezultat (w literaturze określane jako *inessential ambiguity*). Taka gramatyka dotyczy w szczególności operacji, w których kolejność nie ma znaczenia. Najprostszymi przykładami będą operacje dodawania i mnożenia. W przypadku, w którym niejednoznaczność nie gra roli interesuje nas tak naprawdę efekt końcowy (wyliczona wartość z operacji mnożenia). Zauważmy, że mogą istnieć kompletnie dwie różne struktury drzewa ```(a * b) * c = a * (b * c)``` wciąż dające ten sam rezultat. Niemniej jednak algorytm parsujący powinien rozróżniać tego typu przypadki i stosować się tylko do jednej z wymienionych struktur uniemożliwiając tym samym powstawanie innych.
 
 ### Drzewo składniowe
 Podczas parsowania utworzone zostaje drzewo składniowe, tzw. Concrete Syntax Tree *(CST)* to drzewo odzwierciedlające nasz kod źródłowy w postaci tokenów, bardziej przydatnym typem drzewa okazuje się być Abstract Syntax Tree *(AST)*, które zachowuje najbardziej przydatne informacje w celu dalszej obróbki również w postaci tokenów, różnica pomiędzy CST i AST jest taka, że AST stara się na bieżąco wyliczać wartości oraz usuwać niepotrzebne tokeny.
@@ -551,7 +551,8 @@ Warto zaznaczyć, że każde puste miejsce w tabeli oznacza potencjalne zwrócen
 ![Tabela](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.4_2.png?raw=true)<br><br>
 
 #### SLR(1)
-**S**imple LR(1) lub SLR(1) używa automatu skończonego oraz elementów LR(0). Różnicą w stosunku do LR(0) jest rozpatrywanie dodatkowego tokenu z wejścia.
+**S**imple LR(1) lub SLR(1) używa automatu skończonego oraz elementów LR(0). Różnicą w stosunku do LR(0) jest rozpatrywanie dodatkowego tokenu z wejścia, które znacząco zwiększa zakres możliwych do rozpatrzenia gramatyk. Decyzja dotycząca wrzucenia tokenu na stos podejmowana jest na podstawie podglądu. Dodatkowo parser SLR(1) posługuje się zbiorem Follow w celu sprawdzenia czy dany symbol nieterminalny może zostać zredukowany. Jak się okazuje te dwie proste czynności są wystarczająco skuteczne dla prawie każdej możliwej konstrukcji języka. Algorytm przedstawia się w następujący sposób:
+
 
 ### Bison
 Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej znajduje się lista świetnych tutoriali odnośnie tego generatora:<br>
