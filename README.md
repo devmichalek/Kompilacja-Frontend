@@ -653,9 +653,9 @@ W sytuacji, w której dana klasa posiada rodzica (dziedziczy po innej klasie) pr
 Z uwagi na fakt, iż parsery LL(1) i LR(1) znają swój następny token skanowanie oraz parsowanie może odbywać się w tym samym czasie podczas jednego etapu. Niektóre kompilatory przeprowadzają skanowanie, parsowanie, analizę semantyczą i generację kodu jednoetapowo. Taki typ kompilatora określany jest jako *single-pass compiler* (niektóre starsze kompilatory Pascala działały w ten sposób, języki takie jak C i C++ zaprojektowane są w sposób ułatwiający implementację kompilatora jednoetapowego). Obecnie najczęściej możemy spotkać kompilatory przeprowadzające analizy wielokrotnie ze zwględu na zbyt skomplikowaną semantykę, kompilatory te określane są jako *multi-pass compiler*. Ciekawą zaletą kompilatorów wieloetapowych jest to, że zebrane informacje z poprzednich przejść mogą zostać wykorzystane poźniej. Jednym z rozwiązań może być implementacja tablicy symboli jako struktury, w której każdy zakres reprezentowany jest przez tablicę mieszającą *(hash table)*. W tablicy mieszającej interesują nas tak naprawdę trzy rzeczy, wielkość tablicy, metoda niwelująca kolizje *(collision resolution)* oraz algorytm hashujący. Kolizji pozbywamy się implementując każdy kubełek jako liste jednokierunkową (lub drzewo binarne). Algorytm hashujacy to kwestia indywidualna, jednym z rozwiązań może być algorytm SHA-1. Jeśli chodzi o wielkość tablicy to sprawa jest nieco bardziej skompilowana. Pomijając fakt, że poprzednie problemy mogą w ogóle nie być brane pod uwagę zakładając, że używamy rozwiązań zaimplementowanych już w wielu językach to sama wielkość tablicy nie jest nam znana. Zbyt duża tablica niepotrzebnie zabiera miejsce w pamięci natomiast zbyt mała spowoduje dużą ilość kolizji. W momencie, w którym nasz kompilator jest wieloetapowy możemy założyć, że każda deklaracja identyfikatora to potencjalny nowy symbol w tablicy, implementując swego rodzaju licznik możemy w mniejszym lub większym stopniu oszacować wielkość tablicy.
 
 #### Zakres statyczny
-Zakres statyczny *(static/lexical scoping)* definiuje związek między strukturą kodu źródłowego, a symbolami, których adresy wyliczane są podczas **kompilacji**. Wszystkie dotychczas omawiane przykłady korzystały z tablicy symboli wyliczanej na kompilacji. W takim przypadku to **struktura kodu** definuje **widoczność** symboli. Poniżej przykład kodu napisanego języku C:
+Zakres statyczny *(static/lexical scoping)* definiuje związek między strukturą kodu źródłowego, a symbolami, których adresy wyliczane są podczas **kompilacji**. Wszystkie dotychczas omawiane przykłady korzystały z tablicy symboli wyliczanej na kompilacji. W takim przypadku to **struktura kodu** definuje **widoczność** symboli. Poniżej przykład kodu napisanego w języku C:
 ```C
-#include<stdio.h> 
+#include <stdio.h> 
 int x = 10; 
 int f() { return x; }
 int g() { int x = 20; return f(); }
@@ -665,12 +665,12 @@ int main()
 	return 0; 
 }
 ```
-Najpopularniejszymi językami programowania korzystającymi z statycznych zakresów są np. Java i C++.
+Znanymi językami programowania korzystającymi z statycznych zakresów są np. Java i C++.
 
 #### Zakres dynamiczny
 Zakres dynamiczny *(dynamic scoping)* nie definiuje bezpośrednio związku między strukturą kodu źródłowego, a symbolem, to **aktualny stan stosu programu** ustala do którego symbolu się odnosimy. Jest to niezwykle nietypowe podejście występujące w językach takich jak Perl czy Lisp. Zasięg widoczności, rozwiązywany podczas pracy programu jest stosunkowo wolniejszy, dzieje się tak z powodu "niezakodowanych" adresów zmiennych. W dużym uproszczeniu podczas pracy programu będąc w danej funkcji program najpierw sprawdza czy szukana zmienna znajduje się w obrębie tego samego zakresu jeśli nie to szuka dalej tym razem w funkcji z której została zawołana. Poniżej przykład kodu napisanego w języku Pseudo-C:
 ```C
-#include<stdio.h> 
+#include <stdio.h> 
 int x = 10; 
 int f() { return x; }
 int g() { int x = 20; return f(); }
