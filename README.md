@@ -35,7 +35,7 @@ Cześć, na wstępie chcę zaznaczyć, aby całą pracę włożoną w to repozyt
     - 1.2.6.3 [Automaty, Elementy LR(0)](https://github.com/devmichalek/Kompilacja#automaty-elementy-lr0)
     - 1.2.6.4 [LR(0)](https://github.com/devmichalek/Kompilacja#lr0)
     - 1.2.6.5 [SLR(1)](https://github.com/devmichalek/Kompilacja#slr1)
-    - 1.2.6.6 [Niejednoznaczność SLR(1), SLR(k)]()
+    - 1.2.6.6 [Niejednoznaczność SLR(1), SLR(k)](https://github.com/devmichalek/Kompilacja#niejednoznaczno%C5%9B%C4%87-slr1-slrk)
   - 1.2.7 [Bison](https://github.com/devmichalek/Kompilacja#bison)
 - 1.3. [Analiza semantyczna](https://github.com/devmichalek/Kompilacja#analiza-semantyczna)
   - 1.3.0 [Zasięg widoczności](https://github.com/devmichalek/Kompilacja#zasi%C4%99g-widoczno%C5%9Bci)
@@ -572,6 +572,7 @@ Follow(E') = { $ }
 Follow(E) = { $, +}
 ```
 Utworzona tablica SLR(1):
+
 | Stan | ```n``` | ```+```              | ```$```              | ```E``` |
 |------|---------|----------------------|----------------------|---------|
 | 0    | s2      |                      |                      | 1       |
