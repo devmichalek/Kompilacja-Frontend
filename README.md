@@ -559,7 +559,7 @@ Warto zaznaczyć, że każde puste miejsce w tabeli oznacza potencjalne zwrócen
 
 Gramatyka SLR(1) istnieje wtedy gdy powyższe reguły nie są **dwuznaczne**. Konflikty SLR(1) to kolejno:
  - Konflikt przesunięcie/redukcja - Element ```A -> α·Xβ```, gdzie ```X``` to terminal, gdy nie istnieje kompletny element w formie ```B -> γ·``` w stanie s z ```X``` w zbiorze Follow(B).
- - Konflikt redukcja/redukcja - Dwa kompletne elementy ```A -> α``` oraz ```B -> β``` w stanie s dają zbiór pusty dla Follow(A) ∧ Follow(B).
+ - Konflikt redukcja/redukcja - Dwa kompletne elementy ```A -> α``` oraz ```B -> β``` w stanie s dają zbiór pusty dla Follow(A) ∩ Follow(B).
 
 Konfilkty SLR(1) podobne są do konfliktów występujących w LL(1) z jedną małą różnicą. Parsując metodą SLR(1) decyzja o wyborze produkcji może zostać opóźniona sprawdzając tym samym większą ilość wyborów. Tablica SLR(1) może zostać skonstruowana w sposób podobny do LR(0). Jako, że stan w parserze SLR(1) może reprezentować zarówno przesunięcie jak i redukcję (bazując na tokenie podglądowym), każdy z tokenów posiada etykietę s - *(shift)* przesuń lub r - *(reduce)* zredukuj, tym samym kolumna "akcji" jest już zbędna. Zbiory Follow zawierają symbol ```$```, dlatego też istnienie dodatkowej kolumny dla ```$``` jest kluczowe. Jako przykład weźme poprzednią gramatykę:
 ```
