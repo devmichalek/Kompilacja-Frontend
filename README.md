@@ -35,6 +35,7 @@ Cześć, na wstępie chcę zaznaczyć, aby całą pracę włożoną w to repozyt
     - 1.2.6.3 [Automaty, Elementy LR(0)](https://github.com/devmichalek/Kompilacja#automaty-elementy-lr0)
     - 1.2.6.4 [LR(0)](https://github.com/devmichalek/Kompilacja#lr0)
     - 1.2.6.5 [SLR(1)](https://github.com/devmichalek/Kompilacja#slr1)
+    - 1.2.6.6 [Niejednoznaczność SLR(1), SLR(k)]()
   - 1.2.7 [Bison](https://github.com/devmichalek/Kompilacja#bison)
 - 1.3. [Analiza semantyczna](https://github.com/devmichalek/Kompilacja#analiza-semantyczna)
   - 1.3.0 [Zasięg widoczności](https://github.com/devmichalek/Kompilacja#zasi%C4%99g-widoczno%C5%9Bci)
@@ -269,7 +270,7 @@ Analiza zstępująca *(top-down)* zaczyna się niemalże bez informacji. Symbol 
 
 #### Przeszukiwanie wszerz
 Zacznijmy od pierwszego, rzadziej używanego algorytmu *Breadth-First Search* lub *BFS*. Algorytm polega na przeszukiwaniu wszerz zaczynając od symbolu najbardziej na lewo lub prawo. Algorytm wymaga zapamiętywania wszystkich węzłów w danej odległości od korzenia. Standardowe przejście po grafie wygląda następująco:<br>
-<img align="left" alt="BFS" src="https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.0_0.png?raw=true">
+<img align="left" alt="BFS" src="https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.0_0.png?raw=true"><br>
 Od razu wspomnę, że próba rozwijania symbolu może trwać naprawdę długo. Dlaczego? Załóżmy, że nasz algorytm rozwija zawsze pierwszy z lewej symbol znajdujący się w produkcji. W momencie gdy w produkcji pierwszym symbolem z lewej jest taki sam symbol jaki znajduję się "przed strzałką" potencjalnie wpadamy w bardzo długi proces szukania rozwiązania dla danej produkcji (w BFS nie ma ryzyka nieskończonej pętli jednak proces szukania rozwiązania może trwać naprawdę długo). Poniższa animacja ilustruje powyższy schemat przejść po drzewie tj. pierwszy rozwijany jest symbol najbardziej na lewo:
 ![BFS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.0_1.gif?raw=true)<br>
 Jak można łatwo zauważyć szukanie klucza może potrwać naprawdę długo, dodatkowo szukanie zajmuje mnóstwo pamięci. Najbardziej nieprzydatną rzeczą okazuję się **rozwijanie symbolu nieterminalnego, który potencjalnie zawiera inne symbole nieterminalne z niepasującym kluczem** (wspomniane ryzyko rekurencji). Co można by było ulepszyć? Wyobraźmy sobie, że szukamy rozwiązania dla λ = ```int + int```. Zakładamy również, że posiadamy zasadę mówiącą, że κ = **a**B (κ - symbol dowolny, **a** - symbol terminalny, B - symbol nieterminalny), w przypadku gdy **a** nie jest tokenem ```int``` nie ma sensu dalej rozwijać symbolu nieterminalnego B. Unikając niepotrzebnego rozwijania *(branching factor)* symboli nieterminalnych znacznie zyskujemy na czasie. Oczywiście gdy nasz ciąg symboli składa się z wielu symboli nieterminalnych to rozwijanie wciąż może zając sporo czasu. Poniżej przedstawiam zestawy symboli po których będziemy się poruszać (zasady gramatyki):<br>
@@ -283,7 +284,7 @@ Szukane zdanie to ```caaaaaaaaaa```, animacja przedstawiająca problem:<br>
 
 #### Przeszukiwanie wgłąb
 Drugim algorytmem, który postaram się omówić jest *Deep-First Search* lub *DFS*. Przeszukiwanie wgłąb polega na rozpatrywaniu jednej gałęzi i przechodzenia na kolejny węzęł w przypadku pasujących symboli, w przypadku niepasujących symboli wracamy się spowrotem po grafie. Algorytm w każdym momencie wymaga zapamiętania ścieżki od korzenia do bieżącego węzła. Schemat przejść po drzewie wygląda następująco (zaczynając od symbolu najbardziej na lewo):<br>
-<img align="left" alt="DFS" src="https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_0.png?raw=true">
+<img align="left" alt="DFS" src="https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_0.png?raw=true"><br>
 Kilka zalet w stosunku do *BFS*:
 - mniejsze zużycie pamięci (rozpatrywana jest jedna gałąź w danym momencie, nie trzymamy wskaźników na węzły znajdujące się w innych gałęziach a jedynie wskaźniki na dzieci)
 - dla dobrze napisanej gramatyki wysoka wydajność w stosunku do *BFS*
@@ -558,7 +559,43 @@ Warto zaznaczyć, że każde puste miejsce w tabeli oznacza potencjalne zwrócen
 
 Gramatyka SLR(1) istnieje wtedy gdy powyższe reguły nie są **dwuznaczne**. Konflikty SLR(1) to kolejno:
  - Konflikt przesunięcie/redukcja - Element ```A -> α·Xβ```, gdzie ```X``` to terminal, gdy nie istnieje kompletny element w formie ```B -> γ·``` w stanie s z ```X``` w zbiorze Follow(B).
- - Konflikt redukcja/redukcja - Dwa kompletne elementy ```A -> α``` oraz ```B -> β``` w stanie s dają zbiór pusty dla Follow(A) ∧ Follow(B) 
+ - Konflikt redukcja/redukcja - Dwa kompletne elementy ```A -> α``` oraz ```B -> β``` w stanie s dają zbiór pusty dla Follow(A) ∧ Follow(B).
+
+Konfilkty SLR(1) podobne są do konfliktów występujących w LL(1) z jedną małą różnicą. Parsując metodą SLR(1) decyzja o wyborze produkcji może zostać opóźniona sprawdzając tym samym większą ilość wyborów. Tablica SLR(1) może zostać skonstruowana w sposób podobny do LR(0). Jako, że stan w parserze SLR(1) może reprezentować zarówno przesunięcie jak i redukcję (bazując na tokenie podglądowym), każdy z tokenów posiada etykietę s - *(shift)* przesuń lub r - *(reduce)* zredukuj, tym samym kolumna "akcji" jest już zbędna. Zbiory Follow zawierają symbol ```$```, dlatego też istnienie dodatkowej kolumny dla ```$``` jest kluczowe. Jako przykład weźme poprzednią gramatykę:
+```
+E' -> E
+E -> E + n | n
+```
+Gramatyka ta nie jest gramatyką LR(0) lecz gramatyką SLR(1). Utworzone zbiory Follow:
+```
+Follow(E') = { $ }
+Follow(E) = { $, +}
+```
+Utworzona tablica SLR(1):
+| Stan | ```n``` | ```+```              | ```$```              | ```E``` |
+|------|---------|----------------------|----------------------|---------|
+| 0    | s2      |                      |                      | 1       |
+| 1    |         | s3                   | zaakceptuj           |         |
+| 2    |         | r (```E -> n```)     | r (```E -> n```)     |         |
+| 3    | s4      |                      |                      |         |
+| 4    |         | r (```E -> E + n```) | r (```E -> E + n```) |         |
+
+W stanie 1 gdy na wejściu znajduję się token ```+``` wskazujemy na przesunięcie oraz następny stan 3. W stanie 2 gdy na wejściu znajduje się token ```+``` wskazujemy na redukcję ```E -> n```. W stanie 1 dla ```$``` wskazujemy na zaakceptowanie zdania (zastępuje to redukcję ```E' -> E```). Dla powyższej tablicy spróbujemy przeprasować zdanie **n + n + n**. Parsowanie rozpoczynamy w stanie 0, dla tokenu ```n``` wrzucamy symbol z wejścia oraz stan 2 na stos. W stanie 2 dla tokenu ```+``` wykonywana jest redukcja ```E -> n``` w tym przypadku zarówno symbol ```n``` jak i stan 2 zrzucane są z stosu, tym samym symbol ```E``` wrzucany jest na stos. W stanie 0 mając symbol ```E``` na górze stosu wrzucamy stan 1 na stos. W stanie 1 mając token ```+``` na wejściu wrzucamy stan 3 oraz symbol na stos. W stanie 3 mając na wejściu token ```n``` tablica wskazuje na wrzucenie tokenu jak i stanu 4 na stos. Stan 4 wskazuje na redukcję ze względu na występujący znak końca zdania ```$```, przeprowadzania jest redukcja ```E -> E + n``` co skutkuje zrzuceniem stanów oraz symboli ze stosu oraz wrzuceniem symbolu ```E``` na stos. Ponownie znajdujemy się w stanie 0, w którym dla ```E``` wrzucamy stan 1 na stos. W stanie 1 akceptujemy zdanie ze względu na znak końca zdania. Proces parsowania można przedstawić następująco:
+```
+Stos			Wejscie		Akcja
+$ 0			n + n + n $		Przesuń 2
+$ 0 n 2			  + n + n $		Zredukuj E -> n
+$ 0 E 1			  + n + n $		Przesuń 3
+$ 0 E 1 + 3		    n + n $		Przesuń 4
+$ 0 E 1 + 3 n 4		      + n $		Zredukuj E -> E + n
+$ 0 E 1			      + n $		Przesuń 3
+$ 0 E 1	+ 3			n $		Przesuń 4
+$ 0 E 1	+ 3 n 4			  $		Zredukuj E -> E + n
+$ 0 E 1				  $		Zaakceptuj
+```
+
+#### Niejednoznaczność SLR(1), SLR(k)
+Podobnie jak w przypadku LL(1) w celu zniwelowania niejednoznaczności posłużyć się możemy zasadą *(most closely nested rule)*, w której parser dla konfliktu przesunięcie/redukcja wybierze zawsze przesunięcie względem redukcji.
 
 ### Bison
 Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej znajduje się lista świetnych tutoriali odnośnie tego generatora:<br>
