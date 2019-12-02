@@ -583,7 +583,7 @@ Utworzona tablica SLR(1):
 
 W stanie 1 gdy na wejściu znajduję się token ```+``` wskazujemy na przesunięcie oraz następny stan 3. W stanie 2 gdy na wejściu znajduje się token ```+``` wskazujemy na redukcję ```E -> n```. W stanie 1 dla ```$``` wskazujemy na zaakceptowanie zdania (zastępuje to redukcję ```E' -> E```). Dla powyższej tablicy spróbujemy przeprasować zdanie **n + n + n**. Parsowanie rozpoczynamy w stanie 0, dla tokenu ```n``` wrzucamy symbol z wejścia oraz stan 2 na stos. W stanie 2 dla tokenu ```+``` wykonywana jest redukcja ```E -> n``` w tym przypadku zarówno symbol ```n``` jak i stan 2 zrzucane są z stosu, tym samym symbol ```E``` wrzucany jest na stos. W stanie 0 mając symbol ```E``` na górze stosu wrzucamy stan 1 na stos. W stanie 1 mając token ```+``` na wejściu wrzucamy stan 3 oraz symbol na stos. W stanie 3 mając na wejściu token ```n``` tablica wskazuje na wrzucenie tokenu jak i stanu 4 na stos. Stan 4 wskazuje na redukcję ze względu na występujący znak końca zdania ```$```, przeprowadzania jest redukcja ```E -> E + n``` co skutkuje zrzuceniem stanów oraz symboli ze stosu oraz wrzuceniem symbolu ```E``` na stos. Ponownie znajdujemy się w stanie 0, w którym dla ```E``` wrzucamy stan 1 na stos. W stanie 1 akceptujemy zdanie ze względu na znak końca zdania. Proces parsowania można przedstawić następująco:
 ```
-Stos			Wejscie		Akcja
+Stos			Wejscie			Akcja
 $ 0			n + n + n $		Przesuń 2
 $ 0 n 2			  + n + n $		Zredukuj E -> n
 $ 0 E 1			  + n + n $		Przesuń 3
@@ -596,7 +596,7 @@ $ 0 E 1				  $		Zaakceptuj
 ```
 
 #### Niejednoznaczność SLR(1), SLR(k)
-Podobnie jak w przypadku LL(1) w celu zniwelowania niejednoznaczności posłużyć się możemy zasadą *(most closely nested rule)*, w której parser dla konfliktu przesunięcie/redukcja wybierze zawsze przesunięcie względem redukcji.
+Podobnie jak w przypadku LL(1) w celu zniwelowania niejednoznaczności posłużyć się możemy zasadą *(most closely nested rule)*, w której parser dla konfliktu przesunięcie/redukcja wybierze zawsze przesunięcie względem redukcji. Konflikt redukcja/redukcja jest nieco bardziej skomplikowany i zazwyczaj odsłania on błędy w projektowaniu gramatyki.
 
 ### Bison
 Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej znajduje się lista świetnych tutoriali odnośnie tego generatora:<br>
