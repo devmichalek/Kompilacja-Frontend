@@ -596,7 +596,35 @@ $ 0 E 1				  $		Zaakceptuj
 ```
 
 #### Niejednoznaczność SLR(1), SLR(k)
-Podobnie jak w przypadku LL(1) w celu zniwelowania niejednoznaczności posłużyć się możemy zasadą *(most closely nested rule)*, w której parser dla konfliktu przesunięcie/redukcja wybierze zawsze przesunięcie względem redukcji. Konflikt redukcja/redukcja jest nieco bardziej skomplikowany i zazwyczaj odsłania on błędy w projektowaniu gramatyki.
+Podobnie jak w przypadku LL(1) w celu zniwelowania niejednoznaczności posłużyć się możemy zasadą *(most closely nested rule)*, w której parser dla konfliktu przesunięcie/redukcja wybierze zawsze przesunięcie względem redukcji (konflikt przesunięcie/redukcja nie zostanie rozpatrzony w tym artykule). Konflikt redukcja/redukcja jest nieco bardziej skomplikowany i zazwyczaj odsłania on błędy w projektowaniu gramatyki (nie jest to jednak reguła, której należy się trzymać). Jako przykład konfliktu redukcja/redukcja weźmiemy następującą gramatykę (uproszczona gramatyka zaczerpnięta z Pascala):
+```
+stmt -> call-stmt | assign-stmt
+call-stmt -> identifier
+assign-stmt -> var := exp
+var -> var [ exp ] | identifier
+exp -> var | number
+```
+Powyższa gramatyka "modeluje" wyrażenia, którymi mogą być wywołania procedur bez parametrów lub przypisanie wyrażeń do zmiennych. Struktura zarówno wywołania procedury jak i przypisania do zmiennej rozpoczyna się od identyfikatora. Do momentu, w którym parser nie napotkał symbolu końca zdania ```$``` lub symbolu przypisania ```:=``` nie jest w stanie rozróżnić czy wyrażenie jest wywołaniem procedury lub przypisaniem do zmiennej. Gramatykę nieco uprościmy w celu łatwiejszego zobrazowania problemu (pomijamy niektóre z wyborów produkcji):
+```
+S -> id | V := E
+V -> id
+E -> V | n
+```
+Rozważmy poszczególne elementy SLR(1):
+```
+S' -> ·S
+S -> ·id
+S -> ·V := E
+V -> ·id
+```
+Dla symbolu początkowego wykonywane jest przesunięcie w przypadku wystąpienia identyfikatora (```id```) na wejściu dla elementów:
+```
+S -> id·
+V -> id·
+```
+Teraz dla zbiorów Follow(S) = { ```$``` } oraz Follow(V) = { ```:=```, ```$``` } wykonywana jest redukcja dla symbolu ```$```, problem w tym, że parser nie wie, który z elementów to ten właściwy.  W literaturze problem konfliktu redukcja/redukcja SLR(1) określany jest jako "fałszywy". Z naszego punktu widzenia redukcja dla symbolu ```V``` w przypadku wystąpienia symbolu ```$``` nie powinna nigdy wystąpić, ponieważ wyrażenie przypisania do zmiennej oczekuje operatora ```:=``` jako następny symbol.<br>
+
+Tak jak w przypadku innych algorytmów parsujących, ilość rozpatrywanych tokenów parsera SLR(1) może zostać zwiększona do SLR(k). Zakres obszaru w jakim działa parser SLR(k) znacząco przewyższa SLR(1) w momencie gdy k > 1 co za tym idzie tablica parsera SLR(k) rośnie wykładniczo. Zazwyczaj typowe problemy na które natrafiamy przy użyciu SLR(1) rozwiązywane są za pomocą silniejszego parsera LALR(1).
 
 ### Bison
 Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej znajduje się lista świetnych tutoriali odnośnie tego generatora:<br>
