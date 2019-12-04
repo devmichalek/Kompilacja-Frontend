@@ -36,6 +36,8 @@ Cześć, na wstępie chcę zaznaczyć, aby całą pracę włożoną w to repozyt
     - 1.2.6.4 [LR(0)](https://github.com/devmichalek/Kompilacja#lr0)
     - 1.2.6.5 [SLR(1)](https://github.com/devmichalek/Kompilacja#slr1)
     - 1.2.6.6 [Niejednoznaczność SLR(1), SLR(k)](https://github.com/devmichalek/Kompilacja#niejednoznaczno%C5%9B%C4%87-slr1-slrk)
+    - 1.2.6.7 [LR(1)](https://github.com/devmichalek/Kompilacja#lr1)
+    - 1.2.6.8 [LALR(1)](https://github.com/devmichalek/Kompilacja#lalr1)
   - 1.2.7 [Bison](https://github.com/devmichalek/Kompilacja#bison)
 - 1.3. [Analiza semantyczna](https://github.com/devmichalek/Kompilacja#analiza-semantyczna)
   - 1.3.0 [Zasięg widoczności](https://github.com/devmichalek/Kompilacja#zasi%C4%99g-widoczno%C5%9Bci)
@@ -625,6 +627,10 @@ V -> id·
 Teraz dla zbiorów Follow(S) = { ```$``` } oraz Follow(V) = { ```:=```, ```$``` } wykonywana jest redukcja dla symbolu ```$```, problem w tym, że parser nie wie, który z elementów to ten właściwy.  W literaturze problem konfliktu redukcja/redukcja SLR(1) określany jest jako "fałszywy". Z naszego punktu widzenia redukcja dla symbolu ```V``` w przypadku wystąpienia symbolu ```$``` nie powinna nigdy wystąpić, ponieważ wyrażenie przypisania do zmiennej oczekuje operatora ```:=``` jako następny symbol.<br>
 
 Tak jak w przypadku innych algorytmów parsujących, ilość rozpatrywanych tokenów parsera SLR(1) może zostać zwiększona do SLR(k). Zakres obszaru w jakim działa parser SLR(k) znacząco przewyższa SLR(1) w momencie gdy k > 1 co za tym idzie tablica parsera SLR(k) rośnie wykładniczo. Zazwyczaj typowe problemy na które natrafiamy przy użyciu SLR(1) rozwiązywane są za pomocą silniejszego parsera LALR(1).
+
+### LR(1)
+
+### LALR(1)
 
 ### Bison
 Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej znajduje się lista świetnych tutoriali odnośnie tego generatora:<br>
