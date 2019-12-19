@@ -43,14 +43,7 @@ Cześć, na wstępie chcę zaznaczyć, aby całą pracę włożoną w to repozyt
   - 1.3.0 [Zasięg widoczności](https://github.com/devmichalek/Kompilacja#zasi%C4%99g-widoczno%C5%9Bci)
     - 1.3.0.0 [Zakres statyczny](https://github.com/devmichalek/Kompilacja#zakres-statyczny)
     - 1.3.0.1 [Zakres dynamiczny](https://github.com/devmichalek/Kompilacja#zakres-dynamiczny)
-  - 1.3.1 [System typów](https://github.com/devmichalek/Kompilacja#system-typ%C3%B3w)
-- 1.4. [Generacja IR](https://github.com/devmichalek/Kompilacja#generacja-ir)
-- 1.5. [Optymalizaja IR](https://github.com/devmichalek/Kompilacja#optymalizaja-ir)
-- 1.6. [Generacja kodu](https://github.com/devmichalek/Kompilacja#generacja-kodu)
-- 1.7. [Optymalizacja](https://github.com/devmichalek/Kompilacja#optymalizacja)
-2. Linkowanie
-3. Ładowanie programu
-4. Uruchamianie programu
+  - 1.3.1 [System typów](https://github.com/devmichalek/Kompilacja#system-typ%C3%B3w
 
 ## Tworzenie kodu źródłowego
 Pierwszym etapem w drodze do utworzenia programu jest napisanie kodu źródłowego. Na tym etapie nie dzieje się zbytnio dużo. Otwieramy ulubiony edytor tekstu lub dedykowane IDE. Warto wspomnieć, że podczas pracy nad danym projektem staramy trzymać się pewnej hierarchi. Każdą inną różniącą się funcjonalność trzymiemy w osobnych plikach, pliki o podobnej charakterystyce trzymamy w jednym projekcie, a ogół projektów trzymamy w rozwiązaniu (rekomendowana hierarchia plików w Visual Studio), natomiast produkt końcowy składać się będzie zwykle z różnych rozwiązań. Przykładem może być firma, która zatrudnia dwie grupy programistów, w której jedna zajmuje się rozwiązaniami nad GUI, a druga nad rozwiązaniami dotyczącymi mechaniki aplikacji, obie grupy pracują nad inną specyfikacją aplikacji (wspomniany przykład to jedynie uproszczenie całej sytuacji, w rzeczywistości jest to bardziej skomplikowane).
@@ -629,6 +622,8 @@ Teraz dla zbiorów Follow(S) = { ```$``` } oraz Follow(V) = { ```:=```, ```$``` 
 Tak jak w przypadku innych algorytmów parsujących, ilość rozpatrywanych tokenów parsera SLR(1) może zostać zwiększona do SLR(k). Zakres obszaru w jakim działa parser SLR(k) znacząco przewyższa SLR(1) w momencie gdy k > 1 co za tym idzie tablica parsera SLR(k) rośnie wykładniczo. Zazwyczaj typowe problemy na które natrafiamy przy użyciu SLR(1) rozwiązywane są za pomocą silniejszego parsera LALR(1).
 
 ### LR(1)
+W tej sekcji omówiona zostanie metoda parsowania LR(1), która znacząco przewyższa metodykę SLR(1) rozwiązując tym samym problem niejednoznaczności w poprzednim przykładzie. W rzeczywistości metodyka LR(1) uważana jest za zbyt złożoną gdzie w większości przypadków użycie LALR(1), który korzysta w większej mierze z funkcjonalności LR(1) (zachowując tym samym prostotę SLR(1)) wystarcza. W celu lepszego zrozumienia metodyki LALR(1) należy najpierw poznać działanie LR(1).<br>
+Problemem w parsowaniu metodą SLR(1) jest aplikowanie tokenu podglądowego **po skonstruowaniu DFA**, które ignoruje tokeny podglądowe. Przewaga LR(1) polega na wbudowaniu tokenów podglądowych w każdy z elementów występujących w automacie. Elementy te określane są jako *LR(1) items* gdzie każdy z nich to para składająca się z elementu LR(0) oraz tokenu podglądowego. Każdy z elementów opisywany jest w kwadratowych nawiasach: ```[A -> α.β, a]```, gdzie ```A -> α.β``` to element LR(0), a ```a``` to podgląd.
 
 ### LALR(1)
 
