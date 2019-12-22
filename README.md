@@ -2,49 +2,50 @@
 Cześć, na wstępie chcę zaznaczyć, aby całą pracę włożoną w to repozytorium potraktować bardziej jako obszerny artykuł. Zebrane tutaj informacje są krótkim podsumowaniem zdobytej wiedzy na temat procesu kompilacji (frontend). Przykłady omawiane są w języku C-podobnym oraz oczywiście w języku polskim ;). Możliwe, że artykuł nie pokrył wszystkich tematów związanych z kompilacją, jednak dopiąłem wszelkich starań by tak było. Artykuł będzie co jakiś czas ulepszany, dodam, że chętnie przyjmę jakiekolwiek sugestie drogą mailowa.<br>
 
 ## Spis treści
-0. [Tworzenie kodu źrodłowego](https://github.com/devmichalek/Kompilacja#tworzenie-kodu-%C5%BAr%C3%B3d%C5%82owego)
-1. [Kompilacja](https://github.com/devmichalek/Kompilacja#kompilacja)
-- 1.0. [Preprocessing](https://github.com/devmichalek/Kompilacja#preprocessing)
-- 1.1. [Analiza leksykalna - skanowanie](https://github.com/devmichalek/Kompilacja#analiza-leksykalna---skanowanie)
-  - 1.1.0 [Jak działa lekser?](https://github.com/devmichalek/Kompilacja#jak-dzia%C5%82a-lekser)
-  - 1.1.1 [Wyrażenia regularne](https://github.com/devmichalek/Kompilacja#wyra%C5%BCenia-regularne)
-  - 1.1.2 [NFA - Niedeterministyczny Automat Skończony](https://github.com/devmichalek/Kompilacja#nfa---niedeterministyczny-automat-sko%C5%84czony)
-  - 1.1.3 [Maximal Munch](https://github.com/devmichalek/Kompilacja#maximal-munch)
-  - 1.1.4 [DFA - Deterministyczny Automat Skończony](https://github.com/devmichalek/Kompilacja#dfa---deterministyczny-automat-sko%C5%84czony)
-  - 1.1.5 [Flex](https://github.com/devmichalek/Kompilacja#flex)
-  - 1.1.6 [Identyfikatory](https://github.com/devmichalek/Kompilacja#identyfikatory)
-- 1.2. [Analiza składniowa - parsowanie](https://github.com/devmichalek/Kompilacja#analiza-sk%C5%82adniowa)
-  - 1.2.0 [Jak działa parser?](https://github.com/devmichalek/Kompilacja#jak-dzia%C5%82a-parser)
-  - 1.2.1 [Gramatyka bezkontekstowa](https://github.com/devmichalek/Kompilacja#gramatyka-bezkontekstowa)
-  - 1.2.2 [Niejednoznaczność](https://github.com/devmichalek/Kompilacja#niejednoznaczno%C5%9B%C4%87)
-    - 1.2.2.0 [Niejednoznaczność Priorytetu](https://github.com/devmichalek/Kompilacja#niejednoznaczno%C5%9B%C4%87-priorytetu)
-    - 1.2.2.1 [Wiszący If-Else](https://github.com/devmichalek/Kompilacja#wisz%C4%85cy-if-else)
-    - 1.2.2.2 [Gramatyka Niejednoznaczna](https://github.com/devmichalek/Kompilacja#gramatyka-niejednoznaczna)
-  - 1.2.3 [Drzewo składniowe](https://github.com/devmichalek/Kompilacja#drzewo-sk%C5%82adniowe)
-  - 1.2.4 [Hierarchia Chomsky’ego](https://github.com/devmichalek/Kompilacja#hierarchia-chomskyego)
-  - 1.2.5 [Analiza zstępująca](https://github.com/devmichalek/Kompilacja#analiza-zst%C4%99puj%C4%85ca)
-    - 1.2.5.0 [Przeszukiwanie wszerz](https://github.com/devmichalek/Kompilacja#przeszukiwanie-wszerz)
-    - 1.2.5.1 [Przeszukiwanie wgłąb](https://github.com/devmichalek/Kompilacja#przeszukiwanie-wg%C5%82%C4%85b)
-    - 1.2.5.2 [LL(1)](https://github.com/devmichalek/Kompilacja#ll1)
-    - 1.2.5.3 [Tablice LL(1)](https://github.com/devmichalek/Kompilacja#tablice-ll1)
-    - 1.2.5.4 [Zbiory First i Follow](https://github.com/devmichalek/Kompilacja#zbiory-first-i-follow)
-  - 1.2.6 [Analiza wstępująca](https://github.com/devmichalek/Kompilacja#analiza-wst%C4%99puj%C4%85ca)
-    - 1.2.6.0 [Redukcje, Przesunięcia, Uchwyty](https://github.com/devmichalek/Kompilacja#redukcje-przesuni%C4%99cia-uchwyty)
-    - 1.2.6.1 [Gdzie szukamy uchwytów?](https://github.com/devmichalek/Kompilacja#gdzie-szukamy-uchwyt%C3%B3w)
-    - 1.2.6.2 [Jak szukamy uchwytów?](https://github.com/devmichalek/Kompilacja#jak-szukamy-uchwyt%C3%B3w)
-    - 1.2.6.3 [Automaty, Elementy LR(0)](https://github.com/devmichalek/Kompilacja#automaty-elementy-lr0)
-    - 1.2.6.4 [LR(0)](https://github.com/devmichalek/Kompilacja#lr0)
-    - 1.2.6.5 [SLR(1)](https://github.com/devmichalek/Kompilacja#slr1)
-    - 1.2.6.6 [Niejednoznaczność SLR(1), SLR(k)](https://github.com/devmichalek/Kompilacja#niejednoznaczno%C5%9B%C4%87-slr1-slrk)
-    - 1.2.6.7 [LR(1)](https://github.com/devmichalek/Kompilacja#lr1)
-    - 1.2.6.8 [LALR(1)](https://github.com/devmichalek/Kompilacja#lalr1)
-  - 1.2.7 [Bison](https://github.com/devmichalek/Kompilacja#bison)
-- 1.3. [Analiza semantyczna](https://github.com/devmichalek/Kompilacja#analiza-semantyczna)
-  - 1.3.0 [Zasięg widoczności](https://github.com/devmichalek/Kompilacja#zasi%C4%99g-widoczno%C5%9Bci)
-    - 1.3.0.0 [Zakres statyczny](https://github.com/devmichalek/Kompilacja#zakres-statyczny)
-    - 1.3.0.1 [Zakres dynamiczny](https://github.com/devmichalek/Kompilacja#zakres-dynamiczny)
+0. [Tworzenie kodu źrodłowego](https://github.com/devmichalek/Kompilacja-Frontend#tworzenie-kodu-%C5%BAr%C3%B3d%C5%82owego)
+1. [Kompilacja](https://github.com/devmichalek/Kompilacja-Frontend#kompilacja)
+- 1.0. [Preprocessing](https://github.com/devmichalek/Kompilacja-Frontend#preprocessing)
+- 1.1. [Analiza leksykalna - skanowanie](https://github.com/devmichalek/Kompilacja-Frontend#analiza-leksykalna---skanowanie)
+  - 1.1.0 [Jak działa lekser?](https://github.com/devmichalek/Kompilacja-Frontend#jak-dzia%C5%82a-lekser)
+  - 1.1.1 [Wyrażenia regularne](https://github.com/devmichalek/Kompilacja-Frontend#wyra%C5%BCenia-regularne)
+  - 1.1.2 [NFA - Niedeterministyczny Automat Skończony](https://github.com/devmichalek/Kompilacja-Frontend#nfa---niedeterministyczny-automat-sko%C5%84czony)
+  - 1.1.3 [Maximal Munch](https://github.com/devmichalek/Kompilacja-Frontend#maximal-munch)
+  - 1.1.4 [DFA - Deterministyczny Automat Skończony](https://github.com/devmichalek/Kompilacja-Frontend#dfa---deterministyczny-automat-sko%C5%84czony)
+  - 1.1.5 [Flex](https://github.com/devmichalek/Kompilacja-Frontend#flex)
+  - 1.1.6 [Identyfikatory](https://github.com/devmichalek/Kompilacja-Frontend#identyfikatory)
+- 1.2. [Analiza składniowa - parsowanie](https://github.com/devmichalek/Kompilacja-Frontend#analiza-sk%C5%82adniowa)
+  - 1.2.0 [Jak działa parser?](https://github.com/devmichalek/Kompilacja-Frontend#jak-dzia%C5%82a-parser)
+  - 1.2.1 [Gramatyka bezkontekstowa](https://github.com/devmichalek/Kompilacja-Frontend#gramatyka-bezkontekstowa)
+  - 1.2.2 [Niejednoznaczność](https://github.com/devmichalek/Kompilacja-Frontend#niejednoznaczno%C5%9B%C4%87)
+    - 1.2.2.0 [Niejednoznaczność Priorytetu](https://github.com/devmichalek/Kompilacja-Frontend#niejednoznaczno%C5%9B%C4%87-priorytetu)
+    - 1.2.2.1 [Wiszący If-Else](https://github.com/devmichalek/Kompilacja-Frontend#wisz%C4%85cy-if-else)
+    - 1.2.2.2 [Gramatyka Niejednoznaczna](https://github.com/devmichalek/Kompilacja-Frontend#gramatyka-niejednoznaczna)
+  - 1.2.3 [Drzewo składniowe](https://github.com/devmichalek/Kompilacja-Frontend#drzewo-sk%C5%82adniowe)
+  - 1.2.4 [Hierarchia Chomsky’ego](https://github.com/devmichalek/Kompilacja-Frontend#hierarchia-chomskyego)
+  - 1.2.5 [Analiza zstępująca](https://github.com/devmichalek/Kompilacja-Frontend#analiza-zst%C4%99puj%C4%85ca)
+    - 1.2.5.0 [Przeszukiwanie wszerz](https://github.com/devmichalek/Kompilacja-Frontend#przeszukiwanie-wszerz)
+    - 1.2.5.1 [Przeszukiwanie wgłąb](https://github.com/devmichalek/Kompilacja-Frontend#przeszukiwanie-wg%C5%82%C4%85b)
+    - 1.2.5.2 [LL(1)](https://github.com/devmichalek/Kompilacja-Frontend#ll1)
+    - 1.2.5.3 [Tablice LL(1)](https://github.com/devmichalek/Kompilacja-Frontend#tablice-ll1)
+    - 1.2.5.4 [Zbiory First i Follow](https://github.com/devmichalek/Kompilacja-Frontend#zbiory-first-i-follow)
+  - 1.2.6 [Analiza wstępująca](https://github.com/devmichalek/Kompilacja-Frontend#analiza-wst%C4%99puj%C4%85ca)
+    - 1.2.6.0 [Redukcje, Przesunięcia, Uchwyty](https://github.com/devmichalek/Kompilacja-Frontend#redukcje-przesuni%C4%99cia-uchwyty)
+    - 1.2.6.1 [Gdzie szukamy uchwytów?](https://github.com/devmichalek/Kompilacja-Frontend#gdzie-szukamy-uchwyt%C3%B3w)
+    - 1.2.6.2 [Jak szukamy uchwytów?](https://github.com/devmichalek/Kompilacja-Frontend#jak-szukamy-uchwyt%C3%B3w)
+    - 1.2.6.3 [Automaty, Elementy LR(0)](https://github.com/devmichalek/Kompilacja-Frontend#automaty-elementy-lr0)
+    - 1.2.6.4 [LR(0)](https://github.com/devmichalek/Kompilacja-Frontend#lr0)
+    - 1.2.6.5 [SLR(1)](https://github.com/devmichalek/Kompilacja-Frontend#slr1)
+    - 1.2.6.6 [Niejednoznaczność SLR(1), SLR(k)](https://github.com/devmichalek/Kompilacja-Frontend#niejednoznaczno%C5%9B%C4%87-slr1-slrk)
+    - 1.2.6.7 [LR(1)](https://github.com/devmichalek/Kompilacja-Frontend#lr1)
+    - 1.2.6.8 [LALR(1)](https://github.com/devmichalek/Kompilacja-Frontend#lalr1)
+  - 1.2.7 [Bison](https://github.com/devmichalek/Kompilacja-Frontend#bison)
+- 1.3. [Analiza semantyczna](https://github.com/devmichalek/Kompilacja-Frontend#analiza-semantyczna)
+  - 1.3.0 [Zasięg widoczności](https://github.com/devmichalek/Kompilacja-Frontend#zasi%C4%99g-widoczno%C5%9Bci)
+    - 1.3.0.0 [Zakres statyczny](https://github.com/devmichalek/Kompilacja-Frontend#zakres-statyczny)
+    - 1.3.0.1 [Zakres dynamiczny](https://github.com/devmichalek/Kompilacja-Frontend#zakres-dynamiczny)
   - 1.3.1 [System typów](https://github.com/devmichalek/Kompilacja-Frontend#system-typ%C3%B3w)
-2. [Co dalej?]()
+2. [Podsumowanie](https://github.com/devmichalek/Kompilacja-Frontend#podsumowanie)
+2. [Źródła](https://github.com/devmichalek/Kompilacja-Frontend#)
 
 ## Tworzenie kodu źródłowego
 Pierwszym etapem w drodze do utworzenia programu jest napisanie kodu źródłowego. Na tym etapie nie dzieje się zbytnio dużo. Otwieramy ulubiony edytor tekstu lub dedykowane IDE. Warto wspomnieć, że podczas pracy nad danym projektem staramy trzymać się pewnej hierarchi. Każdą inną różniącą się funcjonalność trzymiemy w osobnych plikach, pliki o podobnej charakterystyce trzymamy w jednym projekcie, a ogół projektów trzymamy w rozwiązaniu (rekomendowana hierarchia plików w Visual Studio), natomiast produkt końcowy składać się będzie zwykle z różnych rozwiązań. Przykładem może być firma, która zatrudnia dwie grupy programistów, w której jedna zajmuje się rozwiązaniami nad GUI, a druga nad rozwiązaniami dotyczącymi mechaniki aplikacji, obie grupy pracują nad inną specyfikacją aplikacji (wspomniany przykład to jedynie uproszczenie całej sytuacji, w rzeczywistości jest to bardziej skomplikowane).
@@ -793,13 +794,7 @@ int function(int x)
 ```
 ![Bledne wyrazenie](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.1.1.png?raw=true)<br>
 
-## Generacja IR
-
-## Optymalizaja IR
-
-## Generacja kodu
-
-## Optymalizacja
+## Podsumowanie
 
 ## Źródła
 [Avanced C and C++ Compiling](https://doc.lagout.org/programmation/C/Advanced%20C%20and%20C%20%20%20Compiling%20%5BStevanovic%202014-04-28%5D.pdf)<br>
