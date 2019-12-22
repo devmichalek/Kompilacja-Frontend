@@ -45,7 +45,7 @@ Cześć, na wstępie chcę zaznaczyć, aby całą pracę włożoną w to repozyt
     - 1.3.0.1 [Zakres dynamiczny](https://github.com/devmichalek/Kompilacja-Frontend#zakres-dynamiczny)
   - 1.3.1 [System typów](https://github.com/devmichalek/Kompilacja-Frontend#system-typ%C3%B3w)
 2. [Podsumowanie](https://github.com/devmichalek/Kompilacja-Frontend#podsumowanie)
-2. [Źródła](https://github.com/devmichalek/Kompilacja-Frontend#)
+2. [Źródła](https://github.com/devmichalek/Kompilacja-Frontend#%C5%BAr%C3%B3d%C5%82a)
 
 ## Tworzenie kodu źródłowego
 Pierwszym etapem w drodze do utworzenia programu jest napisanie kodu źródłowego. Na tym etapie nie dzieje się zbytnio dużo. Otwieramy ulubiony edytor tekstu lub dedykowane IDE. Warto wspomnieć, że podczas pracy nad danym projektem staramy trzymać się pewnej hierarchi. Każdą inną różniącą się funcjonalność trzymiemy w osobnych plikach, pliki o podobnej charakterystyce trzymamy w jednym projekcie, a ogół projektów trzymamy w rozwiązaniu (rekomendowana hierarchia plików w Visual Studio), natomiast produkt końcowy składać się będzie zwykle z różnych rozwiązań. Przykładem może być firma, która zatrudnia dwie grupy programistów, w której jedna zajmuje się rozwiązaniami nad GUI, a druga nad rozwiązaniami dotyczącymi mechaniki aplikacji, obie grupy pracują nad inną specyfikacją aplikacji (wspomniany przykład to jedynie uproszczenie całej sytuacji, w rzeczywistości jest to bardziej skomplikowane).
@@ -75,7 +75,7 @@ while (137 < i)
 	++i;
 ```
 W wielu źródłach słowo leksem używane jest jako zamiennik słowa token, natomiast starsze źródła podają, że leksem jest ciągiem znaków i nabiera on znaczenia w momencie gdy znaleziony został odpowiadający mu token. Początkowo ```while``` będzie leksemem składających się z pięciu znaków, jednak zostanie ono zamienione na token *T_While* (reprezentujące słowo kluczowe), który informuje nas o tym, że jest to deklaracja pętli. W powyższym kodzie liczba ```137``` jest leksemem składającym się z cyfr, natomiast dopasowana, jest tokenem reprezentującym liczbę całkowitą *T_IntConst* posiadającym atrybut , w której przechowana zostanie liczba. Poniższa animacja obrazuje to jeszcze lepiej. Poniższą animacje (jak i większość, które tu zobaczysz) stworzyłem na bazie [prezentacji](https://web.stanford.edu/class/archive/cs/cs143/cs143.1128/lectures/01/Slides01.pdf) o analizie leksykalnej wykładanej na Stanfordzie.
-![Skanowanie](https://raw.githubusercontent.com/devmichalek/Kompilacja/master/assets/1.1.0_0.gif)
+![Skanowanie](https://raw.githubusercontent.com/devmichalek/Kompilacja-Frontend/master/assets/1.1.0_0.gif)
 Znaki specjalne takie jak klamry i nawiasy, które wzbogacają gramatykę języka z reguły posiadają swój własny odpowiadający im token (zazwyczaj słowa kluczowe również posiadają swój własny token), dodatkowo tokeny należace do tej samej grupy są po prostu grupowane (tak jak wcześniej wspomniane tokeny typów zmiennych), natomiast nic nie znaczące spacje, tabulacje lub komentarze są pomijane. Inny przykład tym razem z [wikipedii](https://pl.wikipedia.org/wiki/Analiza_leksykalna) świetnie obrazuję jak lekser przeanalizował kod źródłowy:<br>
 ```C
 int suma = 3 + 2;
@@ -113,10 +113,10 @@ Wyrażenia regularne *(regular expression)* używane są wszędzie tam gdzie w c
 | (+\|-)?[0-9]+       | Liczba bez znaku lub z znakiem +/-                        | 4, -18, +389, 258963 |
 
 Warto wspomnieć, że wyrażenia regularne posiadają swoje ograniczenia, jednym z głównym problemów jest tzw. *pumping lemma*. Przypuśćmy, że szukamy takiego słowa, które z lewej i prawej strony ma tyle samo wystąpień znaku **a**, natomiast pośrodku oczekujemy znaku **b**. Pasujące słowa to np. **aabaa**, **aba**, **aaaabaaaa**. Niestety, ale tego typu reguły nie jesteśmy w stanie uzyskać za pomocą regexów. Jedynie co moglibyśmy zrobić to wyszukać znaną nam liczbę wystąpień po lewej i prawej stronie lub nieznaną liczbę n wystąpień po lewej stronie i m wystąpień po prawej stronie. Wspomniany problem nie zalicza się do "składni gramatyki bezkontekstowej" (o tym już za chwilę). Wyrażenia regularne mogą zostać zaimplementowane za pomocą automatów skończonych *(finite automata)*, w której wyróżniamy dwa główne NFA (Nondeterministic Finite Automata) i DFA (Deterministic Finite Automata). Automaty najlepiej wytłumaczyć obrazując ich działanie. Na poniższej animacji okrąg oznacza stan *(state*), w którym się znajdujemy, natomiast strzałka *(transition)* oznacza przejście w inny stan gdy zajdzie podany warunek, ostatni znów podwójny okrąg wskazuje na stan akceptacji *(accepting state)*, automat akceptuje stringa jesli znajduje się w stanie akceptacji (na poniższych trzech animacjach przedstawiony jest NFA).<br>
-![Poprawny](https://raw.githubusercontent.com/devmichalek/Kompilacja/master/assets/1.1.1_0.gif)<br>
+![Poprawny](https://raw.githubusercontent.com/devmichalek/Kompilacja-Frontend/master/assets/1.1.1_0.gif)<br>
 Poniżej animacje przejść w automatach, które nie zaakceptowały wejścia, w pierwszej brakuje kolejnego przejścia na końcu stanu akceptacji, natomiast w drugiej brakuje warunku przejścia dzięki któremu przeszlibyśmy do stanu akceptacji.<br>
-![Niepoprawny](https://raw.githubusercontent.com/devmichalek/Kompilacja/master/assets/1.1.1_1.gif)<br>
-![Niepoprawny](https://raw.githubusercontent.com/devmichalek/Kompilacja/master/assets/1.1.1_2.gif)<br>
+![Niepoprawny](https://raw.githubusercontent.com/devmichalek/Kompilacja-Frontend/master/assets/1.1.1_1.gif)<br>
+![Niepoprawny](https://raw.githubusercontent.com/devmichalek/Kompilacja-Frontend/master/assets/1.1.1_2.gif)<br>
 Cytując *"Celem automatu jest rozstrzygnięcie w skończonej ilości kroków, czy dowolne słowo należy, czy też nie należy do języka badanego przez automat. Teoria automatów jest efektem badań zapoczątkowanych przez A. Turinga. Automat reaguje na określone sygnały, zmieniając swój stan. Jeśli ustalimy, że sygnały będą reprezentowane przez poszczególne litery alfabetu, zdefiniujemy stan początkowy automatu oraz dopuszczalne stany końcowe, to automat może testować dowolne słowo, startując ze stanu początkowego. Słowo zostanie rozpoznane przez automat i uznane za poprawne, jeżeli rezultatem działania będzie założony stan końcowy."*
 
 ### NFA - Niedeterministyczny Automat Skończony
@@ -134,7 +134,7 @@ Ten nagłówek musiał się pojawić, wyrażenia regularne to nie tylko szukanie
 - gdy wszystkie automaty są w stanie, w którym nie ma przejść to zwróć *last match* i zacznij szukać ponownie w miejscu, w którym skończyłeś
 
 Przypuśćmy, że mamy sytuacje, w której analizujemy ciąg znaków ```DOUBDOUBLE``` oraz, że mamy do dyspozycji trzy tokeny ```T_Do```, ```T_Double```, ```T_Mystery```, które reprezentują kolejno: słowo kluczowe ```do```, słowo kluczowe ```double```, string zawierający jedną literę małą lub dużą. Token o najwyższym priorytecie umieszczony jest najwyżej. Animacja przedstawiająca nasz problem:
-![Maximal Munch](https://raw.githubusercontent.com/devmichalek/Kompilacja/master/assets/1.1.3_0.gif)<br>
+![Maximal Munch](https://raw.githubusercontent.com/devmichalek/Kompilacja-Frontend/master/assets/1.1.3_0.gif)<br>
 Powyższa animacja być może i wygląda na trzy automaty deterministyczne uruchomione jednocześnie jednak w rzeczywistości ukazuje ona jak NFA działa "wewnątrz", starajmy się raczej wyobrazić, że nasz punkt początkowy jest jeden od którego wychodzą trzy przejścia do odpowiednich węzłów (jeden węzeł "start").
 
 ### DFA - Deterministyczny Automat Skończony
@@ -149,7 +149,7 @@ Główna różnica między NFA to taka, że w tym przypadku posiadamy jeden stan
    wieloliniowych w C.
 */
 ```
-![DFA](https://raw.githubusercontent.com/devmichalek/Kompilacja/master/assets/1.1.4_0.png)<br>
+![DFA](https://raw.githubusercontent.com/devmichalek/Kompilacja-Frontend/master/assets/1.1.4_0.png)<br>
 Dla zainteresowanych tematem polecam sprawdzić jak działają automaty [Mealy’ego](https://pl.wikipedia.org/wiki/Automat_Mealy%E2%80%99ego), [Moore’a](https://pl.wikipedia.org/wiki/Automat_Moore%E2%80%99a), legendarną [maszynę Turinga](https://pl.wikipedia.org/wiki/Maszyna_Turinga) oraz sposób w jaki tworzone są automaty z wyrażen regularnych - [Thompson's construction](https://en.wikipedia.org/wiki/Thompson%27s_construction).
 
 ### Flex
@@ -168,13 +168,13 @@ while (ip < z)
 	++ip;
 ```
 Teraz obrazek ilustrujący na jakim etapie się znajdujemy, nasz kod został pocięty na leksemy z których utworzone zostały następujące tokeny:
-![Poprawne tokeny](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.0_0.png?raw=true)<br>
+![Poprawne tokeny](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.0_0.png?raw=true)<br>
 Kolejny przykład kodu poprawnego leksykalnie:
 ```C
 do[for] = new 0;
 ```
 Obrazek ilustrujący utworzone tokeny:
-![Niepoprawne tokeny](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.0_1.png?raw=true)
+![Niepoprawne tokeny](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.0_1.png?raw=true)
 Jak widać coś poszło nie tak, nasz kod faktycznie jest poprawny leksykalnie, ale niektóre z tych tokenów to słowa kluczowe, przykładem jest ```for```, które zostało użyte jako identyfikator (gdzieś wcześniej) prawdopodobnie jakiejś liczby całkowitej, lub ```do``` użyte prawdopodobnie jako nazwa tablicy.<br>
 
 Podczas analizy składniowej parser z wcześniej przygotowanych przez leksera tokenów stara się dopasować istniejącą strukturę *(pattern)*, w przypadku gdy jej nie znajdzie zwróci błąd analizy składniowej. Podczas skanowania naszym alfabetem były znaki ASCII lub Unicode czyli po prostu kod źródłowy, podczas parsowania naszym alfabetem jest zestaw utworzonych tokenów. Podczas skanowania używaliśmy wyrażeń regularnych do opisu leksemów, które później skonwertowane zostały na odpowiadający im token. Niestety, ale w przypadku parsowania wyrażenia regularne okazują się zbyt słabe do opisania struktury gramatycznej, w tym przypadku konieczne jest użycie innego narzędzia głównie ze względu na fakt, iż opis struktury gramatycznej może być bardzo złożoną strukturą **rekurencyjną**.
@@ -184,15 +184,15 @@ Podczas analizy składniowej parser z wcześniej przygotowanych przez leksera to
 ```
 10 * (1 + 2)
 ```
-![CFG](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.1_0.png?raw=true)
+![CFG](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.1_0.png?raw=true)
 - ![#ff0000](https://placehold.it/15/ff0000/000000?text=+) - ```E``` i ```Op```, symbole nieterminalne, rozpoczynajace się dużymi literami np. A, B, C. Znak nieterminalny jest **symboliczny** tzn. za pomocą niego opisujemy inne symbole do, których może się on rozwinąć (na przykładach poniżej wszystko się wyjaśni)
 - ![#0000ff](https://placehold.it/15/0000ff/000000?text=+) - ```int```, ```()```, ```+```, ```-```, ```*```, ```/```, symbole terminalne, rozpoczynajace się małymi literami np. e, f, g. Znak terminalny jest **dosłowny** tzn. podczas parsowania nic nie rozwijamy i szukamy dokładnie tego co jest reprezentowane przez ten znak (będą to uprzednio utworzone przez skanera tokeny).
 - ![#737373](https://placehold.it/15/737373/000000?text=+) - symbol dowolny (symbol terminalny lub symbol nieterminalny), zwykle oznaczany małymi literami greckimi np. α, γ. Ktoś mógłby zapytać po co wprowadzać kolejną reprezentację skoro mamy już symbol nieterminalny, który potencjalnie może składać się z innych symboli? Jest to bowiem przydatne przy opisie gramatyki (o tym później). Niektóre małe litery alfabetu greckiego zarezerwowane są dla specjanych przypadkow jak np. epsilon ε oznaczający pustego stringa.
 
-Gramatykę bezkontekstową opisujemy za pomocą [notacji BNF](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form), w której istnieją dwa sposoby rozwijania symboli przez drzewo parsujące *(parse tree)* nazywane derywacją *(derivation)*. Poniżej przedstawiono: *Leftmost Derivation* (derywacja lewostronna) tj. w każdym kolejnym kroku rozwijany jest pierwszy z lewej symbol nieterminalny, *Rightmost derivation*  (derywacja prawostronna) tj. w każdym kolejnym kroku rozwijany jest pierwszy z prawej symbol nieterminalny. Proszę zwróćcie uwagę na różnice w jakiej opisywana jest zasada i derywacja. [Na pierwszej ilustracji dotyczącej CFG](https://github.com/devmichalek/Kompilacja/raw/master/assets/1.2.1_0.png?raw=true) strzałka po lewej stronie jest zdecydowanie chudsza niż ta po prawej są to szczegóły jednak wciąż bardzo istotne. Na ich podstawie wiemy kiedy autor miał na myśli ukazanie derywacji (konstrukcji), a kiedy ukazanie opisu zasady (definicji). Poniżej grubsza strzałka opisująca proces derywacji.
-![Derywacja](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.1_2.png?raw=true)<br>
+Gramatykę bezkontekstową opisujemy za pomocą [notacji BNF](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form), w której istnieją dwa sposoby rozwijania symboli przez drzewo parsujące *(parse tree)* nazywane derywacją *(derivation)*. Poniżej przedstawiono: *Leftmost Derivation* (derywacja lewostronna) tj. w każdym kolejnym kroku rozwijany jest pierwszy z lewej symbol nieterminalny, *Rightmost derivation*  (derywacja prawostronna) tj. w każdym kolejnym kroku rozwijany jest pierwszy z prawej symbol nieterminalny. Proszę zwróćcie uwagę na różnice w jakiej opisywana jest zasada i derywacja. [Na pierwszej ilustracji dotyczącej CFG](https://github.com/devmichalek/Kompilacja-Frontend/raw/master/assets/1.2.1_0.png?raw=true) strzałka po lewej stronie jest zdecydowanie chudsza niż ta po prawej są to szczegóły jednak wciąż bardzo istotne. Na ich podstawie wiemy kiedy autor miał na myśli ukazanie derywacji (konstrukcji), a kiedy ukazanie opisu zasady (definicji). Poniżej grubsza strzałka opisująca proces derywacji.
+![Derywacja](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.1_2.png?raw=true)<br>
 
-![CFG](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.1_1.png?raw=true)<br>
+![CFG](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.1_1.png?raw=true)<br>
 Warto wiedzieć, że sładnia wyrażeń regularnych nie może zostać użyta do opisu gramatyki bezkontekstowej.
 Przykładowo Kleene Closure ```*``` w wyrażeniach regularnych oznacza 0 lub więcej wystąpień, dla ```a*b```, dopasowane zostałyby słowa ```ab```, ```b```, ```aaaaab```, taka funkcjonalność nie jest jednak wspierana przez CFG. Głównym powodem jest brak konieczności istnienia takiego operatora (notacja BNF zapewnia nam możliwość użycia rekurencji).
 
@@ -201,22 +201,22 @@ Podczas rozwijania struktur CFG natrafić możemy na niejednoznaczność *(ambig
 
 #### Niejednoznaczność Priorytetu
 Rozważmy proste działanie matematyczne ```34 - 3 * 42```, oraz zdefiniowane przez nas zasady gramatyki:<br>
-![Zasady](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.2.0_0.png?raw=true)<br>
+![Zasady](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.2.0_0.png?raw=true)<br>
 Rozwijając strukturę z lewej strony otrzymamy zły wynik oraz następujące drzewo:<br>
-![Drzewo](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.2.0_1.png?raw=true)<br>
+![Drzewo](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.2.0_1.png?raw=true)<br>
 Rozwijając strukturę z prawej strony otrzymamy:<br>
-![Drzewo](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.2.0_2.png?raw=true)<br>
+![Drzewo](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.2.0_2.png?raw=true)<br>
 Przy derywacji lewostronnej najpierw wykonana zostanie operacja odejmowana a dopiero później mnożenia (co jest oczywiście błędem). Zmieniając gramatykę języka na taką, w której użycie nawiasów jest obowiązakowe wykluczamy tym samym błędne rozgałęzienie drzewa:<br>
-![Zasady](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.2.0_3.png?raw=true)<br>
+![Zasady](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.2.0_3.png?raw=true)<br>
 Często jednak zmiana gramatyki nie wchodzi po prostu w grę. Innym sposobem na pozbycie się problemu jest zadeklarowanie najpierw operacji mnożenia i dzielenia (to one zostaną najpierw dopasowane), a później dodawania i odejmowania. Dodam, iż zasada gramatyczna często nazywana jest **produkcją** ponieważ **produkuje** ona stringa za pomocą derywacji.<br>
 Rozważmy produkcję ```A -> (A)``` gdzie ```A``` to symbol nieterminalny, ```(``` i ```)``` to symbole nieterminalne. Taki rodzaj produkcji jest **niepoprawny**, gramatyka ta nie generuje żadnego stringa. Dzieje się ponieważ zasada gramatyczna definiuje strukturę rekurencyjną składającą się wyłącznie z symbolu, który występuje rekurencyjnie tj. w produkcji brakuje innego symbolu nieterminalnego, który często nazywany jest jako *base case*. Produkcja ta nie posiada symbolu na którym może bazować przez co każda derywacja narażona jest na nieskończoną pętlę.
 
 #### Wiszący If-Else
 Spójrzcie proszę na poniższą gramatykę:<br>
-![Zasady](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.2.1_0.png?raw=true)<br>
+![Zasady](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.2.1_0.png?raw=true)<br>
 Z wyrażenia ```if (1) if (0) other else other``` (przyjmujemy, że *other* to część kodu wykonywana w ifach) otrzymujemy następujące drzewa:<br>
-![Drzewo](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.2.1_1.png?raw=true)
-![Drzewo](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.2.1_2.png?raw=true)<br>
+![Drzewo](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.2.1_1.png?raw=true)
+![Drzewo](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.2.1_2.png?raw=true)<br>
 Który z nich jest poprawny zależy od sposobu interpretacji przez nas samych:
 ```
 if (1) {			if (1) {
@@ -263,54 +263,54 @@ Chodzi o sytuację, w której parser zdaję sobie sprawę z tego, że x to zmien
 
 ### Analiza zstępująca
 Analiza zstępująca *(top-down)* zaczyna się niemalże bez informacji. Symbol od którego zaczynamy (symbol początkowy), pasuje do każdej z produkcji. Skąd zatem wiemy, który zestaw symboli to ten którego szukamy? Nie wiemy... Jedynie co możemy zrobić to zgadywać, a w przypadku pomyłki wrócić się po węzłach. Skoro musimy zgadywać to w jaki sposób? Spróbuję teraz omówić dwa podstawowe algorytmy z nawrotami *(backtracking)*. Zacznijmy od potraktowania naszego wejścia składającego się z tokenów jako zdanie składające z symboli terminalnych i nieterminalnych oraz proces parsowania jako przeszukiwanie po węzłach. Węzłem będzie **symbol dowolny**, natomiast przejście z węzła na węzeł możliwe będzie wtedy gdy napotkamy symbol istnieje w produkcji:
-![Przyklad](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5_0.png?raw=true)
+![Przyklad](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5_0.png?raw=true)
 
 #### Przeszukiwanie wszerz
 Zacznijmy od pierwszego, rzadziej używanego algorytmu *Breadth-First Search* lub *BFS*. Algorytm polega na przeszukiwaniu wszerz zaczynając od symbolu najbardziej na lewo lub prawo. Algorytm wymaga zapamiętywania wszystkich węzłów w danej odległości od korzenia. Standardowe przejście po grafie wygląda następująco:<br>
-<img align="left" alt="BFS" src="https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.0_0.png?raw=true"><br>
+<img align="left" alt="BFS" src="https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.0_0.png?raw=true"><br>
 Od razu wspomnę, że próba rozwijania symbolu może trwać naprawdę długo. Dlaczego? Załóżmy, że nasz algorytm rozwija zawsze pierwszy z lewej symbol znajdujący się w produkcji. W momencie gdy w produkcji pierwszym symbolem z lewej jest taki sam symbol jaki znajduję się "przed strzałką" potencjalnie wpadamy w bardzo długi proces szukania rozwiązania dla danej produkcji (w BFS nie ma ryzyka nieskończonej pętli jednak proces szukania rozwiązania może trwać naprawdę długo). Poniższa animacja ilustruje powyższy schemat przejść po drzewie tj. pierwszy rozwijany jest symbol najbardziej na lewo:
-![BFS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.0_1.gif?raw=true)<br>
+![BFS](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.0_1.gif?raw=true)<br>
 Jak można łatwo zauważyć szukanie klucza może potrwać naprawdę długo, dodatkowo szukanie zajmuje mnóstwo pamięci. Najbardziej nieprzydatną rzeczą okazuję się **rozwijanie symbolu nieterminalnego, który potencjalnie zawiera inne symbole nieterminalne z niepasującym kluczem** (wspomniane ryzyko rekurencji). Co można by było ulepszyć? Wyobraźmy sobie, że szukamy rozwiązania dla λ = ```int + int```. Zakładamy również, że posiadamy zasadę mówiącą, że κ = **a**B (κ - symbol dowolny, **a** - symbol terminalny, B - symbol nieterminalny), w przypadku gdy **a** nie jest tokenem ```int``` nie ma sensu dalej rozwijać symbolu nieterminalnego B. Unikając niepotrzebnego rozwijania *(branching factor)* symboli nieterminalnych znacznie zyskujemy na czasie. Oczywiście gdy nasz ciąg symboli składa się z wielu symboli nieterminalnych to rozwijanie wciąż może zając sporo czasu. Poniżej przedstawiam zestawy symboli po których będziemy się poruszać (zasady gramatyki):<br>
-![CFG](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.0_2.png?raw=true)<br>
+![CFG](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.0_2.png?raw=true)<br>
 Animacja przedstawiająca poprawiony algorytm (przeszukujemy zaczynając od symbolu najbardziej na lewo), szukane zdanie to ```int + int```:<br>
-![BFS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.0_3.gif?raw=true)<br>
+![BFS](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.0_3.gif?raw=true)<br>
 Teraz wspomniany problem gdy pierwszym symbolem z lewej jest symbol nieterminalny (szukanie klucza rośnie wykładniczo), najpierw nasze zasady:<br>
-![CFG](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.0_4.png?raw=true)<br>
+![CFG](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.0_4.png?raw=true)<br>
 Szukane zdanie to ```caaaaaaaaaa```, animacja przedstawiająca problem:<br>
-![BFS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.0_5.gif?raw=true)
+![BFS](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.0_5.gif?raw=true)
 
 #### Przeszukiwanie wgłąb
 Drugim algorytmem, który postaram się omówić jest *Deep-First Search* lub *DFS*. Przeszukiwanie wgłąb polega na rozpatrywaniu jednej gałęzi i przechodzenia na kolejny węzęł w przypadku pasujących symboli, w przypadku niepasujących symboli wracamy się spowrotem po grafie. Algorytm w każdym momencie wymaga zapamiętania ścieżki od korzenia do bieżącego węzła. Schemat przejść po drzewie wygląda następująco (zaczynając od symbolu najbardziej na lewo):<br>
-<img align="left" alt="DFS" src="https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_0.png?raw=true"><br>
+<img align="left" alt="DFS" src="https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.1_0.png?raw=true"><br>
 Kilka zalet w stosunku do *BFS*:
 - mniejsze zużycie pamięci (rozpatrywana jest jedna gałąź w danym momencie, nie trzymamy wskaźników na węzły znajdujące się w innych gałęziach a jedynie wskaźniki na dzieci)
 - dla dobrze napisanej gramatyki wysoka wydajność w stosunku do *BFS*
 - łatwy w implementacji
 
 Animacja przedstawiająca szukanie rozwiązania dla ```int + int``` zaczynając od symbolu najbardziej na lewo:<br>
-![DFS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_1.gif?raw=true)<br>
+![DFS](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.1_1.gif?raw=true)<br>
 Problemy z przeszukiwaniem wgłąb podczas szukania rozwiązania dla ```c```. Zaczynając od symbolu najbardziej na lewo wpadamy w nieskończoną rekurencję:<br>
-![DFS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_2.png?raw=true)<br>
+![DFS](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.1_2.png?raw=true)<br>
 No dobrze ale jak temu zaradzić? Przecież musi istnieć jakiś sposób dostania się do ```c``` (parsery zstępujące LL równiez podatne są na tego typu problemy). Postaram się omówić jak usunąć rekurencję lewostronną *(left recursion removal)* bezpośrednią *(immediate)* oraz pośrednią *(indirect)* (zwykle technika usuwania rekurencji powiązana jest z usunięciem wspólnych symboli *(left factoring)*). Zacznijmy od rekurencji lewostronnej bezpośredniej (najprostszy przykład z jednym symbolem rekurencyjnym):<br>
-![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_3.png?raw=true)<br>
+![ILR](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.1_3.png?raw=true)<br>
 Teraz trochę trudniejszy przykład, rekurencja lewostronna bezpośrednia z więcej niz jednym symbolem rekurencyjnym:<br>
-![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_4.png?raw=true)<br>
+![ILR](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.1_4.png?raw=true)<br>
 Powyższe grafiki obrazują **bezpośrednią** rekurencję lewostronną ponieważ symbol rekurencyjny znajduje się bezpośrednio w omawianej produkcji. Bardziej złożonym przypadkiem jest rekurencja lewostronnie pośrednia:<br>
-![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_5.png?raw=true)<br>
+![ILR](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.1_5.png?raw=true)<br>
 Takie produkcje są jednak rzadkością wśród języków programowania. Zacznijmy od rekurencji bezpośredniej, występuje ona w formie:<br>
-![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_6.png?raw=true)<br>
+![ILR](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.1_6.png?raw=true)<br>
 w której α i β składają się z symboli nieterminalnych i symboli terminalnych nie zaczynających się na A. Do usunięcia rekurencji niezbędne jest dopisanie dodatkowej zasady gramatycznej. Pierwsza generująca β oraz druga generująca powtórzenia α używając rekurencji prawostronnej. Wygląda to w następujący sposób (przypominam, że ε oznacza pustego stringa):<br>
-![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_7.png?raw=true)<br><br>
+![ILR](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.1_7.png?raw=true)<br><br>
 Stąd rozwiązaniem dla<br>
-![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_3.png?raw=true) jest
-![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_8.png?raw=true)<br><br>
+![ILR](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.1_3.png?raw=true) jest
+![ILR](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.1_8.png?raw=true)<br><br>
 Również rozwiązaniem dla<br>
-![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_4.png?raw=true) jest
-![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_9.png?raw=true)<br>
+![ILR](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.1_4.png?raw=true) jest
+![ILR](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.1_9.png?raw=true)<br>
 Teraz coś trudniejszego, gramatyka, której prawdopodobnie większość z nas nie zobaczy:<br>
-![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_10.png?raw=true)<br>
+![ILR](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.1_10.png?raw=true)<br>
 Po dokonaniu usunięcia rekurencji lewostronnej:<br>
-![ILR](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.1_11.png?raw=true)<br>
+![ILR](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.1_11.png?raw=true)<br>
 
 Usuwanie rekurencji lewostronnych nie zmienia języka, którego rozpoznajemy, zmieniana jest gramatyka, a co za tym idzie struktura drzewa. W rzeczywistości usuwanie symboli rekurencyjnych utrudnia nam jako projektantom gramatyki przejrzystość produkcji (parser staje się bardziej skomplikowany).
 
@@ -322,7 +322,7 @@ Czas wyszukiwania w najgorszym wypadku wykładniczy | Czas wyszukiwania w najgor
 
 #### LL(1)
 Poprzednie algorytmy zajmowały się wyszukiwaniem próbując dopasować dany token do produkcji, w przypadku błędu wracały się po uprzednio utworzonej ścieżce. Istnieje również inna kategoria algorytmów parsujących, są to tzw. parsery przewidujące *(predictive parsers)*. Parsery przewidujące są znacznie szybsze jednak w tym przypadku mniej potężne od BFS (który zadziała dla każdej gramatyki) i DFS (którego gramatyka jest kompletna gdy graf jest skończony). Dodatkowo, często wspierane tablicą wypełnioną przejściami (o których za chwilę wspomnę) z poszczególnych węzłów na kolejny zyskują jeszcze większą wydajność. Niestety ten rodzaj parsowania nie jest w stanie wyszukać rozwiązania dla każdej gramatyki. Zaczynając od pierwszego symbolu w jaki sposób jesteśmy w stanie stwierdzić, którą produkcje przyjąć? Podczas podejmowania decyzji parser sprawdza aktualny oraz **następny** token *(lookahead token)* (LL(n), L - parsujemy od lewej do prawej (proszę sie nie zdziwić, ale niektóre starsze parsery parsowały od prawej do lewej), L - derywacja lewostronna (proces rozwijania symboli), n - liczba dodatkowo sprawdzanych tokenów z wyprzedzeniem) w celu podjęcia decyzji. Warto zauważyć, że gdy zwiększamy liczbę dodatkowo sprawdzanych tokenów jesteśmy w stanie szukać rozwiązań dla bardziej złożonych gramatyk z drugiej strony im większa liczba sprawdzanych tokenów tym nasz parser staje się bardziej skompilowany. Poniżej przykład, w którym parser mając do dyspozycji jeden *lookahead token* wyszukuje rozwiązania dla ```int + (int + int)```<br>
-![LT](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.2_0.gif?raw=true)<br>
+![LT](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.2_0.gif?raw=true)<br>
 Parser zstępujący bazuje na stosie, rozpoczyna parsowanie w momencie dodania symbolu startowego natomiast akceptuje wejście momencie dopasowania tokenów do istniejącej produkcji (w momencie gdy stos jest pusty). Parsowanie odbywa się poprzez zamianę symbolu nieterminalnego (znajdującego się na górze stosu) z jedną z wybranych produkcji *(generate)* tym samym pobierając kolejny token z wejścia. Następnym etapem jest porównanie symbolu terminalnego z tokenem na wejściu *(match)*, pasujący token zostaje zastąpiony kolejnym tokenem pobranym z wejścia natomiast symbol terminalny zostaje zdjęty z stosu. W momencie gdy symbol terminalny oraz token na wejściu nie są sobie równoważne zwracany jest błąd analizy składniowej. Poniżej przedstawiam przykład działania algorytmu dla gramatyki:
 ```
 S -> ( S ) S | ε
@@ -340,12 +340,12 @@ Metoda ta pokazuje nam pewną zależność. Jeśli na górze stosu znajduje się
 
 #### Tablice LL(1)
 Podczas parsowania LL(1) wszystkie nasze decyzje dotyczące rozwijania symboli nieterminalnych są niejako **wymuszone** poprzez rozpatrywanie następnego tokenu. W nastęnym nagłówku postaram się nieco przybliżyć zastosowanie tablic umożliwiających szybsze wyszukiwanie rozwiązania oraz **detekcje błędów** gramatycznych. Zakładamy, że tablica jest na początku pusta. Po konstrukcji tablicy jakakolwiek pusta komórka stwarza potencjalny błąd podczas parsowania. Na poniższych ilustracjach przedstawiono kolejno: opis naszej gramatyki oraz tablicę przejść, pierwsza z lewej kolumna to symbole nieterminalne, pierwszy z góry wiersz to symbole terminalne.<br>
-![PT](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.3_0.png?raw=true)<br>
+![PT](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.3_0.png?raw=true)<br>
 Tak utworzoną tablicę parser woła w sposób: M[N, T] gdzie M to tablica *(moves)*, N to symbol nieterminalny (na górze stosu) oraz T symbol terminalny (występujący na wejściu). Podczas parsowania zdania ```(int + (int * int))``` zaznaczmy gdzie się ono kończy znakiem ```$```, od teraz nasze zdanie to ```(int + (int * int))$```. Poniżej ilustracja procesu parsowania tablicą przejść (zwróćcie uwagę, że tym razem stos został inaczej przedstawiony, element na samej górze znajduję się po lewej stronie).<br>
-![PT](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.3_1.png?raw=true)<br>
+![PT](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.3_1.png?raw=true)<br>
 Wykrywanie błędów gdy posiadamy znak kończący zdanie oraz tablice przejść:<br>
-![WB](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.3_2.png?raw=true)<br>
-![WB](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.3_3.png?raw=true)<br>
+![WB](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.3_2.png?raw=true)<br>
+![WB](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.3_3.png?raw=true)<br>
 Spróbujmy podsumować algorytm działania parsera LL(1):
 - Zaczynając od symbolu dowolnego **S** oraz tablicy przejść **T** inicjujemy stos **$S**
 - Powtarzamy dopóki stos nie jest pusty:
@@ -358,14 +358,14 @@ Spróbujmy podsumować algorytm działania parsera LL(1):
     - W przeciwnym wypadku zamień pierwszy element stosu na ```T[A, t]```
     
 Gramatyka LL(1) istnieje wtedy gdy utworzona tablica, posiada maksymalnie jedną możliwą produkcję w każdej komórce, oznacza to, że gramatyka nie może być niejednoznaczna, nie może istnieć sytuacja, w której dla danego symbolu nieterminalnego i tokenu istnieją dwie możliwe opcje do wybrania. Podczas gdy wymagamy aby ta zasada obowiązywała możliwe jest zaimplementowanie wyjątków. Jednym z przykładów może być (wspomniany wcześniej) *dangling else problem*:<br>
-![Zasady](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.3_4.png?raw=true)<br><br>
-![Tablica](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.3_5.png?raw=true)<br>
+![Zasady](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.3_4.png?raw=true)<br><br>
+![Tablica](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.3_5.png?raw=true)<br>
 
 Komórka M\[else-part, else\] zawiera dwie produkcje. Podczas budowania tablicy przejść moglibyśmy przyjąć zasadę, wybierania produkcji, w której następny token jest równy tokenowi na wejściu, zasada nosi nazwę *most closely nested disambiguating rule*.
 
 #### Zbiory First i Follow
 Tablica przejść parsera LL(1) tworzona jest na podstawie zbiorów First i Follow. Podczas parsowania chcielibyśmy wiedzieć czy dany symbol nieterminalny może zostać rozwinięty do symbolu terminalnego występującego na wejściu, aby to zrobić niezbędna jest tablica First, która reprezentuje wszystkie **możliwe symbole terminalne, które mogą wystąpić jako pierwsze przy rozwijaniu symbolu nieterminalnego**. Z drugiej strony chcielibyśmy wiedzieć czego ewentualnie spodziewać się po rozwinieciu nieterminala, w tym celu użyjemy tablicy Follow, która reprezentuje wszystkie **dozwolone symbole terminalne, które mogą wystąpić po rozwinięciu symbolu nieterminalnego**. Przykład poniżej przedstawia utworzone tablice:<br>
-![FIRSTFOLLOW](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.5.4_0.png?raw=true)<br>
+![FIRSTFOLLOW](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.5.4_0.png?raw=true)<br>
 Proszę zauważyć, że zbiór First nie służy tylko i wyłącznie do szukania terminali. Podczas szukania First dla symbolu nieterminalnego dowiadujemy się również tego czy symbol jest w stanie rozwinąć się do pustego stringa ε (jeśli tak to symbol ten może zostać pominięty).
 Symbol nieterminalny, który może przyjmować postać pustego stringa określany jest jako *nullable*. Szukanie terminali dla zbioru First jest stosunkowo proste. Weźmy jako przykład poniższą gramatykę:
 ```
@@ -410,8 +410,8 @@ Na tym etapie zakończę analizę zstępującą. Omówiony parser LL(1) to parse
 
 ### Analiza wstępująca
 Analiza wstępująca *(bottom-up)* jest metodyką dużo bardziej skomplikowaną, która znacząco przewyższa analizę zstępującą pod względem trudności gramatyki zdolnej do sparsowania. Ze względu na znaczącą przewagę ten typ analizy jest niejako częściej implementowany w współczesnych parserach. Dla przykładu w analizie wstępującej nie mamy problemu z rekurencją lewostronną występującą w produkcji. Pomimo możliwości użycia algorytmów BFS i DFS w tworzeniu parsera jak i samego LL(1), analiza zstępująca jest raczej **rzadko** spotykana. Raczej nikt nie zakłada przebudowy parsera, ponieważ w nowszym standardzie języka występuje nowa, zbyt skomplikowana semantyka, w której parser LL(1) sobie nie radzi (oczekujemy potężnego narzędzia, którego gramatykę będziemy w stanie poszerzać). Często mówiąc o analizie wstępującej mamy na myśli parser **LR(1)** (L - parsujemy od lewej do prawej, R - derywacja prawostronna, 1 - ilość rozpatrywanych tokenów wprzód). Ze względu na siłę parserów wstępujących wyróżniamy również **LR(0)**, w których nie posiadamy podglądu, ponieważ token pobrany z wejścia wrzucany jest na stos gdzie rozpoczyna się proces przesunięcia lub redukcji. Niewielką przewagą względem **LR(0)** wykazuje się parser **SLR(1)** (**S** oznaczający **Simple** **LR(1)**). Istnieje również parser **LALR(1)** (**L**ook**A**head **LR(1)**) nieznacznie silniejszy od **SLR(1)** natomiast mniej złożony od **LR(1)**. Podczas analizy zstępującej najpierw rozpatrywany był symbol początkowy, to od niego parser zaczynał **rozwijać** kolejne symbole nieterminalne. W przypadku analizy wstępującej parser **redukuje** tokeny konwertując je na symbole nieterminalne tak aby z czasem dojść do symbolu początkowego (osobiście uważam, że takie rozwiązanie jest bardziej logiczne). Oto jak wygląda parsowanie analizą wstępującą:<br>
-![BOTTOM-UP](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6_0.png?raw=true)<br>
-![BOTTOM-UP](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6_1.gif?raw=true)<br>
+![BOTTOM-UP](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.6_0.png?raw=true)<br>
+![BOTTOM-UP](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.6_1.gif?raw=true)<br>
 Jako ciekawostkę chciałbym dodać, że kompilatory GCC i LLVM-Clang to ręcznie napisane parsery zstępujące (w przeszłości GCC używał Yacc'a do generacji parsera, gdzie Yacc bazuje na analizie wstępującej). Proszę się nie zdziwić, ale wiele z obecnie dzisiejszych kompilatorów powstało kilkanaście, a może nawet kilkadziesiąt lat temu. Programiści budujący kompilator pisali kod mając inne podejście względem analizy składniowej niż jak to ma miejsce teraz, gdzie znane nam obecnie algorytmy parsujące nie były tak popularne. Wszystkie metody pozwalające zbudować parser wstępujący są **zbyt trudne** dla kogoś kto chciałby go ręcznie napisać. Niemniej jednak ważne jest, aby zrozumieć jak działa analiza wstępująca, jeśli w przyszłości chcielibyśmy szybciej wykrywać potencjalne problemy związane z składnią BNF używając gotowych generatorów takich jak Bison.
 
 #### Redukcje, Przesunięcia, Uchwyty
@@ -430,24 +430,24 @@ E' -> E
 E -> E + n | n
 ```
 Wyróżniamy następujące RSF: ```E```, ```E + n```, ```n + n```, są to tzw. przejścia możliwe do wykonania dla derywacji prawostronnej. Parser wrzuca symbole z wejścia na stos do momentu, w którym może wykonać redukcję na RSF. Podczas parsowania metodą wstępującą zadaniem parsera jest znalezienie jak największej uzupełnionej grupy symboli gotowej do redukcji (gotowej do zamiany na symbol nieterminalny) określane przez literature jako uchwyt *(handle)*. Tak jak wspomniałem w tym przypadku parser nie potrzebuje tokenu podglądowego, ponieważ symbole z wejścia mogą być wrzucane na stos tak długo, aż podjęta zostanie odpowiednia akcja. Podczas analizy wstępującej zajmować się będziemy wyszukiwaniem uchwytów w sposób kierunkowy (skanując od lewej do prawej) patrząc o jeden token do przodu (istnieje również grupa parserów wstępujących bezkierunkowych). Spójrzcie proszę na poniższy przykład, jak znaleziony został uchwyt dla zdania ```int + int * int```:<br>
-![Zly uchwyt](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.0_0.png?raw=true)<br>
+![Zly uchwyt](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.6.0_0.png?raw=true)<br>
 Jak widać powyższy uchwyt jest błędny. Nie wystarczy, aby uchwyt pasował do prawej strony produkcji. Drugi ```int``` został błędnie zinterpretowany jako **int => T => F**, oczekiwaliśmy redukcji w formie **int => T => F * T**.
 
 #### Gdzie szukamy uchwytów?
 Nasze zdanie dzielimy na dwie części. Lewa strona to nasza strefa robocza, w której znajdować się będą potencjalne uchwyty. Prawą stronę potraktujemy jako wejście, które nie zostało jeszcze przeczytane (składa się tylko i wyłącznie z symboli terminalnych). Stopniowo będziemy zajmować się przesuwaniem symboli teminalnych z prawej strony na strefę roboczą po lewej stronie. Rozpatrzmy zdanie ```int + int * int + int```:<br>
-![Przesuniecia](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.1_0.gif?raw=true)<br>
+![Przesuniecia](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.6.1_0.gif?raw=true)<br>
 Skoro redukcja przeprowadzana jest po prawej stronie strefy roboczej, nigdy nie przesuniemy symbolu z lewej do prawej. Lewą stronę traktujemy jako wspomniany stos do którego wrzucamy symbole terminalne z prawej strony. Jak można łatwo zauważyć uchwyty znajdują się zawsze na górze stosu.
 
 #### Jak szukamy uchwytów?
 Podczas parsowania metodą przesuń/zredukuj za każdym razem zobowiązani jesteśmy zdecydować jaką akcję chcemy podjąć. Czy zredukować symbol? Czy być może pobrać więcej symboli z prawej strony? Skąd wiemy co należy wykonać? Wiemy, że uchwyt pojawi się zawsze na końcu zdania strefy roboczej, gdybyśmy w jakiś sposób znaleźli wzór na rozpoznawanie uchwytów będziemy wiedzieć kiedy wykonać redukcję, a kiedy przesunięcie. Ponownie rozpatrzmy zdanie ```int + int * int + int``` tym razem z innej perspektywy:<br>
-![Redukcja](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.2_0.gif?raw=true)<br><br>
+![Redukcja](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.6.2_0.gif?raw=true)<br><br>
 Śledząc naszą pozycję wyglądałoby to w następujący sposób:<br>
-![Sledzenie](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.2_1.gif?raw=true)<br><br>
+![Sledzenie](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.6.2_1.gif?raw=true)<br><br>
 W dowolnym momencie generacja zawartości po lewej stronie może zostać opisana w następujący sposób:
  - Zaczynając od symbolu startowego S śledź produkcje, które nie są jeszcze kompletne (produkcje, które nie zostały jeszcze zredukowane do końca) oraz to gdzie w danej produkcji się znajdujemy (na powyższej animacji zaznaczone jest to znakiem kropki **·**)
  - Dla każdej produkcji, w kolejności, zredukuj kolejne symbole do punktu, w którym się znajdujemy. Inaczej mówiąc redukuj na bieżąco to co znajduje się po naszej lewej stronie **·**
  
-Posiadając algorytm do generacji lewej strony czy jesteśmy w stanie zbudować mechanizm do jej rozpoznawania? W każdym momencie parsowania śledzimy, w której produkcji się znajdujemy oraz jak daleko jesteśmy w tej produkcji. W każdym momencie próbujemy dopasować symbol po prawej stronie jako nowego kandydata na symbol po lewej stronie lub jeśli jest to symbol terminalny próbujemy zgadnąć, której produkcji użyć. Istnieje skończona liczba produkcji, w której istnieje skończona liczba pozycji w jakiej możemy się znaleźć. W każdym momencie zobowiązani jesteśmy śledzić gdzie się znajdujemy tylko w jednej produkcji. Dlaczego się nad tym zastanawiać? Do tego typu zadań świetnie nadają się automaty skończone. Podczas działania automatu gdy kiedykolwiek znajdziemy się w produkcji w takim miejscu gdzie **·** znajduję się na końcu ![Kropka](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.2_2.png?raw=true) to prawdopodobnie będzie to uchwyt (swoją drogą tego typu mechanizm wbudowany jest generatorze bison).
+Posiadając algorytm do generacji lewej strony czy jesteśmy w stanie zbudować mechanizm do jej rozpoznawania? W każdym momencie parsowania śledzimy, w której produkcji się znajdujemy oraz jak daleko jesteśmy w tej produkcji. W każdym momencie próbujemy dopasować symbol po prawej stronie jako nowego kandydata na symbol po lewej stronie lub jeśli jest to symbol terminalny próbujemy zgadnąć, której produkcji użyć. Istnieje skończona liczba produkcji, w której istnieje skończona liczba pozycji w jakiej możemy się znaleźć. W każdym momencie zobowiązani jesteśmy śledzić gdzie się znajdujemy tylko w jednej produkcji. Dlaczego się nad tym zastanawiać? Do tego typu zadań świetnie nadają się automaty skończone. Podczas działania automatu gdy kiedykolwiek znajdziemy się w produkcji w takim miejscu gdzie **·** znajduję się na końcu ![Kropka](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.6.2_2.png?raw=true) to prawdopodobnie będzie to uchwyt (swoją drogą tego typu mechanizm wbudowany jest generatorze bison).
 
 #### Automaty, Elementy LR(0)
 Elementem LR(0) (lub po prostu elementem) nazywamy jedną z możliwych wyborów w produkcji z zaznaczeniem pozycji, w której się znajdujemy (w poprzednim przykładzie oznaczona jako znak kropki **·**). Rozważmy poprzednią gramatykę:
@@ -490,9 +490,9 @@ E ->·n
 E -> n·
 ```
 Automat NFA powstały z powyższych elementów to:<br>
-![NFA](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.3_0.png?raw=true)<br>
+![NFA](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.6.3_0.png?raw=true)<br>
 Zwróćcie uwagę, że dla powstałego NFA element ```E -> ·E + n``` posiada ```ε``` tranzycję do samego siebie (powodem jest produkcja rekurencyjna). Powstały automat DFA to:<br>
-![DFA](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.3_1.png?raw=true)<br>
+![DFA](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.6.3_1.png?raw=true)<br>
 
 #### LR(0)
 Nasz automat wskaże nam miejsca, w których potencjalnie znajduję się uchwyt. Parser LR(0) potrzebuje informacji na temat tego w jakim stanie się znajdujemy, co za tym idzie, każdemu z stanów przypisujemy numer. Podczas wrzucania symboli na stos wrzucamy również odpowiedni numer stanu (właściwie jedynie co nas interesuje to właśnie numer stanu, w którym aktualnie się znajdujemy, stos składający się z symboli nas nie interesuje, ponieważ nie daje on żadnych informacji). Algorytm parsera LR(0) wybiera akcję na podstawie aktualnego stanu automatu DFA tj. aktualnego stanu na stosie. Algorytm przebiega w następujący sposób:
@@ -516,7 +516,7 @@ Zdanie, które weźniemy pod uwagę to:
 ```
 
 Wygenerowany automat skończony:<br>
-![DFA](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.4_0.png?raw=true)<br>
+![DFA](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.6.4_0.png?raw=true)<br>
 
 Parsowanie rozpoczynamy w stanie 0 (stan ten wrzucany jest na stos). Będąc w stanie 0 przesuwamy symbol ```(``` z wejścia i wrzucamy go na stos. Automat wskazuje na tranzycję z stanu 0 do stanu 3 w przypadku wystąpienia ```(```, stan 3 wrzucamy na stos. Stan 3 podpowiada nam, aby pobrać więcej symboli, stąd ```(``` pobieramy z wejścia i wrzucamy go na stos. Automat wskazuje na tranzycję z stanu 3 do stanu 3 w związku z tym stan 3 wrzucany jest na stos. Ponownie będąc w stanie 3 pobierany jest symbol ```a```, który wrzucamy na stos. Wykonywane jest przejście z stanu 3 do stanu drugiego co skutkuje wrzuceniem stanu 2 na stos. W stanie 2 wykonywana jest redukcja ```A -> a``` przez co stan 2 oraz symbol ```a``` zrzucane są z stosu. Symbol ```A``` umieszczany jest na stosie. Przejście z stanu 3 do stanu 4 skutkuje wrzuceniem stanu 4 na stos. W stanie 4 pobieramy symbol ```)``` i umieszczamy go na stosie, równocześnie wykonywane jest przejście z stanu 4 do stanu 5 przez co stan 5 ląduje na stosie. W stanie 5 wykonujemy redukcję ```A -> ( A )``` tym samym zrzucając stany 5, 4, 3 oraz symbole ```)```, ```A```, ```(```. Symbol ```A``` umieszczany jest na stosie co powoduje przejście z stanu 3 do stanu 4 (stan 4 wrzucany jest na stos). W stanie 4 pobieramy symbol ```)``` z wejścia i wrzucamy go na stos, przechodzimy do stanu 5 i również wrzucamy go na stos. Ponownie wykonujemy redukcje, która zrzuca stany 5, 4, 3 oraz symbole ```)```, ```A```, ```(``` z stosu. Znajdując się w stanie 0 symbol ```A``` wrzucany jest na stos, przechodzimy do stanu 1. Będąc w stanie 1 akceptujemy zdanie ze względu na brak dodatkowych tokenów na wejściu. Proces parsowania można przedstawić następująco:
 
@@ -545,8 +545,8 @@ Parsery LR(0) zwykle reprezentowane są za pomocą tabeli *action* i tabeli *got
 | 5    | Zredukuj | A -> ( A ) |         |         |         |      |  
 
 Warto zaznaczyć, że każde puste miejsce w tabeli oznacza potencjalne zwrócenie błądu podczas parsowania. Inny przykład wygenerowanej tablicy oraz automatu skończonego:<br>
-![Automat](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.4_1.png?raw=true)<br>
-![Tabela](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.2.6.4_2.png?raw=true)<br><br>
+![Automat](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.6.4_1.png?raw=true)<br>
+![Tabela](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.6.4_2.png?raw=true)<br><br>
 
 #### SLR(1)
 **S**imple LR(1) lub SLR(1) używa automatu skończonego oraz elementów LR(0). Różnicą w stosunku do LR(0) jest rozpatrywanie dodatkowego tokenu z wejścia, które znacząco zwiększa zakres możliwych do rozpatrzenia gramatyk. Decyzja dotycząca wrzucenia tokenu na stos podejmowana jest na podstawie podglądu. Dodatkowo parser SLR(1) posługuje się zbiorem Follow w celu sprawdzenia czy dany symbol nieterminalny może zostać zredukowany. Jak się okazuje te dwie proste czynności są wystarczająco skuteczne dla prawie każdej możliwej konstrukcji języka. Algorytm przedstawia się w następujący sposób:
@@ -711,7 +711,7 @@ int Awful() {
 }
 ```
 Podczas analizy semantycznej każda nowa deklaracja identyfikatora dodawana jest do tzw. tablicy symboli *(symbol table)*, ta zdefiniowana jest jako pusta, w momencie przeskoczenia do nowego zakresu dodawany jest stos reprezentujący zakres. W przypadku gdy na danym poziomie zasięgu znaleziony zostanie duplikat identyfikatora ogłaszany jest błąd analizy semantycznej. Zauważmy, że tego typu błąd nie występuje gdy ta sama nazwa identyfikatora (również tego samego typu) znajduje się o n poziomów wyżej. Nasza tablica reprezentowana jest za pomocą stosu z wskaźnikiem na rodzica *(spaghetti stack)* tym samym identyfikator szukany jest najpierw w zakresie, w którym się znajduje, nie znaleziony symbol szukany jest o poziom wyżej, a w przypadku braku symbolu ogłoszany jest błąd analizy semantycznej (brak potrzeby implementacji wskaźnika na dziecko).<br>
-![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.0.0.gif?raw=true)<br>
+![SS](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.3.0.0.gif?raw=true)<br>
 Taki typ struktury definiuje cztery główne operacje: dodaj/usuń zakres *(push/pop scope)*, dodaj/znajdź symbol *(insert/lookup symbol)*. Przykładowa implementacja to najzwyklejsze zdefiniowanie klasy reprezentującej zakres po której dziedziczą klasy funkcji, instrukcji warunkowych, klasy, pętle itd.
 ```C++
 class Scope {...};
@@ -722,10 +722,10 @@ class ForLoopStatement : public Scope {...};
 ...
 ```
 Każda z powyższych klas rozszerza klasę bazową *Scope*, podczas analizy wołane są jej odpowiedniki (spora część analizy opiera się na tego typu rozwiązaniu). Inne spojrzenie na tablicę symboli<br>
-![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.0.1.gif?raw=true)<br>
+![SS](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.3.0.1.gif?raw=true)<br>
 W sytuacji, w której dana klasa posiada rodzica (dziedziczy po innej klasie) przechowany zostaje wskaźnik na stos zakresu klasy bazowej (symbol szukany jest również w klasie bazowej):<br>
-![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.0.2.gif?raw=true)<br>
-![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.0.3.gif?raw=true)<br>
+![SS](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.3.0.2.gif?raw=true)<br>
+![SS](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.3.0.3.gif?raw=true)<br>
 Z uwagi na fakt, iż parsery LL(1) i LR(1) znają swój następny token skanowanie oraz parsowanie może odbywać się w tym samym czasie podczas jednego etapu. Niektóre kompilatory przeprowadzają skanowanie, parsowanie, analizę semantyczą i generację kodu jednoetapowo. Taki typ kompilatora określany jest jako *single-pass compiler* (niektóre starsze kompilatory Pascala działały w ten sposób, języki takie jak C i C++ zaprojektowane są w sposób ułatwiający implementację kompilatora jednoetapowego). Obecnie najczęściej możemy spotkać kompilatory przeprowadzające analizy wielokrotnie ze zwględu na zbyt skomplikowaną semantykę, kompilatory te określane są jako *multi-pass compiler*. Ciekawą zaletą kompilatorów wieloetapowych jest to, że zebrane informacje z poprzednich przejść mogą zostać wykorzystane poźniej. Jednym z rozwiązań może być implementacja tablicy symboli jako struktury, w której każdy zakres reprezentowany jest przez tablicę mieszającą *(hash table)*. W tablicy mieszającej interesują nas tak naprawdę trzy rzeczy, wielkość tablicy, metoda niwelująca kolizje *(collision resolution)* oraz algorytm hashujący. Kolizji pozbywamy się implementując każdy kubełek jako liste jednokierunkową (lub drzewo binarne). Algorytm hashujacy to kwestia indywidualna, jednym z rozwiązań może być algorytm SHA-1. Jeśli chodzi o wielkość tablicy to sprawa jest nieco bardziej skompilowana. Pomijając fakt, że poprzednie problemy mogą w ogóle nie być brane pod uwagę zakładając, że używamy rozwiązań zaimplementowanych już w wielu językach to sama wielkość tablicy nie jest nam znana. Zbyt duża tablica niepotrzebnie zabiera miejsce w pamięci natomiast zbyt mała spowoduje dużą ilość kolizji. W momencie, w którym nasz kompilator jest wieloetapowy możemy założyć, że każda deklaracja identyfikatora to potencjalny nowy symbol w tablicy, implementując swego rodzaju licznik możemy w mniejszym lub większym stopniu oszacować wielkość tablicy.
 
 #### Zakres statyczny
@@ -757,7 +757,7 @@ int main()
 }
 ```
 Animacja przedstawiająca wartości wrzucane do tablicy symboli podczas pracy programu:<br>
-![SS](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.0.4.gif?raw=true)<br>
+![SS](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.3.0.4.gif?raw=true)<br>
 
 ### System typów
 Systemem typów *(type system)* nazywamy zbiór wszystkich możliwych **wyrażeń w zależności od rodzajów wartości, jakie one generują**. Każdej obliczonej wartości przypisywany jest pewien typ, który jednoznacznie definiuje, jakie **operacje można na nim wykonać**. Zadaniem kompilatora jest zgłaszanie błędów o niezgodności typu wtedy gdy przeprowadzane operacje są niezdefiniowane (np. brakujący operator przypisania). Sprawdzanie poprawności typów podczas kompilacji określane jest jako *static type checking* (kompilacja nie powiedzie się w przypadku błędów) występujące np. w języku Go. Istnieją również języki, w których operacje na typach sprawdzane są podczas działania programu *(dynamic type checking)* (sprawdzanie jest zazwyczaj wolniejsze lecz bardziej precyzyjne), popularnym językiem korzystającym z tego typu rozwiązania jest Python. Sytem typów dzieli języki programowania na silnie typowane *(strongly typed)*: Java, Python, JavaScript, Haskell i słabo typowane *(weakly/loosely typed)*: C, C++. Języki silnie typowane nie pozwalają programiście na jakiekolwiek błędy związane z typami podczas gdy języki słabo typowane są zazwyczaj szybsze (niejawne konwersje) i mniej dokładne (nie każdy błąd zostaje wykryty na kompilacji). Podczas tego artykułu postaramy przyjrzeć się typowaniu słabemu oraz statycznemu sprawdzaniu poprawności typów.<br>
@@ -776,7 +776,7 @@ if (1.0 + 4.0) {
 }
 ```
 Jak wywnioskować jakiego typu jest wyrażenie? Przykład:<br>
-![Wnioskowanie](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.1.0.png?raw=true)<br>
+![Wnioskowanie](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.3.1.0.png?raw=true)<br>
 Jeśli stała ```137``` jest typem całkowitym to oczekujemy tego samego typu również i po prawej stronie dodawania ```42``` (lub typu, w którym dozwolone jest dodanie liczby całkowitej). Analizę semantyczną traktujemy jako jeden wielki if, w momencie gdy występuje zgodność typów łączymy wyrażenia w całość. System typów rozumiany jest również jako zbiór możliwych operacji na typach.
 <br>
 Jeśli ```x``` to identyfikator odwołujący się do obiektu typu ```t``` to ```x``` jest typu ```t``` (```int x;```). Jeśli ```e``` to liczba stała to ```e``` jest typu ```int```. Jeśli argumentami wyrażenia ```x + y``` jest ```x``` typu ```int``` oraz ```y``` typu ```int``` to  wyrażenie przyjmuje typ ```int``` itd. W przypadku gdy w wyrażeniu znajduje się stała i identyfikator nie należy zakładać, że identyfikator jest tego samego typu co stała (typ zmiennej należy bezpośrednio wyciągnąć z tablicy symboli):
@@ -792,7 +792,7 @@ int function(int x)
 	}
 }
 ```
-![Bledne wyrazenie](https://github.com/devmichalek/Kompilacja/blob/master/assets/1.3.1.1.png?raw=true)<br>
+![Bledne wyrazenie](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.3.1.1.png?raw=true)<br>
 
 ## Podsumowanie
 
