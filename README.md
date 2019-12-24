@@ -634,11 +634,61 @@ A -> (A) | a
 ```
 Budowę automatu LR(1) rozpoczynamy od rozszerzenia naszej gramatyki poprzez dodanie elementu ```[A' -> .A, $]```, ```ε```-closure tego elementu to stan początkowy automatu. Z uwagi na fakt, że po symbolu ```A``` nie występują żadne symbole w tym elemencie (nawiązując do poprzedniej terminologi string ```γ``` jest pusty). W elemencie tym występują dwie ```ε``` tranzycje: ```[A ->·( A ), $]``` oraz ```[A ->·a, $]``` (First(γ$) = ```$```), stan 0 składa się z następujących elementów:
 ```
-Stan 0:	[A'->·A, $]
+Stan 0:
+	[A'->·A, $]
 	[A ->·( A ), $]
 	[A ->·a, $]
 ```
-
+Z tego stanu istnieje tranzycja przy wystąpieniu ```A``` do stanu zawierającego ```[A' -> A·, $]```, ponieważ stan ten zawiera elementy kompletne z tego stanu nie wychodzą żadne tranzycje, stan ten będzie stanem akceptacji i oznaczymy go jako stan 1:
+```
+Stan 1:
+	[A' -> A·, $]
+```
+Znów będąc w stanie 0 istnieje tranzycja przy wystąpieniu ```(``` do stanu zawierającego element domykający (```ε```-closure) ```[A -> (·A ), $]```, ponieważ istnieją ```ε``` tranzycje dla tego elementu, rozwiązanie nie jest proste. ```ε``` tranzycje tego elementu to ```[A ->·( A ), )]``` i ```[A ->·a, )]```. Dzieje się tak ponieważ w elemencie ```[A ->·( A ), $]```, ```A``` jest rozpoznawane jako *prawastrona* w kotekście nawiasów. Innymi słowy zbiór Follow prawejstrony ```A``` to First()$) = { ```)``` } (utworzone zostały nowe tokeny podglądowe).
+```
+Stan 2:
+	[A -> (·A ), $]
+	[A ->·( A ), )]
+	[A ->·a, )]
+```
+Ponownie wracając do stanu 0, pozostała ostatnia tranzycja do stanu zawierającego element ```[A ->·a, $]```, ponieważ element ten jest kompletny, stan ten będzie składał się z jednego elementu:
+```
+Stan 3:
+	[A -> a·, $]
+```
+Teraz wracamy do stanu 2. Z tego stanu istnieje tranzycja przy wystąpieniu ```A``` do elementu domykającego [A -> ( A·), $]. Stan ten zawiera jeden element:
+```
+Stan 4:
+	[A -> ( A·), $]
+```
+Istnieje również tranzycja przy wystąpieniu ```(``` do elementu domykającego ```[A -> (·A ), )]```. Również generujemy dwa pozostałe elementy domykające w myśl tej samej zasady wymienionej w stanie 2.
+```
+Stan 5:
+	[A -> (·A ), )]
+	[A ->·( A ), )]
+	[A ->·a, )]
+```
+Zauważcie, że elementy te są dokładnie take same jak w stanie 2 poza tokenem podglądowym w elemencie pierwszym. Ostatnia już tranzycja dla stanu 2 przy wystąpieniu ```a``` do stanu 6 to:
+```
+Stan 6:
+	[A -> a·, )]
+```
+Ponownie zauważcie, że stan 6 posiada dokładnie taki sam element co stan 3 poza tokenem podglądowym. Następnym stanem posiadającym tranzycje jest stan 4, który posiada tranzycje przy wystąpieniu tokenu ```)``` do stanu 7:
+```
+Stan 7:
+	[A -> ( A )·, $]
+```
+Wracając do stanu 5 istnieje tranzycja przy wystąpieniu tokenu ```(``` do stanu 5 (do samego siebie) oraz tranzycja dla ```A``` do stanu 8:
+```
+Stan 8:
+	[A -> ( A·), )]
+```
+oraz trancyja do istniejącego już stanu 6 dla ```a```. Wreszcie tranzycja dla ```)``` z stanu 8 do stanu 9:
+```
+Stan 9:
+	[A -> ( A )·, )]
+```
+DFA tych elementów posiada 10 stanów. Automat ten jest conajmniej dwa razy większy od automatu LR(0) zbudowanego dla tej samej gramatyki. 
 ### LALR(1)
 
 ### Bison
