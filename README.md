@@ -701,6 +701,15 @@ O gramatyce LR(1) mówimy wtedy gdy podczas wykonywania operacji nie występują
 - Dla każdego elementu ```[A -> αX·β, a]``` gdzie ```X``` to terminal, nie ma żadnego elementu w stanie s w formie ```[B -> γ., X]```, w przeciwnym wypadku otrzymamy konflikt przesunięcie-redukcja.
 - Nie ma dwóch elementów w stanie s w formie ```[A -> α·, a]``` oraz ```[B -> β·, a]```, w przeciwnym wypadku otrzymamy konflikt redukcja-redukcja.
 
+Rozważmy gramatykę LR(1) (gramatykę gdzie parser SLR(1) sobie nie radził):
+```
+S -> id | V := E
+V -> id
+E -> V | n
+```
+Poniżej przedstawiam zbudowany automat dla powyższej gramatyki. Należy zwrócić uwagę na stan 2 gdzie dla parsera SLR(1) występował konflikt. Elementy LR(1) wyraźnie rozróżniają dwie redukcje poprzez zastosowane tokeny podglądowe. Redukcje to ```S -> id``` dla ```$``` oraz ```V -> id``` dla ```:=```.<br>
+![Automat](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.6.7_1.png?raw=true)
+
 ### LALR(1)
 
 ### Bison
