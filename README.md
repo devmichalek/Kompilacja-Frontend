@@ -688,8 +688,22 @@ oraz trancyja do istniejącego już stanu 6 dla ```a```. Wreszcie tranzycja dla 
 Stan 9:
 	[A -> ( A )·, )]
 ```
-DFA tych elementów posiada 10 stanów. Automat ten jest conajmniej dwa razy większy od automatu LR(0) zbudowanego dla tej samej gramatyki.
+DFA tych elementów posiada 10 stanów. Automat ten jest conajmniej dwa razy większy od automatu LR(0) zbudowanego dla tej samej gramatyki.<br>
 ![Automat](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.2.6.7_0.png?raw=true)<br>
+Zbudowana tablica przejśc parsera LR(1) (zbudowana analogicznie jak dla parsera SLR(1)):
+
+| Stan | ```(``` | ```a``` | ```)```  | ```$```    | ```A``` |
+|------|---------|-------- |----------|------------|---------|
+| 0    | s2      | s3      |          |            | 1       |
+| 1    |         |         |          | zaakceptuj |         |
+| 2    | s5      | s6      |          |            | 4       |
+| 3    |         |         |          | r2         |         |
+| 4    |         |         | s7       |            |         |
+| 5    | s5      | s6      |          |            | 8       |
+| 6    |         |         | r2       |            |         |
+| 7    |         |         |          | r1         |         |
+| 8    |         |         | s9       |            |         |
+| 9    |         |         | r1       |            |         |
 
 Zanim rozważymy kolejny przykład, zdefiniujemy algorytm parsera LR(1) poprzez zmodyfikowanie algorytmu SLR(1) zamieniając zbiory Follow na tokeny podglądowe. Algorytm przedstawia się w następujący sposób, niech s będzie aktualnym stanem:
 
@@ -697,7 +711,7 @@ Zanim rozważymy kolejny przykład, zdefiniujemy algorytm parsera LR(1) poprzez 
 - Jeśli stan s zawiera kompletny element ```[A -> α·, a]```, a następnym na wejściu jest ```a``` to wykonana zostanie redukcja ```A -> α```. Redukcja ```S' -> S``` równoznaczna jest z zaakceptowaniem stringa gdy następnym tokenem na wejściu jest ```$```. W pozostałych przypadkach nowy stan dodawany jes następująco. Usuń string ```α``` oraz wszystkie związane z nim stany wrzucone na stos, jednocześnie wróć do stanu, w którym konstrukcja ```α``` się zaczęła. Stan ten musi zawierać element w formie ```[B -> α·Aβ, b]```. Wrzuć ```A``` na stos oraz stan zawierający element ```[B -> αA·β, b]```.
 - Jeśli żadne z dwóch powyższych przypadków nie mogą zostać wykonane zgłaszany jest błąd analizy składniowej.
 
-O gramatyce LR(1) mówimy wtedy gdy podczas wykonywania operacji nie występują żadne z poniższych konfliktów będąc w stanie s:
+O gramatyce LR(1) mówimy wtedy gdy podczas wykonywania operacji nie występują żadne z poniższych konfliktów:
 - Dla każdego elementu ```[A -> αX·β, a]``` gdzie ```X``` to terminal, nie ma żadnego elementu w stanie s w formie ```[B -> γ., X]```, w przeciwnym wypadku otrzymamy konflikt przesunięcie-redukcja.
 - Nie ma dwóch elementów w stanie s w formie ```[A -> α·, a]``` oraz ```[B -> β·, a]```, w przeciwnym wypadku otrzymamy konflikt redukcja-redukcja.
 
