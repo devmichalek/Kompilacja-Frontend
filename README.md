@@ -732,7 +732,7 @@ A -> (A) | a
 ```
 Parser LALR(1) identyfikuje stany LR(1) następnie łączy je co skutkuje zmniejszeniem rozmiaru automatu do postaci:<br>
 ![DFA](https://raw.githubusercontent.com/devmichalek/Kompilacja-Frontend/master/assets/1.2.6.8_0.png)<br>
-
+Algorytm parsowania LALR(1) jest identyczny co do algorytmu parsowania LR(1). O gramatyce LALR(1) mówimy wtedy gdy nie występują konflikty. Co ciekawe możliwe jest otrzymanie konfliktów dla LALR(1) gdy nie występują one dla LR(1) (w praktyce rzadko się to zdarza). Jeśli gramatyka jest gramatyką LALR(1) to jest i również gramatyką LR(1). Jeśli gramatyka jest gramatyką LR(1) to pewnym jest, że ta sama gramatyka nie niesie za sobą konfliktów przesunięcie-redukcja dla LALR(1), możliwe natomiast jest otrzymanie konfliktów redukcja-redukcja. Niemniej jednak jeśli gramatyka jest gramatyką SLR(1) to jest i również gramatyką LALR(1), który działa prawie tak dobrze jak LR(1). Jedną z wad algorytmu LALR(1) względem LR(1) jest późne zgłaszanie błędu spowodowane "fałszywą" redukcją podczas parsowania. Dla przykładu parsując zdanie (dla poprzedniej gramatyki) ```a)``` parser LALR(1) najpierw wykona redukcję ```A -> a``` zanim zadeklaruje błąd podczas gdy parser LR(1) natychmiast zgłosi błąd po przesunięciu ```a``` (wrzuceniu ```a``` na stos) w literaturze takie zachowanie określane jest jako *spurious error*.
 
 ### Bison
 Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej znajduje się lista świetnych tutoriali odnośnie tego generatora:<br>
