@@ -726,6 +726,13 @@ Poniżej przedstawiam zbudowany automat dla powyższej gramatyki. Należy zwróc
 
 ### LALR(1)
 LALR(1) bazuje na obserwacji, że w wielu przypadkach rozmiar stanów automatu LR(1) spowodowany jest powtarzającymi się elementami LR(0) różniącymi się jedynie tokenem podglądowym w poszczególnych stanach. Algorytm parsowania LALR(1) identyfikuje wszystkie stany z powtarzającymi się elementami LR(0), które później deklarowane są jako jeden stan z połączonymi tokenami podglądowymi w zestaw podglądów. W przypadku elementów kompletnych zestawy tokenów poglądowych są zazwyczaj mniejsze od zbiorów Follow, stąd parsowanie metodą LALR(1) zachowuje część metodyki LR(1) jak i SLR(1) (zachowując tym samym mniejszy rozmiar od elementów automatu LR(0)). Pierwsza zasada LALR(1) mówi nam o tym, że rdzeniem *(core)* stanu DFA LR(1) nazywamy zbiór elementów LR(0) oraz wszystkich odpowiadające im tokeny podglądowe. Druga zasada LALR(1) definiuje możliwe tranzycje z poszczególnych stanów; mając dwa stany s1 i s2 automatu LR(1), które posiadają taki sam rdzeń jeśli istnieje tranzycja z stanu s1 do t1 dla symbolu ```X``` to i również istnieje tranzycja z stanu s2 do t2 dla symbolu ```X``` pod warunkiem, że stany t1 i t2 posiadają ten sam rdzeń. Zgodnie z tymi zasadami budowany jest automat LALR(1). W literaturze poszczególne tokeny podglądowe jako druga część elementu LALR(1) rozdzielane są znakiem ```/``` np. ```[A -> α·β, a/b/c]``` gdzie ```a```, ```b``` i ```c``` to tokeny podglądowe.<br>
+Rozważcie poprzednią gramatykę:
+```
+A -> (A) | a
+```
+Parser LALR(1) identyfikuje stany LR(1) następnie łączy je co skutkuje zmniejszeniem rozmiaru automatu do postaci:<br>
+![DFA](https://raw.githubusercontent.com/devmichalek/Kompilacja-Frontend/master/assets/1.2.6.8_0.png)<br>
+
 
 ### Bison
 Na koniec chciałbym przedstawić generator parserów o nazwie Bison, poniżej znajduje się lista świetnych tutoriali odnośnie tego generatora:<br>
