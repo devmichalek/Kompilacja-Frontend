@@ -45,7 +45,6 @@ Cześć, na wstępie chcę zaznaczyć, aby całą pracę włożoną w to repozyt
     - 1.3.0.0 [Zakres statyczny](https://github.com/devmichalek/Kompilacja-Frontend#zakres-statyczny)
     - 1.3.0.1 [Zakres dynamiczny](https://github.com/devmichalek/Kompilacja-Frontend#zakres-dynamiczny)
   - 1.3.1 [System typów](https://github.com/devmichalek/Kompilacja-Frontend#system-typ%C3%B3w)
-2. [Podsumowanie](https://github.com/devmichalek/Kompilacja-Frontend#podsumowanie)
 2. [Źródła](https://github.com/devmichalek/Kompilacja-Frontend#%C5%BAr%C3%B3d%C5%82a)
 
 ## Tworzenie kodu źródłowego
@@ -910,8 +909,6 @@ int function(int x)
 }
 ```
 ![Bledne wyrazenie](https://github.com/devmichalek/Kompilacja-Frontend/blob/master/assets/1.3.1.1.png?raw=true)<br>
-
-## Podsumowanie
 
 ## Źródła
 [Avanced C and C++ Compiling](https://doc.lagout.org/programmation/C/Advanced%20C%20and%20C%20%20%20Compiling%20%5BStevanovic%202014-04-28%5D.pdf)<br>
